@@ -1,10 +1,14 @@
 export default {
-  setUser(state, payload) {
-    state.token = payload.token;
-    state.userId = payload.userId;
-    state.didAutoLogout = false;
+  setToken(state, newToken) {
+    state.token = newToken;
   },
-  setAutoLogout(state) {
-    state.didAutoLogout = true;
+  initialiseStore(state) {
+    // Check if the token exists
+    if(localStorage.getItem('token')) {
+      this.replaceState(
+          Object.assign(state, JSON.parse(localStorage.getItem('token')))
+      );
+    }
   }
+
 };

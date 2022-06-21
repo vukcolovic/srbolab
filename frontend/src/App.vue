@@ -1,5 +1,5 @@
 <template>
-  <template v-if="!auth">
+  <template v-if="!isLoggedIn">
     <LoginComponent></LoginComponent>
   </template>
   <template v-else>
@@ -13,8 +13,8 @@
 import HeaderComponent from "./components/HeaderComponent.vue";
 import FooterComponent from "./components/FooterComponent.vue";
 import LoginComponent from "@/components/LoginComponent";
-import {useStore} from 'vuex';
-import {computed} from 'vue';
+// import {useStore} from 'vuex';
+// import {computed} from 'vue';
 
 export default {
   name: 'App',
@@ -23,13 +23,14 @@ export default {
     HeaderComponent,
     FooterComponent,
   },
-  setup() {
-    const store = useStore();
-
-    const auth = computed(() => store.getters.isAuthenticated)
-    return {
-      auth
+  computed : {
+    isLoggedIn : function(){
+      console.log("Auth", this.$store.getters.isAuthenticated);
+      return this.$store.getters.isAuthenticated;
     }
+  },
+  beforeCreate() {
+    this.$store.commit('initialiseStore');
   }
 }
 </script>

@@ -22,7 +22,6 @@
           </text-input>
           <hr>
           <input type="submit" class="btn btn-primary m-2" value="Prijava">
-          <input type="button" mode="flat" @click="switchMode" class="btn btn-secondary" value="Registracija">
         </form-tag>
       </div>
     </div>
@@ -43,32 +42,34 @@ export default {
     return {
       email: "",
       password: "",
-      mode: "login",
+      errorMsg: "",
+      token: "",
     }
   },
   methods: {
-    submitHandler() {
-      console.log("i am in")
+    async submitHandler() {
       const payload = {
         email: this.email,
         password: this.password,
       }
 
-      axios.post('/users/login', JSON.stringify(payload)).then(function(response){
-          console.log(response.data)
-        }).catch(function (error) {
-          console.log(error);
-        });
+      await axios.post('/users/login', JSON.stringify(payload)).then((response) => {
+        if (response.data.Data === "") {
+          this.errorMsg = "Error during login!";
+          console.log("Token is empty: " + response.data.Data);
+          return;
+        }
+        this.token = response.data.Data;
+        }, (error) => {
+        console.log(error);
+      });
 
-        // useStore().state.userId =
+      console.log("Sve ok", this.token);
 
-        router.push('/')
+       this.$store.dispatch('setTokenAction', this.token);
+
+       await router.push("/");
     },
-    },
-    switchMode() {
-      if (this.mode === 'login') {
-        this.mode = 'register'
-      }
     }
   }
 </script>

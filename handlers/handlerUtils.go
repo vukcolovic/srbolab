@@ -37,7 +37,7 @@ func SetSuccessResponse(w http.ResponseWriter, body interface{}) {
 func SetSuccessResponseWithoutParsingBody(w http.ResponseWriter, body string) {
 	response := Response{Status: ResponseSuccess}
 	response.Data = string(body)
-	w.Header().Add("Access-Control-Allow-Origin", "*")
+	//w.Header().Add("Access-Control-Allow-Origin", "*")
 	setResponse(w, response)
 }
 

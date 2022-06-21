@@ -84,7 +84,7 @@ func (s *userService) Login(userJustCredentials model.User) (string, error) {
 	}
 	if user == nil {
 		//FIXME
-		return "", errors.New("no user with username " + userJustCredentials.Email)
+		return "", errors.New("no user with email " + userJustCredentials.Email)
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userJustCredentials.Password)); err != nil {
