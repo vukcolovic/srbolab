@@ -23,6 +23,8 @@ func runServer() {
 		w.Write([]byte("cao"))
 	})
 
+	//r.Use(middleware.AuthToken)
+
 	s := r.PathPrefix("/api/users").Subrouter()
 	s.HandleFunc("/register", handlers.Register).Methods("POST")
 	s.HandleFunc("/list", handlers.ListUsers).Methods("GET")

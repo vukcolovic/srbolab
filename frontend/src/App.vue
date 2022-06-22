@@ -4,7 +4,12 @@
   </template>
   <template v-else>
     <HeaderComponent></HeaderComponent>
-    <router-view></router-view>
+        <div class="col-sm-2">
+          <SideBar></SideBar>
+        </div>
+        <div class="col-sm-10">
+          <router-view></router-view>
+        </div>
     <FooterComponent></FooterComponent>
   </template>
 </template>
@@ -13,12 +18,12 @@
 import HeaderComponent from "./components/HeaderComponent.vue";
 import FooterComponent from "./components/FooterComponent.vue";
 import LoginComponent from "@/components/LoginComponent";
-// import {useStore} from 'vuex';
-// import {computed} from 'vue';
+import SideBar from "@/components/SideBar";
 
 export default {
   name: 'App',
   components: {
+    SideBar,
     LoginComponent,
     HeaderComponent,
     FooterComponent,
@@ -36,4 +41,5 @@ export default {
 </script>
 
 <style>
+  @import './assets/css/main.css';
 </style>

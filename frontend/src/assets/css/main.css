@@ -1,0 +1,16 @@
+/* Style buttons */
+.iconBtn {
+    background-color: DodgerBlue; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    margin: 5px;
+    border-radius: 50%;
+}
+
+/* Darker background on mouse-over */
+.iconBtn:hover {
+    background-color: RoyalBlue;
+}
