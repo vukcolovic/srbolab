@@ -52,7 +52,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	cookie := &http.Cookie{
 		Name:    "jwt",
 		Value:   token,
-		Expires: time.Now().Add(time.Hour * 24),
+		Expires: time.Now().Add(time.Hour * 100000),
 		Path:    "/",
 	}
 
@@ -72,7 +72,28 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 }
 
 func ListUsers(w http.ResponseWriter, r *http.Request) {
-	users, err := service.UsersService.GetAllUsers()
+	queryParams := r.URL.Query()
+	skipParam := queryParams["skip"][0]
+	//if !ok {
+	//	loger.ErrorLog.Println(errorUtils.ERR_MISSING_REQ_PARAM)
+	//	SetErrorResponse(w, errors.New("skip not found"))
+	//	return
+	//}
+
+	skip, err := strconv.Atoi(skipParam)
+	if err != nil {
+		SetErrorResponse(w, err)
+		return
+	}
+
+	takeParam := queryParams["take"][0]
+
+	take, err := strconv.Atoi(takeParam)
+	if err != nil {
+		SetErrorResponse(w, err)
+		return
+	}
+	users, err := service.UsersService.GetAllUsers(skip, take)
 	if err != nil {
 		SetErrorResponse(w, err)
 		return
@@ -145,21 +166,34 @@ func GetUserByID(w http.ResponseWriter, req *http.Request) {
 //	SetSuccessResponse(w, template)
 //}
 //
-//func (repo *DBRepo) DeleteTemplate(w http.ResponseWriter, req *http.Request) {
-//	vars := mux.Vars(req)
-//	templateID, ok := vars["vin"]
-//	if !ok {
-//		loger.Error("error retrieving examination request param vin")
-//		SetErrorResponse(w, errorUtils.New("examination request not found"))
-//		return
-//	}
-//
-//	err := db.DeleteTemplate(templateID)
-//	if err != nil {
-//		loger.Error("error deleting examination request")
-//		SetErrorResponse(w, errorUtils.New("erro deleting examination request"))
-//		return
-//	}
-//
-//	SetSuccessResponse(w, nil)
-//}
+
+func DeleteUser(w http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	userId, ok := vars["id"]
+	if !ok {
+		//loger.Error("error retrieving examination request param vin")
+		SetErrorResponse(w, errors.New("error delete user"))
+		return
+	}
+
+	userIdInt, err := strconv.Atoi(userId)
+
+	err = service.UsersService.DeleteUser(userIdInt)
+	if err != nil {
+		//loger.Error("error deleting examination request")
+		SetErrorResponse(w, err)
+		return
+	}
+
+	SetSuccessResponse(w, nil)
+}
+
+func CountUsers(w http.ResponseWriter, req *http.Request) {
+	count, err := service.UsersService.GetUsersCount()
+	if err != nil {
+		SetErrorResponse(w, err)
+		return
+	}
+
+	SetSuccessResponse(w, count)
+}

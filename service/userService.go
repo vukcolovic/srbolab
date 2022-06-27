@@ -19,19 +19,19 @@ type userService struct {
 }
 
 type usersServiceInterface interface {
-	GetAllUsers() ([]model.User, error)
+	GetAllUsers(skip, take int) ([]model.User, error)
 	GetUserByID(id int) (*model.User, error)
 	GetUserByEmail(email string) (*model.User, error)
 	CreateUser(model.User) (*model.User, error)
 	//UpdateUser(bool, users.User) (*users.User, rest_errors.RestErr)
-	//DeleteUser(int64) rest_errors.RestErr
-	//Search(string) (users.Users, rest_errors.RestErr)
+	DeleteUser(int) error
+	GetUsersCount() (int, error)
 	Login(model.User) (string, error)
 }
 
-func (s *userService) GetAllUsers() ([]model.User, error) {
+func (s *userService) GetAllUsers(skip, take int) ([]model.User, error) {
 	users := []model.User{}
-	err := database.Client.Select(&users, `SELECT * FROM users`)
+	err := database.Client.Select(&users, `SELECT * FROM users WHERE deleted = false ORDER BY id desc OFFSET $1 LIMIT $2`, skip, take)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -93,7 +93,7 @@ func (s *userService) Login(userJustCredentials model.User) (string, error) {
 
 	claims := jwt.StandardClaims{
 		Id:        strconv.Itoa(user.Id),
-		ExpiresAt: time.Now().Add(time.Minute * 10).Unix(),
+		ExpiresAt: time.Now().Add(time.Hour * 100000).Unix(),
 	}
 
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -104,4 +104,26 @@ func (s *userService) Login(userJustCredentials model.User) (string, error) {
 	}
 
 	return token, nil
+}
+
+func (s *userService) DeleteUser(userID int) error {
+	_, err := database.Client.Exec(`UPDATE users SET deleted = true, updated_at = $1 WHERE id = $2`,
+		time.Now(), userID)
+	if err != nil {
+		//ErrorLog("error inserting format", loger.AdditionalFields{"Error": err, "DbKey": formatToAdd.DbKey})
+		return err
+	}
+
+	return nil
+}
+
+func (s *userService) GetUsersCount() (int, error) {
+	count := []int{}
+	err := database.Client.Select(&count, `SELECT COUNT(id) FROM users WHERE deleted = false`)
+	if err != nil || len(count) == 0 {
+		//ErrorLog("error inserting format", loger.AdditionalFields{"Error": err, "DbKey": formatToAdd.DbKey})
+		return 0, err
+	}
+
+	return count[0], nil
 }

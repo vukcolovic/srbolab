@@ -5,12 +5,13 @@ import (
 	"log"
 	"net/http"
 	"srbolabApp/handlers"
+	"srbolabApp/middleware"
 	"time"
 )
 
 func runServer() {
 	r := mux.NewRouter()
-	r.Use(corsMiddleware)
+	r.Use(middleware.CorsMiddleware)
 
 	srv := &http.Server{
 		Handler:      r,
@@ -23,29 +24,15 @@ func runServer() {
 		w.Write([]byte("cao"))
 	})
 
-	//r.Use(middleware.AuthToken)
+	r.Use(middleware.AuthToken)
 
 	s := r.PathPrefix("/api/users").Subrouter()
 	s.HandleFunc("/register", handlers.Register).Methods("POST")
 	s.HandleFunc("/list", handlers.ListUsers).Methods("GET")
 	s.HandleFunc("/id/{id}", handlers.GetUserByID).Methods("GET")
 	s.HandleFunc("/login", handlers.Login).Methods("POST")
-	s.HandleFunc("/logout", handlers.Login).Methods("GET")
-	log.Fatal(srv.ListenAndServe())
-}
+	s.HandleFunc("/delete/{id}", handlers.DeleteUser).Methods("GET")
+	s.HandleFunc("/count", handlers.CountUsers).Methods("GET")
 
-func corsMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "http://127.0.0.1:8080")
-		//w.Header().Add("Access-Control-Allow-Headers", "Content-Type,AccessToken,X-CSRF-Token, Authorization, Token")
-		w.Header().Add("Access-Control-Allow-Credentials", "true")
-		w.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-		w.Header().Add("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept")
-		//w.Header().Set("content-type", "application/json;charset=UTF-8")
-		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusNoContent)
-			return
-		}
-		next.ServeHTTP(w, r)
-	})
+	log.Fatal(srv.ListenAndServe())
 }

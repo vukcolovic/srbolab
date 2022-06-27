@@ -5,17 +5,26 @@
       <button class="iconBtn" title="Dodaj" @click="$router.push('/users/1')">
         <i class="fa fa-user-plus"></i>
       </button>
-      <button class="iconBtn" title="Pregledaj"><i class="fa fa-user"></i></button>
-      <button class="iconBtn" title="Izmeni"><i class="fa fa-user-md"></i></button>
-      <button class="iconBtn" title="Obrisi"><i class="fa fa-user-times"></i></button>
+      <button class="iconBtn" title="Pregledaj" :disabled="selectedUser == null">
+        <i class="fa fa-user"></i>
+      </button>
+      <button class="iconBtn" title="Izmeni" :disabled="selectedUser == null">
+        <i class="fa fa-user-md">
+        </i></button>
+      <button class="iconBtn" title="Obrisi" @click="deleteUser" :disabled="selectedUser == null">
+        <i class="fa fa-user-times"></i>
+      </button>
       </div>
     </div>
     <div class="row m-3">
       <vue-table-lite
-          :total= 5
+          @row-clicked="selectUser"
+          @get-now-page="newPage"
+          :total= "totalCount"
           :columns="columns"
           :rows="rows"
-          :headerClasses="headerClasses"
+          @do-search="doSearch"
+          :is-loading="isLoading"
       ></vue-table-lite>
     </div>
   </div>
@@ -30,26 +39,22 @@ export default {
   components: { VueTableLite },
   data() {
     return {
-      headerClasses: ["bg-gray"],
       columns: [
         {
           label: 'ID',
           field: 'id',
           width: '3%',
-          sortable: true,
           isKey: true,
         },
         {
           label: 'Ime',
           field: 'first_name',
           width: '10%',
-          sortable: true,
         },
         {
           label: 'Prezime',
           field: 'last_name',
           width: '10%',
-          sortable: true,
         },
         {
           label: 'Email',
@@ -58,19 +63,84 @@ export default {
         }
       ],
     rows: [],
+      selectedUser: null,
+      isLoading: false,
+      totalCount: 0
+    }
+  },
+  methods: {
+    selectUser(rowData) {
+      this.selectedUser = rowData;
+    },
+    newPage(page) {
+    console.log("Page", page);
+   },
+    async doSearch(offset, limit, order, sort) {
+      console.log(order, sort)
+      this.isLoading = true;
+      await axios.get('/users/list?skip=' + offset + '&take=' + limit).then((response) => {
+        if (response.data.Data === "") {
+          this.errorMsg = "Error getting list!";
+          this.isLoading = false;
+          return;
+        }
+        this.rows = JSON.parse(response.data.Data);
+      }, (error) => {
+        console.log(error);
+      });
+
+      this.isLoading = false;
+    },
+    async deleteUser() {
+      if (confirm("Da li ste sigurni da zelite da obrisete korisnika?")) {
+        await axios.get('/users/delete/' + this.selectedUser.id).then((response) => {
+          if (response.data.Data !== "") {
+            this.totalCount = response.data.Data;
+          }
+        }, (error) => {
+          console.log(error);
+        });
+      }
+
+      location.reload();
+    },
+    async countUsers() {
+        await axios.get('/users/count').then((response) => {
+          if (response.data.Data !== "") {
+            this.totalCount = response.data.Data;
+          }
+        }, (error) => {
+          console.log(error);
+        });
     }
   },
   async created() {
-    await axios.get('/users/list').then((response) => {
-      if (response.data.Data === "") {
-        this.errorMsg = "Error getting list!";
-        return;
-      }
-      console.log(response.data.Data);
-      this.rows = JSON.parse(response.data.Data);
-    }, (error) => {
-      console.log(error);
-    });
+    await this.countUsers();
+    await this.doSearch(0, 10, 'id', 'asc');
   }
   }
 </script>
+
+<style scoped>
+::v-deep(.vtl-table .vtl-thead .vtl-thead-th) {
+  font-size: 12px;
+}
+::v-deep(.vtl-table td),
+::v-deep(.vtl-table tr) {
+  font-size: 12px;
+  padding: 5px;
+}
+::v-deep(.vtl-paging-info) {
+  font-size: 12px;
+  padding: 5px;
+}
+::v-deep(.vtl-paging-count-label),
+::v-deep(.vtl-paging-page-label) {
+  font-size: 12px;
+  padding: 5px;
+}
+::v-deep(.vtl-paging-pagination-page-link) {
+  font-size: 12px;
+  padding: 5px;
+}
+</style>

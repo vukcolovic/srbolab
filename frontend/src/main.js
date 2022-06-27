@@ -9,6 +9,8 @@ import VueTableLite from 'vue3-table-lite'
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
 axios.defaults.withCredentials = true
 
+// axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("token");
+
 const app = createApp(App);
 app.use(router);
 app.use(store);

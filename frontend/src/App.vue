@@ -3,30 +3,33 @@
     <LoginComponent></LoginComponent>
   </template>
   <template v-else>
-    <HeaderComponent></HeaderComponent>
-        <div class="col-sm-2">
-          <SideBar></SideBar>
+    <div class="d-flex flex-column vh-100">
+        <div class="sticky-top">
+          <HeaderComponent></HeaderComponent>
         </div>
-        <div class="col-sm-10">
-          <router-view></router-view>
+        <div class="d-flex align-items-stretch" style="max-height: 90%">
+          <div class="col-sm-12 overflow-scroll">
+            <router-view></router-view>
+          </div>
         </div>
-    <FooterComponent></FooterComponent>
+      <div>
+        <FooterComponent></FooterComponent>
+      </div>
+    </div>
   </template>
 </template>
 
 <script>
 import HeaderComponent from "./components/HeaderComponent.vue";
-import FooterComponent from "./components/FooterComponent.vue";
 import LoginComponent from "@/components/LoginComponent";
-import SideBar from "@/components/SideBar";
+// import SideBar from "@/components/SideBar";
 
 export default {
   name: 'App',
   components: {
-    SideBar,
+    // SideBar,
     LoginComponent,
     HeaderComponent,
-    FooterComponent,
   },
   computed : {
     isLoggedIn : function(){

@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-5 mx-auto">
-        <h1 class="mt-5">Registracija korisnika</h1>
+      <div class="col-sm-5 mx-auto">
+        <h1 class="mt-2">Registracija</h1>
         <hr>
         <form-tag @formEvent="submitHandler" name="myForm" event="formEvent">
           <text-input

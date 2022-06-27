@@ -32,7 +32,8 @@
 import TextInput from "@/components/forms/TextInput";
 import FormTag from "@/components/forms/FormTag";
 import axios from "axios";
-import router from './../router/index.js'
+import router from './../router/index.js';
+import notie from 'notie';
 
 export default {
   name: 'LoginComponent',
@@ -53,17 +54,21 @@ export default {
       }
 
       await axios.post('/users/login', JSON.stringify(payload)).then((response) => {
-        if (response.data.Data === "") {
-          this.errorMsg = "Error during login!";
-          console.log("Token is empty: " + response.data.Data);
+        console.log(response);
+        if (response.data.Status === 'error') {
+          notie.alert({
+            type: 'error',
+            text: response.data.ErrorMessage,
+          })
           return;
         }
         this.token = response.data.Data;
         }, (error) => {
-        console.log(error);
+        notie.alert({
+          type: 'error',
+          text: error,
+        })
       });
-
-      console.log("Sve ok", this.token);
 
        this.$store.dispatch('setTokenAction', this.token);
 

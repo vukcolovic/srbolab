@@ -3,6 +3,7 @@ import BodyComponent from './../components/BodyComponent.vue'
 import LoginComponent from './../components/LoginComponent.vue'
 import UsersList from '../components/UsersList.vue'
 import UserEdit from './../components/UserEdit.vue'
+import SupportComponent from './../components/SupportComponent.vue'
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         path: '/users/:userId',
         name: 'UserEdit',
         component: UserEdit,
+    },
+    {
+        path: '/support',
+        name: 'SupportComponent',
+        component: SupportComponent,
     }
 ]
 
