@@ -22,9 +22,10 @@ const routes = [
         component: UsersList,
     },
     {
-        path: '/users/:userId',
+        path: '/user',
         name: 'UserEdit',
         component: UserEdit,
+        props: true,
     },
     {
         path: '/support',

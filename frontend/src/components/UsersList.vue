@@ -2,13 +2,13 @@
   <div class="container">
     <div class="row m-3">
       <div class="btn-group">
-      <button class="iconBtn" title="Dodaj" @click="$router.push('/users/1')">
+      <button class="iconBtn" title="Dodaj" @click="$router.push({name: 'UserEdit', params: {userId: null, action: 'add' }})">
         <i class="fa fa-user-plus"></i>
       </button>
-      <button class="iconBtn" title="Pregledaj" :disabled="selectedUser == null">
+      <button class="iconBtn" title="Pregledaj" :disabled="selectedUser == null" @click="$router.push({name: 'UserEdit', params: {userId: selectedUser.id, action: 'view' }})">
         <i class="fa fa-user"></i>
       </button>
-      <button class="iconBtn" title="Izmeni" :disabled="selectedUser == null">
+      <button class="iconBtn" title="Izmeni" :disabled="selectedUser == null" @click="$router.push({name: 'UserEdit', params: {userId: selectedUser.id, action: 'update' }})">
         <i class="fa fa-user-md">
         </i></button>
       <button class="iconBtn" title="Obrisi" @click="deleteUser" :disabled="selectedUser == null">

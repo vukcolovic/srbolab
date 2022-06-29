@@ -7,7 +7,7 @@
         <div class="sticky-top">
           <HeaderComponent></HeaderComponent>
         </div>
-        <div class="d-flex align-items-stretch" style="max-height: 90%">
+        <div class="d-flex align-items-stretch" style="height: 90%">
           <div class="col-sm-12 overflow-scroll">
             <router-view></router-view>
           </div>

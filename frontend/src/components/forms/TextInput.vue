@@ -1,10 +1,11 @@
 <template>
-    <div class="mb-3">
+    <div class="mb-1">
         <label :for="name" class="form-label">{{label}}</label>
         <input
             :type="type"
             :name="name"
             :placeholder="placeholder"
+            :readonly="readonly"
             :required="required"
             :min="min"
             :max="max"
@@ -27,6 +28,12 @@ export default {
         min: String,
         max: String,
         modelValue: String,
+        readonly: Boolean,
     },
 }
 </script>
+
+<style scoped>
+
+
+</style>

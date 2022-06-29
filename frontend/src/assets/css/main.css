@@ -1,3 +1,8 @@
+html {
+    font-size: 1em !important;
+}
+
+
 /* Style buttons */
 .iconBtn {
     background-color: DodgerBlue; /* Blue background */
@@ -14,6 +19,7 @@
 .iconBtn:hover {
     background-color: RoyalBlue;
 }
+
 
 .iconBtn:disabled {
     background-color: #80bfff;
