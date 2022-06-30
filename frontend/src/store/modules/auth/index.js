@@ -6,6 +6,8 @@ export default {
   state() {
     return {
       token: "",
+      firstName: "",
+      lastName: "",
     };
   },
   mutations,

@@ -2,6 +2,12 @@ export default {
   setToken(state, newToken) {
     state.token = newToken;
   },
+  setFirstName(state, firstName) {
+    state.firstName = firstName;
+  },
+  setLastName(state, lastName) {
+    state.lastName = lastName;
+  },
   initialiseStore(state) {
     // Check if the token exists
     if(localStorage.getItem('token')) {

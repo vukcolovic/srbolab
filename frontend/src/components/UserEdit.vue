@@ -56,6 +56,7 @@ import TextInput from "@/components/forms/TextInput";
 import FormTag from "@/components/forms/FormTag";
 import axios from "axios";
 import router from "@/router";
+import notie from 'notie';
 
 export default {
   name: 'UserEdit',
@@ -65,8 +66,8 @@ export default {
       type: String
     },
     userId: {
-      default: null,
-      type: Number
+      default: '',
+      type: String
     }
   },
   components: {FormTag, TextInput},
@@ -85,35 +86,45 @@ export default {
   },
   methods: {
     async submitHandler() {
-      const payload = {
-        first_name: this.user.name,
-        last_name: this.user.lastName,
-        email: this.user.email,
-        password: this.user.password,
-      }
-
-      await axios.post('/users/register', JSON.stringify(payload)).then((response) => {
-        if (response.data.Data === "") {
-          this.errorMsg = "Error during login!";
-          console.log("Token is empty: " + response.data.Data);
+      await axios.post('/users/register', JSON.stringify(this.user)).then((response) => {
+        if (response.data === null || response.data.Status === 'error') {
+          notie.alert({
+            type: 'error',
+            text: 'Greska: ' + response.data.ErrorMessage,
+            position: 'bottom',
+          })
           return;
         }
+        router.push("/users");
       }, (error) => {
-        console.log(error);
+        notie.alert({
+          type: 'error',
+          text: "Greska: " + error,
+          position: 'bottom',
+        })
       });
-
-      await router.push("/users");
     },
   },
   mounted() {
-     axios.get('/users/id/' + this.userId).then((response) => {
-      if (response.data.Data === "") {
-        return;
-      }
-       this.user = JSON.parse(response.data.Data);
-    }, (error) => {
-      console.log(error);
-    });
+    if (this.userId !== '') {
+      axios.get('/users/id/' + this.userId).then((response) => {
+        if (response.data === null || response.data.Status === 'error') {
+          notie.alert({
+            type: 'error',
+            text: 'Greska: ' + response.data.ErrorMessage,
+            position: 'bottom',
+          })
+          return;
+        }
+        this.user = JSON.parse(response.data.Data);
+      }, (error) => {
+        notie.alert({
+          type: 'error',
+          text: "Greska: " + error,
+          position: 'bottom',
+        })
+      });
+    }
   }
 }
 </script>

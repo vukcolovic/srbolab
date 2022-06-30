@@ -1,5 +1,11 @@
 export default {
-        setTokenAction ({ commit }, token){
-            commit('setToken', token);
-        }
+    setTokenAction({commit}, token) {
+        commit('setToken', token);
+    },
+    setFirstNameAction({commit}, firstName) {
+        commit('setFirstName', firstName);
+    },
+    setLastNameAction({commit}, lastName) {
+        commit('setLastName', lastName);
+    }
 };

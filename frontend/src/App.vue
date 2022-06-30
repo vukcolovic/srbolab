@@ -22,7 +22,6 @@
 <script>
 import HeaderComponent from "./components/HeaderComponent.vue";
 import LoginComponent from "@/components/LoginComponent";
-// import SideBar from "@/components/SideBar";
 
 export default {
   name: 'App',
@@ -33,7 +32,6 @@ export default {
   },
   computed : {
     isLoggedIn : function(){
-      console.log("Auth", this.$store.getters.isAuthenticated);
       return this.$store.getters.isAuthenticated;
     }
   },

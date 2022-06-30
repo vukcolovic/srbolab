@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row m-3">
       <div class="btn-group">
-      <button class="iconBtn" title="Dodaj" @click="$router.push({name: 'UserEdit', params: {userId: null, action: 'add' }})">
+      <button class="iconBtn" title="Dodaj" @click="$router.push({name: 'UserEdit', params: {userId: '', action: 'add' }})">
         <i class="fa fa-user-plus"></i>
       </button>
       <button class="iconBtn" title="Pregledaj" :disabled="selectedUser == null" @click="$router.push({name: 'UserEdit', params: {userId: selectedUser.id, action: 'view' }})">
@@ -19,7 +19,6 @@
     <div class="row m-3">
       <vue-table-lite
           @row-clicked="selectUser"
-          @get-now-page="newPage"
           :total= "totalCount"
           :columns="columns"
           :rows="rows"
@@ -33,6 +32,7 @@
 <script>
 import VueTableLite from "vue3-table-lite";
 import axios from "axios";
+import notie from 'notie';
 
 export default {
   name: 'UsersList',
@@ -72,21 +72,25 @@ export default {
     selectUser(rowData) {
       this.selectedUser = rowData;
     },
-    newPage(page) {
-    console.log("Page", page);
-   },
     async doSearch(offset, limit, order, sort) {
       console.log(order, sort)
       this.isLoading = true;
       await axios.get('/users/list?skip=' + offset + '&take=' + limit).then((response) => {
-        if (response.data.Data === "") {
-          this.errorMsg = "Error getting list!";
-          this.isLoading = false;
+        if (response.data === null || response.data.Status === 'error') {
+          notie.alert({
+            type: 'error',
+            text: 'Greska: ' + response.data.ErrorMessage,
+            position: 'bottom',
+          })
           return;
         }
         this.rows = JSON.parse(response.data.Data);
       }, (error) => {
-        console.log(error);
+        notie.alert({
+          type: 'error',
+          text: "Greska: " + error,
+          position: 'bottom',
+        })
       });
 
       this.isLoading = false;
@@ -94,11 +98,19 @@ export default {
     async deleteUser() {
       if (confirm("Da li ste sigurni da zelite da obrisete korisnika?")) {
         await axios.get('/users/delete/' + this.selectedUser.id).then((response) => {
-          if (response.data.Data !== "") {
-            this.totalCount = response.data.Data;
+          if (response.data === null || response.data.Status === 'error') {
+            notie.alert({
+              type: 'error',
+              text: 'Greska: ' + response.data.ErrorMessage,
+              position: 'bottom',
+            })
           }
         }, (error) => {
-          console.log(error);
+          notie.alert({
+            type: 'error',
+            text: "Greska: " + error,
+            position: 'bottom',
+          })
         });
       }
 
@@ -106,11 +118,21 @@ export default {
     },
     async countUsers() {
         await axios.get('/users/count').then((response) => {
-          if (response.data.Data !== "") {
-            this.totalCount = response.data.Data;
+          if (response.data === null || response.data.Status === 'error') {
+            notie.alert({
+              type: 'error',
+              text: 'Greska: ' + response.data.ErrorMessage,
+              position: 'bottom',
+            })
+            return;
           }
+            this.totalCount = response.data.Data;
         }, (error) => {
-          console.log(error);
+          notie.alert({
+            type: 'error',
+            text: "Greska: " + error,
+            position: 'bottom',
+          })
         });
     }
   },

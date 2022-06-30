@@ -43,7 +43,6 @@ export default {
       email: "",
       password: "",
       errorMsg: "",
-      token: "",
     }
   },
   methods: {
@@ -54,25 +53,24 @@ export default {
       }
 
       await axios.post('/users/login', JSON.stringify(payload)).then((response) => {
-        console.log(response);
-        if (response.data.Status === 'error') {
-          notie.alert({
-            type: 'error',
-            text: response.data.ErrorMessage,
-          })
-          return;
+        if (response.data === null || response.data.Status === 'error') {
+            notie.alert({
+              type: 'error',
+              text: 'Greska prilikom logovanja: ' + response.data.ErrorMessage,
+            })
         }
-        this.token = response.data.Data;
+        const loginData = JSON.parse(response.data.Data);
+
+        this.$store.dispatch('setTokenAction', loginData.token);
+        this.$store.dispatch('setLastNameAction', loginData.last_name);
+        this.$store.dispatch('setFirstNameAction', loginData.first_name);
         }, (error) => {
         notie.alert({
           type: 'error',
-          text: error,
+          text: "Greska prilikom logovanja: " + error,
         })
       });
-
-       this.$store.dispatch('setTokenAction', this.token);
-
-       await router.push("/");
+      await router.push("/");
     },
     }
   }

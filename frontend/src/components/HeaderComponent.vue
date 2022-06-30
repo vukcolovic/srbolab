@@ -24,7 +24,8 @@
           </li>
         </ul>
         <ul class="ms-auto">
-            <button class="iconBtn" title="Odjava" @click="logout"><i class="fa fa-sign-out"></i></button>
+          <label style="color: white; font-size: 0.7em">{{firstName}} {{lastName}}</label>
+          <button class="iconBtn" title="Odjava" @click="logout"><i class="fa fa-sign-out"></i></button>
         </ul>
       </div>
     </div>
@@ -38,11 +39,19 @@ export default {
   data() {
     return {}
   },
+  computed : {
+    firstName: function () {
+      return this.$store.getters.firstName;
+    },
+    lastName: function () {
+      return this.$store.getters.lastName;
+    }
+  },
   methods: {
     logout() {
       document.cookie = 'jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       this.$store.dispatch('setTokenAction', "");
     }
-  }
+  },
 }
 </script>

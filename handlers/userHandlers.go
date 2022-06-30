@@ -43,21 +43,21 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := service.UsersService.Login(user)
-	if err != nil {
+	loginResponse, err := service.UsersService.Login(user)
+	if err != nil || loginResponse == nil {
 		SetErrorResponse(w, err)
 		return
 	}
 
 	cookie := &http.Cookie{
 		Name:    "jwt",
-		Value:   token,
+		Value:   loginResponse.Token,
 		Expires: time.Now().Add(time.Hour * 100000),
 		Path:    "/",
 	}
 
 	http.SetCookie(w, cookie)
-	SetSuccessResponse(w, token)
+	SetSuccessResponse(w, loginResponse)
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {

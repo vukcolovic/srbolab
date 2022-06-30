@@ -26,7 +26,7 @@ type usersServiceInterface interface {
 	//UpdateUser(bool, users.User) (*users.User, rest_errors.RestErr)
 	DeleteUser(int) error
 	GetUsersCount() (int, error)
-	Login(model.User) (string, error)
+	Login(model.User) (*model.LoginResponse, error)
 }
 
 func (s *userService) GetAllUsers(skip, take int) ([]model.User, error) {
@@ -77,18 +77,18 @@ func (s *userService) GetUserByEmail(email string) (*model.User, error) {
 	return &users[0], nil
 }
 
-func (s *userService) Login(userJustCredentials model.User) (string, error) {
+func (s *userService) Login(userJustCredentials model.User) (*model.LoginResponse, error) {
 	user, err := UsersService.GetUserByEmail(userJustCredentials.Email)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	if user == nil {
 		//FIXME
-		return "", errors.New("no user with email " + userJustCredentials.Email)
+		return nil, errors.New("no user with email " + userJustCredentials.Email)
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userJustCredentials.Password)); err != nil {
-		return "", err
+		return nil, err
 	}
 
 	claims := jwt.StandardClaims{
@@ -100,10 +100,10 @@ func (s *userService) Login(userJustCredentials model.User) (string, error) {
 
 	token, err := jwtToken.SignedString([]byte("secret"))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return token, nil
+	return &model.LoginResponse{Token: token, FirstName: user.FirstName, LastName: user.LastName}, nil
 }
 
 func (s *userService) DeleteUser(userID int) error {

@@ -4,5 +4,11 @@ export default {
   },
   isAuthenticated(state) {
     return !!state.token;
-  }
+  },
+  firstName(state) {
+    return state.firstName;
+  },
+  lastName(state) {
+    return state.lastName;
+  },
 };
