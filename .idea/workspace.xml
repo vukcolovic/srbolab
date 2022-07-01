@@ -4,21 +4,18 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Style fixed">
-      <change afterPath="$PROJECT_DIR$/model/LoginResponse.go" afterDir="false" />
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Add to see current user, fixed bugs related to users and fixed axios calls with proper messages">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/IrregularityLevels.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handlers/enumerationHanlders.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/enumeration.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/irregulation.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/service/enumerationService.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/HeaderComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/HeaderComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UsersList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UsersList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/forms/FormTag.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/forms/FormTag.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/modules/auth/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/modules/auth/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/modules/auth/getters.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/modules/auth/getters.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/modules/auth/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/modules/auth/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/modules/auth/mutations.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/modules/auth/mutations.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/userHandlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/userHandlers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/userService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/userService.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/0000_create_users_table.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/0000_create_users_table.up.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/LoginResponse.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/loginResponse.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +136,8 @@
     <MESSAGE value="Authentification solved" />
     <MESSAGE value="Added users list and registration" />
     <MESSAGE value="Style fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Style fixed" />
+    <MESSAGE value="Add to see current user, fixed bugs related to users and fixed axios calls with proper messages" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add to see current user, fixed bugs related to users and fixed axios calls with proper messages" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

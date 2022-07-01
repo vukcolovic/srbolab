@@ -19,6 +19,17 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/users">Admin Panel</router-link>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navBarDropDown" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Sifarnici
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navBarDropDown">
+              <li>
+                <router-link class="dropdown-item" to="/irregularity-levels">Nivoi nepravilnosti</router-link>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/support">Korisnicka podrska</router-link>
           </li>

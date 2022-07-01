@@ -34,5 +34,8 @@ func runServer() {
 	s.HandleFunc("/delete/{id}", handlers.DeleteUser).Methods("GET")
 	s.HandleFunc("/count", handlers.CountUsers).Methods("GET")
 
+	s = r.PathPrefix("/api/enumeration").Subrouter()
+	s.HandleFunc("/irregularity-levels/all", handlers.ListIrregularityLevels).Methods("GET")
+
 	log.Fatal(srv.ListenAndServe())
 }
