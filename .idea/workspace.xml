@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Added sql for irregulation and irregulation levels and all for irregulation levels">
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Add irregularity frontend">
       <change afterPath="$PROJECT_DIR$/frontend/src/components/IrregularitiesComponent.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/frontend/src/components/IrregularityEdit.vue" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/service/irregularityService.go" afterDir="false" />
@@ -142,7 +142,8 @@
     <MESSAGE value="Style fixed" />
     <MESSAGE value="Add to see current user, fixed bugs related to users and fixed axios calls with proper messages" />
     <MESSAGE value="Added sql for irregulation and irregulation levels and all for irregulation levels" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added sql for irregulation and irregulation levels and all for irregulation levels" />
+    <MESSAGE value="Add irregularity frontend" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add irregularity frontend" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
