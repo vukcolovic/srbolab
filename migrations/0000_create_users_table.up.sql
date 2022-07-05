@@ -26,7 +26,7 @@ CREATE TABLE public.irregularities
     id serial PRIMARY KEY,
     subject VARCHAR ( 255 ) NOT NULL,
     level_id INTEGER NOT NULL,
-    controller INTEGER,
+    controller_id INTEGER,
     created_by INTEGER NOT NULL,
     description VARCHAR ( 1024 ) NOT NULL,
     notice VARCHAR ( 1024 ),

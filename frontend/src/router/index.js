@@ -5,6 +5,8 @@ import UsersList from '../components/UsersList.vue'
 import UserEdit from './../components/UserEdit.vue'
 import SupportComponent from './../components/SupportComponent.vue'
 import IrregularityLevels from './../components/IrregularityLevels.vue'
+import IrregularitiesComponent from './../components/IrregularitiesComponent.vue'
+import IrregularityEdit from './../components/IrregularityEdit.vue'
 
 
 const routes = [
@@ -38,7 +40,18 @@ const routes = [
         path: '/irregularity-levels',
         name: 'IrregularityLevels',
         component: IrregularityLevels,
-    }
+    },
+    {
+    path: '/irregularities',
+    name: 'IrregularitiesComponent',
+    component: IrregularitiesComponent,
+    },
+    {
+        path: '/irregularity',
+        name: 'IrregularityEdit',
+        component: IrregularityEdit,
+        props: true,
+    },
 ]
 
 

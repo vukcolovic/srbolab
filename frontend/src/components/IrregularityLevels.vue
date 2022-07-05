@@ -3,20 +3,20 @@
     <div class="row m-3">
       <div class="btn-group">
         <button class="iconBtn" title="Dodaj">
-          <i class="fa fa-user-plus"></i>
+          <i class="fa fa-plus"></i>
         </button>
-        <button class="iconBtn" title="Pregledaj" :disabled="selectedLevel == null" >
-          <i class="fa fa-user"></i>
+        <button class="iconBtn" title="Pregledaj" :disabled="selectedIrregularity == null" >
+          <i class="fa fa-eye"></i>
         </button>
-        <button class="iconBtn" title="Izmeni" :disabled="selectedLevel == null" >
-          <i class="fa fa-user-md">
+        <button class="iconBtn" title="Izmeni" :disabled="selectedIrregularity == null" >
+          <i class="fa fa-pencil">
           </i>
         </button>
       </div>
     </div>
     <div class="row m-3">
       <vue-table-lite
-          @row-clicked="selectedLevel"
+          @row-clicked="selectedIrregularity"
           :columns="columns"
           :rows="rows"
           :total= "totalCount"
@@ -56,14 +56,14 @@ export default {
         }
       ],
       rows: [],
-      selectedLevel: null,
+      selectedIrregularity: null,
       isLoading: false,
       totalCount: 0
     }
   },
   methods: {
     selectLevel(rowData) {
-      this.selectedLevel = rowData;
+      this.selectedIrregularity = rowData;
     },
     async getAll() {
       this.isLoading = true;

@@ -5,6 +5,7 @@ import store from './store/index.js';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueTableLite from 'vue3-table-lite'
+import VueSingleSelect from "vue-single-select"
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
 axios.defaults.withCredentials = true
@@ -16,4 +17,5 @@ app.use(router);
 app.use(store);
 app.use(VueAxios, axios);
 app.component('VueTable', VueTableLite);
+app.component('vue-single-select', VueSingleSelect);
 app.mount('#app')

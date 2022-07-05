@@ -7,8 +7,16 @@
       <div class="collapse navbar-collapse d-flex">
         <a class="navbar-brand" href="#"><img src="./../assets/img.png"></a>
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/login">Vozila</router-link>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Vozila
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navBarDropDown">
+              <li>
+                <router-link class="dropdown-item" to="/irregularities">Nepravilnosti</router-link>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/login">Administracija</router-link>
@@ -16,8 +24,16 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/login">Izvestaji</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/users">Admin Panel</router-link>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Admin panel
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navBarDropDown">
+              <li>
+                <router-link class="dropdown-item" to="/users">Korisnici</router-link>
+              </li>
+            </ul>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navBarDropDown" role="button" data-bs-toggle="dropdown"
