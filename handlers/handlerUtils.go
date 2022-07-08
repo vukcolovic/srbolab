@@ -50,3 +50,12 @@ func setResponse(w http.ResponseWriter, response Response) {
 		return
 	}
 }
+
+func GetTokenFromRequest(r *http.Request) (string, error) {
+	cookie, err := r.Cookie("jwt")
+	if err != nil {
+		return "", err
+	}
+
+	return cookie.Value, nil
+}

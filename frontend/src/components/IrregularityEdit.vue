@@ -5,8 +5,8 @@
       <h3 v-if="action === 'view'" class="mt-2">Pregled</h3>
       <h3 v-if="action === 'update'" class="mt-2">Azuriranje</h3>
       <hr>
+      <form-tag class="row" @formEvent="submitHandler" name="myForm" event="formEvent">
       <div class="col-sm-5">
-        <form-tag @formEvent="submitHandler" name="myForm" event="formEvent">
           <text-input
               v-model.trim="irregularity.subject"
               label="Izvestaj"
@@ -17,10 +17,10 @@
           </text-input>
 
           <text-area-input
-              v-model.trim="irregularity.notice"
-              label="Napomena"
+              v-model.trim="irregularity.description"
+              label="Opis"
               type="text"
-              name="notice"
+              name="description"
               required="true"
               :readonly="readonly">
           </text-area-input>
@@ -28,33 +28,33 @@
           <label class="mb-2">Ispitivac</label>
           <vue-single-select
               name="Nivo"
+              @input="(selected) => irregularity.controller = selected"
               v-model="irregularity.controller"
               :options="users"
               option-label="first_name"
           ></vue-single-select>
-
-          <input type="submit" v-if="this.action === 'add'" class="btn btn-primary m-2" value="Dodavanje">
-          <input type="submit" v-if="this.action === 'update'" class="btn btn-primary m-2" value="Azuriranje">
-        </form-tag>
+        <input type="submit" v-if="this.action === 'add'" class="btn btn-primary m-2" value="Dodavanje">
+        <input type="submit" v-if="this.action === 'update'" class="btn btn-primary m-2" value="Azuriranje">
       </div>
       <div class="col-sm-5">
         <label class="mb-2">Nivo</label>
         <vue-single-select
-            name="Nivo"
+            name="level"
+            @input="(selected) => irregularity.irregularity_level = selected"
             v-model="irregularity.irregularity_level"
             :options="irregularityLevels"
             option-label="code"
         ></vue-single-select>
 
         <text-area-input
-            v-model.trim="irregularity.description"
-            label="Opis"
+            v-model.trim="irregularity.notice"
+            label="Napomena"
             type="text"
-            name="description"
-            required="true"
+            name="notice"
             :readonly="readonly">
         </text-area-input>
       </div>
+      </form-tag>
     </div>
   </div>
 </template>
@@ -66,6 +66,7 @@ import axios from "axios";
 import router from "@/router";
 import notie from 'notie';
 import TextAreaInput from "@/components/forms/TextAreaInput";
+import VueSingleSelect from "vue-single-select"
 
 export default {
   name: 'IrregularityEdit',
@@ -79,7 +80,7 @@ export default {
       type: String
     }
   },
-  components: {FormTag, TextInput, TextAreaInput},
+  components: {FormTag, TextInput, TextAreaInput, VueSingleSelect},
   computed: {
     readonly() {
       if (this.action === 'view') {
@@ -97,7 +98,8 @@ export default {
   },
   methods: {
     async submitHandler() {
-      await axios.post('/users/register', JSON.stringify(this.user)).then((response) => {
+      console.log(this.irregularity);
+      await axios.post('/irregularity/create', JSON.stringify(this.irregularity)).then((response) => {
         if (response.data === null || response.data.Status === 'error') {
           notie.alert({
             type: 'error',
@@ -106,7 +108,7 @@ export default {
           })
           return;
         }
-        router.push("/users");
+        router.push("/irregularities");
       }, (error) => {
         notie.alert({
           type: 'error',

@@ -37,5 +37,10 @@ func runServer() {
 	s = r.PathPrefix("/api/enumeration").Subrouter()
 	s.HandleFunc("/irregularity-levels/all", handlers.ListIrregularityLevels).Methods("GET")
 
+	s = r.PathPrefix("/api/irregularity").Subrouter()
+	s.HandleFunc("/create", handlers.CreateIrregularity).Methods("POST")
+	s.HandleFunc("/list", handlers.ListIrregularities).Methods("POST")
+	s.HandleFunc("/delete/{id}", handlers.DeleteIrregularity).Methods("GET")
+
 	log.Fatal(srv.ListenAndServe())
 }

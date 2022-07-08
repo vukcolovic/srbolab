@@ -19,6 +19,7 @@ type userService struct {
 }
 
 type usersServiceInterface interface {
+	GetUserIDByToken(token string) (int, error)
 	GetAllUsers(skip, take int) ([]model.User, error)
 	GetUserByID(id int) (*model.User, error)
 	GetUserByEmail(email string) (*model.User, error)
@@ -27,6 +28,24 @@ type usersServiceInterface interface {
 	DeleteUser(int) error
 	GetUsersCount() (int, error)
 	Login(model.User) (*model.LoginResponse, error)
+}
+
+func (s *userService) GetUserIDByToken(token string) (int, error) {
+	claims := &jwt.StandardClaims{}
+
+	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte("secret"), nil
+	})
+	if err != nil {
+		return 0, err
+	}
+
+	id, err := strconv.Atoi(claims.Id)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
 }
 
 func (s *userService) GetAllUsers(skip, take int) ([]model.User, error) {

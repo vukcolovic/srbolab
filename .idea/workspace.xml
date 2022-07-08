@@ -5,21 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Add irregularity frontend">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/IrregularitiesComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/IrregularityEdit.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/irregularityService.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handlers/irregularityHandler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/HeaderComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/HeaderComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularityLevels.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularityLevels.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/forms/SelectInput.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/forms/SelectInput.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/0000_create_users_table.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/0000_create_users_table.up.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/enumeration.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/enumeration.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/BodyComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/BodyComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularitiesComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularitiesComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularityEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularityEdit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/handlerUtils.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/handlerUtils.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/irregulation.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/irregulation.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/enumerationService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/enumerationService.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/irregularityService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/irregularityService.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/userService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/userService.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,6 +156,11 @@
           <url>file://$PROJECT_DIR$/frontend/src/components/archive/SideBar.vue</url>
           <line>3</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/handlers/irregularityHandler.go</url>
+          <line>72</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

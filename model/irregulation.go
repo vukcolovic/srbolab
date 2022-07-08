@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"database/sql"
+	"time"
+)
 
 //json struct
 type Irregularity struct {
@@ -21,16 +24,16 @@ type Irregularity struct {
 //db struct
 
 type IrregularityDb struct {
-	Id            int       `db:"id"`
-	Subject       string    `db:"subject"`
-	Level         int       `db:"level_id"`
-	Controller    int       `db:"controller_id"`
-	CreatedBy     int       `db:"created_by"`
-	Description   string    `db:"description"`
-	Notice        string    `db:"notice"`
-	Corrected     bool      `db:"corrected"`
-	CorrectedBy   int       `db:"corrected_by"`
-	CorrectedDate time.Time `db:"corrected_date"`
-	CreatedAt     time.Time `db:"created_at"`
-	UpdatedAt     time.Time `db:"updated_at"`
+	Id            int           `db:"id"`
+	Subject       string        `db:"subject"`
+	Level         int           `db:"level_id"`
+	Controller    sql.NullInt64 `db:"controller_id"`
+	CreatedBy     sql.NullInt64 `db:"created_by"`
+	Description   string        `db:"description"`
+	Notice        string        `db:"notice"`
+	Corrected     bool          `db:"corrected"`
+	CorrectedBy   sql.NullInt64 `db:"corrected_by"`
+	CorrectedDate time.Time     `db:"corrected_date"`
+	CreatedAt     time.Time     `db:"created_at"`
+	UpdatedAt     time.Time     `db:"updated_at"`
 }
