@@ -4,17 +4,17 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Add irregularity frontend">
-      <change afterPath="$PROJECT_DIR$/handlers/irregularityHandler.go" afterDir="false" />
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Add list irregularity frontend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/BodyComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/BodyComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularitiesComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularitiesComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularityEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularityEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/handlerUtils.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/handlerUtils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/irregulation.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/irregulation.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/database/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loger/loging.go" beforeDir="false" afterPath="$PROJECT_DIR$/loger/loging.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/loger.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/middleware.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/migrate.go" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/migrate.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/enumerationService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/enumerationService.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/irregularityService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/irregularityService.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/userService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/userService.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +52,6 @@
     <setting file="file://$PROJECT_DIR$/src/main.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/docker-compose.yml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/loger/loging.go" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/logs/loger.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/database/config.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/migrations/migrate.go" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -139,7 +138,8 @@
     <MESSAGE value="Add to see current user, fixed bugs related to users and fixed axios calls with proper messages" />
     <MESSAGE value="Added sql for irregulation and irregulation levels and all for irregulation levels" />
     <MESSAGE value="Add irregularity frontend" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add irregularity frontend" />
+    <MESSAGE value="Add list irregularity frontend" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add list irregularity frontend" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -161,6 +161,11 @@
           <url>file://$PROJECT_DIR$/handlers/irregularityHandler.go</url>
           <line>72</line>
           <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/loger/loging.go</url>
+          <line>15</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,8 +1,12 @@
 package main
 
-import "srbolabApp/migrations"
+import (
+	"srbolabApp/loger"
+	"srbolabApp/migrations"
+)
 
 func main() {
+	loger.InfoLog.Println("Starting application...")
 	migrations.MigrateDatabase()
 	runServer()
 }

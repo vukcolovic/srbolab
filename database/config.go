@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	"log"
+	"srbolabApp/loger"
 )
 
 const (
@@ -24,11 +24,13 @@ func Connect() {
 	var err error
 	Client, err = sqlx.Open(driverName, psqlInfo)
 	if err != nil {
+		loger.InfoLog.Println("Error opening database connection: ", err)
 		panic(err)
 	}
 	if errConn := Client.Ping(); errConn != nil {
+		loger.InfoLog.Println("Error ping database: ", errConn)
 		panic(errConn)
 	}
-	//FIXME log properly
-	log.Println("Database succesfully connected")
+
+	loger.InfoLog.Println("Database succesfully connected")
 }

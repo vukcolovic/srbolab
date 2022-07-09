@@ -2,8 +2,8 @@ package service
 
 import (
 	"errors"
-	"log"
 	"srbolabApp/database"
+	"srbolabApp/loger"
 	"srbolabApp/model"
 )
 
@@ -23,7 +23,7 @@ func (e *enumerationService) GetAllIrregularityLevels() ([]model.IrregularityLev
 	levels := []model.IrregularityLevel{}
 	err := database.Client.Select(&levels, `SELECT * FROM public.irregularity_levels`)
 	if err != nil {
-		log.Println(err)
+		loger.ErrorLog.Println("Error getting all IrregularityLevels: ", err)
 		return nil, err
 	}
 
@@ -34,12 +34,12 @@ func (e *enumerationService) GetAllIrregularityLevelById(id int) (*model.Irregul
 	levels := []model.IrregularityLevel{}
 	err := database.Client.Select(&levels, `SELECT * FROM public.irregularity_levels WHERE id = $1`, id)
 	if err != nil {
-		log.Println(err)
+		loger.ErrorLog.Println("Error getting IrregularityLevel level by id: ", err)
 		return nil, err
 	}
 
 	if len(levels) < 1 {
-		log.Println("No level by id ", id)
+		loger.ErrorLog.Println("No IrregularityLevel level by id: ", err)
 		return nil, errors.New("no level by id")
 	}
 

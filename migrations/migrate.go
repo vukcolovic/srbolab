@@ -4,8 +4,8 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"log"
 	"srbolabApp/database"
+	"srbolabApp/loger"
 )
 
 func MigrateDatabase() {
@@ -16,10 +16,10 @@ func MigrateDatabase() {
 		"postgres://postgres:passw0rd@localhost:5433/"+database.DatasourceName+"?sslmode=disable&search_path=public",
 	)
 	if err != nil {
-		log.Fatal(err)
+		loger.ErrorLog.Println("Migrate database error: ", err)
 	}
-	//FIXME
-	if err := m.Up(); err != nil && err.Error() != "no change" {
-		log.Fatal(err)
+
+	if err = m.Up(); err != nil && err.Error() != "no change" {
+		loger.ErrorLog.Println("Migrate database error: ", err)
 	}
 }

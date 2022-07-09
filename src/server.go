@@ -21,7 +21,7 @@ func runServer() {
 	}
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("cao"))
+		w.Write([]byte(""))
 	})
 
 	r.Use(middleware.AuthToken)

@@ -5,6 +5,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"net/http"
 	"srbolabApp/handlers"
+	"srbolabApp/loger"
 	"strings"
 	"time"
 )
@@ -18,6 +19,7 @@ func AuthToken(next http.Handler) http.Handler {
 
 		cookie, err := r.Cookie("jwt")
 		if err != nil {
+			loger.ErrorLog.Println("Error getting cookie on auth token: ", err)
 			handlers.SetErrorResponse(w, errors.New("No cookie"))
 			return
 		}
@@ -37,6 +39,7 @@ func AuthToken(next http.Handler) http.Handler {
 				MaxAge:  -1,
 			}
 
+			loger.ErrorLog.Println("Error no token on auth token: ", err)
 			http.SetCookie(w, c)
 			handlers.SetErrorResponse(w, errors.New("No token"))
 			return
@@ -50,6 +53,7 @@ func AuthToken(next http.Handler) http.Handler {
 				MaxAge:  -1,
 			}
 
+			loger.ErrorLog.Println("Error token is not valid on auth token: ", err)
 			http.SetCookie(w, c)
 			handlers.SetErrorResponse(w, errors.New("Token not valid"))
 			return

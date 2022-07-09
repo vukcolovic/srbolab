@@ -4,8 +4,8 @@ import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
-	"log"
 	"srbolabApp/database"
+	"srbolabApp/loger"
 	"srbolabApp/model"
 	"strconv"
 	"time"
@@ -37,11 +37,13 @@ func (s *userService) GetUserIDByToken(token string) (int, error) {
 		return []byte("secret"), nil
 	})
 	if err != nil {
+		loger.ErrorLog.Println("Error getting user by token, error parse claims: ", err)
 		return 0, err
 	}
 
 	id, err := strconv.Atoi(claims.Id)
 	if err != nil {
+		loger.ErrorLog.Println("Error getting user by token: ", err)
 		return 0, err
 	}
 
@@ -52,7 +54,7 @@ func (s *userService) GetAllUsers(skip, take int) ([]model.User, error) {
 	users := []model.User{}
 	err := database.Client.Select(&users, `SELECT * FROM users WHERE deleted = false ORDER BY id desc OFFSET $1 LIMIT $2`, skip, take)
 	if err != nil {
-		log.Println(err)
+		loger.ErrorLog.Println("Error getting all users: ", err)
 		return nil, err
 	}
 
@@ -62,12 +64,13 @@ func (s *userService) GetAllUsers(skip, take int) ([]model.User, error) {
 func (s *userService) CreateUser(user model.User) (*model.User, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
 	if err != nil {
+		loger.ErrorLog.Println("Error creating user: ", err)
 		return nil, err
 	}
 	_, err = database.Client.Exec(`INSERT INTO users (first_name, last_name, email, password, created_at, updated_at) VALUES ($1,$2,$3,$4,$5,$6)`,
 		user.FirstName, user.LastName, user.Email, string(hashedPassword), time.Now(), time.Now())
 	if err != nil {
-		//loger.Instance().Error("error inserting format", loger.AdditionalFields{"Error": err, "DbKey": formatToAdd.DbKey})
+		loger.ErrorLog.Println("Error creating user: ", err)
 		return nil, err
 	}
 
@@ -78,7 +81,7 @@ func (s *userService) GetUserByID(id int) (*model.User, error) {
 	users := []model.User{}
 	err := database.Client.Select(&users, `SELECT * FROM users WHERE id = $1`, id)
 	if err != nil || len(users) == 0 {
-		log.Println(err)
+		loger.ErrorLog.Println("Error getting user by id: ", err)
 		return nil, err
 	}
 
@@ -89,7 +92,7 @@ func (s *userService) GetUserByEmail(email string) (*model.User, error) {
 	users := []model.User{}
 	err := database.Client.Select(&users, `SELECT * FROM users WHERE email = $1`, email)
 	if err != nil || len(users) == 0 {
-		log.Println(err)
+		loger.ErrorLog.Println("Error getting user by email: ", err)
 		return nil, err
 	}
 
@@ -99,14 +102,16 @@ func (s *userService) GetUserByEmail(email string) (*model.User, error) {
 func (s *userService) Login(userJustCredentials model.User) (*model.LoginResponse, error) {
 	user, err := UsersService.GetUserByEmail(userJustCredentials.Email)
 	if err != nil {
+		loger.ErrorLog.Println("Error login user: ", err)
 		return nil, err
 	}
 	if user == nil {
-		//FIXME
+		loger.ErrorLog.Println("Error login user, no user with specified email")
 		return nil, errors.New("no user with email " + userJustCredentials.Email)
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userJustCredentials.Password)); err != nil {
+	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userJustCredentials.Password)); err != nil {
+		loger.ErrorLog.Println("Error login user, error comparing hashes: ", err)
 		return nil, err
 	}
 
@@ -119,6 +124,7 @@ func (s *userService) Login(userJustCredentials model.User) (*model.LoginRespons
 
 	token, err := jwtToken.SignedString([]byte("secret"))
 	if err != nil {
+		loger.ErrorLog.Println("Error login user, error signing token: ", err)
 		return nil, err
 	}
 
@@ -129,7 +135,7 @@ func (s *userService) DeleteUser(userID int) error {
 	_, err := database.Client.Exec(`UPDATE users SET deleted = true, updated_at = $1 WHERE id = $2`,
 		time.Now(), userID)
 	if err != nil {
-		//ErrorLog("error inserting format", loger.AdditionalFields{"Error": err, "DbKey": formatToAdd.DbKey})
+		loger.ErrorLog.Println("Error deleting user: ", err)
 		return err
 	}
 
@@ -140,7 +146,7 @@ func (s *userService) GetUsersCount() (int, error) {
 	count := []int{}
 	err := database.Client.Select(&count, `SELECT COUNT(id) FROM users WHERE deleted = false`)
 	if err != nil || len(count) == 0 {
-		//ErrorLog("error inserting format", loger.AdditionalFields{"Error": err, "DbKey": formatToAdd.DbKey})
+		loger.ErrorLog.Println("Error getting count of users: ", err)
 		return 0, err
 	}
 
