@@ -16,9 +16,66 @@
             <i class="fa fa-trash-o">
             </i>
           </button>
+          <button class="iconBtn ms-auto" title="Filter" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-expanded="false" aria-controls="filter">
+             <i class="fa fa-filter" aria-hidden="true">
+             </i>
+          </button>
+          <button class="iconBtn" title="Trazi" type="button">
+            <i class="fa fa-search">
+            </i>
+          </button>
         </div>
       </div>
-      <div class="row m-1">
+          <div class="collapse multi-collapse border" style="font-size: 0.7em" id="filter">
+            <div class="row">
+              <div class="col-2 m-2">
+                <input placeholder="Izvestaj" />
+              </div>
+              <div class="col-2 m-2">
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>Sve
+                  <label class="form-check-label" for="radio1"></label>
+                </div>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2">Ispravljeno
+                  <label class="form-check-label" for="radio2"></label>
+                </div>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input">Neispravljeno
+                  <label class="form-check-label"></label>
+                </div>
+              </div>
+              <div class="col-2 mt-2">
+                <div class="mb-1">
+                  <label for="datumOd" style="margin-right: 5px">Datum od:</label>
+                  <input type="date" id="datumOd" name="datumOd" />
+                </div>
+                <div>
+                  <label for="datumDo" style="margin-right: 5px">Datum do:</label>
+                  <input type="date" id="datumDo" name="datumDo" />
+                </div>
+              </div>
+              <div class="col-2 mt-2">
+                <vue-single-select
+                    name="level"
+                    placeholder="Nivo"
+                    v-model="irregularityLevels"
+                    :options="irregularityLevels"
+                    option-label="code"
+                ></vue-single-select>
+              </div>
+              <div class="col-2 mt-2">
+                <vue-single-select
+                    name="Nivo"
+                    placeholder="Ispitivac"
+                    v-model="users"
+                    :options="users"
+                    option-label="first_name"
+                ></vue-single-select>
+              </div>
+            </div>
+      </div>
+      <div class="row mt-2">
         <vue-table-lite
             @row-clicked="selectIrregularity"
             :columns="columns"
@@ -97,6 +154,8 @@
           ],
           rows: [],
           selectedIrregularity: null,
+          irregularityLevels: [],
+          users: [],
           isLoading: false,
           totalCount: 0
         }
@@ -161,10 +220,53 @@
 
           location.reload();
         },
+        async getAllIrregularityLevels() {
+          await axios.get('/enumeration/irregularity-levels/all').then((response) => {
+            if (response.data === null || response.data.Status === 'error') {
+              notie.alert({
+                type: 'error',
+                text: 'Greska: ' + response.data.ErrorMessage,
+                position: 'bottom',
+              })
+              return;
+            }
+            this.irregularityLevels = JSON.parse(response.data.Data);
+          }, (error) => {
+            notie.alert({
+              type: 'error',
+              text: "Greska: " + error,
+              position: 'bottom',
+            })
+          });
+        },
+        async getAllUsers() {
+          await axios.get('/users/list?skip=0&take=100').then((response) => {
+            if (response.data === null || response.data.Status === 'error') {
+              notie.alert({
+                type: 'error',
+                text: 'Greska: ' + response.data.ErrorMessage,
+                position: 'bottom',
+              })
+              return;
+            }
+            this.users = JSON.parse(response.data.Data);
+            this.users.forEach(user => user.first_name = user.first_name + ' ' +  user.last_name);
+          }, (error) => {
+            notie.alert({
+              type: 'error',
+              text: "Greska: " + error,
+              position: 'bottom',
+            })
+          });
+        },
       },
       async created() {
         await this.doSearch(0, 10);
         this.totalCount = this.rows.length;
+      },
+      mounted() {
+        this.getAllIrregularityLevels();
+        this.getAllUsers();
       }
     }
   </script>
