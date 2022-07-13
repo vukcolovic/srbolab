@@ -20,7 +20,7 @@
              <i class="fa fa-filter" aria-hidden="true">
              </i>
           </button>
-          <button class="iconBtn" title="Trazi" type="button">
+          <button class="iconBtn" title="Trazi" type="button" @click="doSearch(0, 10)">
             <i class="fa fa-search">
             </i>
           </button>
@@ -29,46 +29,48 @@
           <div class="collapse multi-collapse border" style="font-size: 0.7em" id="filter">
             <div class="row">
               <div class="col-2 m-2">
-                <input placeholder="Izvestaj" />
+                <input v-model="filterObject.subject" placeholder="Izvestaj" />
               </div>
               <div class="col-2 m-2">
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>Sve
+                  <input type="radio" class="form-check-input" id="radio1" name="checkedSubject" value="" v-model="filterObject.checked" checked>Sve
                   <label class="form-check-label" for="radio1"></label>
                 </div>
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2">Ispravljeno
+                  <input type="radio" class="form-check-input" id="radio2" name="checkedSubject" value="true" v-model="filterObject.checked">Ispravljeno
                   <label class="form-check-label" for="radio2"></label>
                 </div>
                 <div class="form-check">
-                  <input type="radio" class="form-check-input">Neispravljeno
+                  <input type="radio" class="form-check-input" id="radio3" name="checkedSubject" value="false" v-model="filterObject.checked">Neispravljeno
                   <label class="form-check-label"></label>
                 </div>
               </div>
               <div class="col-2 mt-2">
                 <div class="mb-1">
                   <label for="datumOd" style="margin-right: 5px">Datum od:</label>
-                  <input type="date" id="datumOd" name="datumOd" />
+                  <input type="date" id="datumOd" name="datumOd" v-model="filterObject.date_from" />
                 </div>
                 <div>
                   <label for="datumDo" style="margin-right: 5px">Datum do:</label>
-                  <input type="date" id="datumDo" name="datumDo" />
+                  <input type="date" id="datumDo" name="datumDo" v-model="filterObject.date_to" />
                 </div>
               </div>
               <div class="col-2 mt-2">
                 <vue-single-select
                     name="level"
                     placeholder="Nivo"
-                    v-model="irregularityLevels"
+                    @input="(selected) => filterObject.irregularity_level = selected"
+                    v-model="filterObject.irregularity_level"
                     :options="irregularityLevels"
                     option-label="code"
                 ></vue-single-select>
               </div>
               <div class="col-2 mt-2">
                 <vue-single-select
-                    name="Nivo"
+                    name="Ispitivac"
                     placeholder="Ispitivac"
-                    v-model="users"
+                    @input="(selected) => filterObject.controller = selected"
+                    v-model="filterObject.controller"
                     :options="users"
                     option-label="first_name"
                 ></vue-single-select>
@@ -157,6 +159,7 @@
           irregularityLevels: [],
           users: [],
           isLoading: false,
+          filterObject: {date_from: null, date_to: null, subject: '', irregularity_level: null, controller: null, checked: '' },
           totalCount: 0
         }
       },
@@ -170,9 +173,28 @@
         selectLevel(rowData) {
           this.selectedLevel = rowData;
         },
+        async countIrregularities() {
+          await axios.post('/irregularity/count', JSON.stringify(this.filterObject)).then((response) => {
+            if (response.data === null || response.data.Status === 'error') {
+              notie.alert({
+                type: 'error',
+                text: 'Greska: ' + response.data.ErrorMessage,
+                position: 'bottom',
+              })
+              return;
+            }
+            this.totalCount = response.data.Data;
+          }, (error) => {
+            notie.alert({
+              type: 'error',
+              text: "Greska: " + error,
+              position: 'bottom',
+            })
+          });
+        },
         async doSearch(offset, limit) {
           this.isLoading = true;
-          await axios.post('/irregularity/list?skip=' + offset + '&take=' + limit).then((response) => {
+          await axios.post('/irregularity/list?skip=' + offset + '&take=' + limit, JSON.stringify(this.filterObject)).then((response) => {
             if (response.data === null || response.data.Status === 'error') {
               notie.alert({
                 type: 'error',
@@ -196,6 +218,8 @@
               position: 'bottom',
             })
           });
+
+          await this.countIrregularities();
 
           this.isLoading = false;
         },
@@ -260,11 +284,10 @@
           });
         },
       },
-      async created() {
-        await this.doSearch(0, 10);
-        this.totalCount = this.rows.length;
+    created() {
+        this.doSearch(0, 10);
       },
-      mounted() {
+    mounted() {
         this.getAllIrregularityLevels();
         this.getAllUsers();
       }

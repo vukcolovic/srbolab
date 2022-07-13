@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Added logging">
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Added irregularity filters on UI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularitiesComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularitiesComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/irregularityHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/irregularityHandler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/irregulation.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/irregulation.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/irregularityService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/irregularityService.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +135,8 @@
     <MESSAGE value="Add irregularity frontend" />
     <MESSAGE value="Add list irregularity frontend" />
     <MESSAGE value="Added logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added logging" />
+    <MESSAGE value="Added irregularity filters on UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added irregularity filters on UI" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -148,11 +153,6 @@
           <url>file://$PROJECT_DIR$/frontend/src/components/archive/SideBar.vue</url>
           <line>3</line>
           <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/handlers/irregularityHandler.go</url>
-          <line>72</line>
-          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

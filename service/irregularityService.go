@@ -4,6 +4,8 @@ import (
 	"srbolabApp/database"
 	"srbolabApp/loger"
 	"srbolabApp/model"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -15,14 +17,16 @@ type irregularityService struct {
 }
 
 type irregularityServiceInterface interface {
-	GetAllIrregularities(skip, take int) ([]model.Irregularity, error)
+	GetAllIrregularities(skip, take int, filter model.IrregularityFilter) ([]model.Irregularity, error)
 	CreateIrregularity(model.Irregularity, int) (*model.Irregularity, error)
 	DeleteIrregularity(int) error
+	GetIrregularitiesCount(model.IrregularityFilter) (int, error)
 }
 
-func (s *irregularityService) GetAllIrregularities(skip, take int) ([]model.Irregularity, error) {
+func (s *irregularityService) GetAllIrregularities(skip, take int, filter model.IrregularityFilter) ([]model.Irregularity, error) {
+	query := queryBuilderForIrregularities(skip, take, filter, false)
 	irregularities := []model.IrregularityDb{}
-	err := database.Client.Select(&irregularities, `SELECT * FROM irregularities ORDER BY id desc OFFSET $1 LIMIT $2`, skip, take)
+	err := database.Client.Select(&irregularities, query)
 	if err != nil {
 		loger.ErrorLog.Println("Error getting all Irregularities: ", err)
 		return nil, err
@@ -120,4 +124,55 @@ func getJsonIrregularity(i model.IrregularityDb) (*model.Irregularity, error) {
 	jsonIrr.UpdatedAt = i.UpdatedAt
 
 	return &jsonIrr, nil
+}
+
+func (s *irregularityService) GetIrregularitiesCount(filter model.IrregularityFilter) (int, error) {
+	query := queryBuilderForIrregularities(0, 0, filter, true)
+	count := []int{}
+	err := database.Client.Select(&count, query)
+	if err != nil || len(count) == 0 {
+		loger.ErrorLog.Println("Error getting count of irregularities: ", err)
+		return 0, err
+	}
+
+	return count[0], nil
+}
+
+func queryBuilderForIrregularities(skip, take int, filter model.IrregularityFilter, isCount bool) string {
+	var query string
+	if isCount {
+		query = `SELECT count(*) FROM irregularities WHERE `
+	} else {
+		query = `SELECT * FROM irregularities WHERE `
+	}
+
+	if filter.Subject != "" {
+		query = query + ` subject = ` + "'" + filter.Subject + "'" + ` AND `
+	}
+	if filter.Checked != "" {
+		query = query + ` corrected = ` + filter.Checked + ` AND `
+	}
+	if filter.Level != nil {
+		query = query + ` level_id = ` + strconv.Itoa(filter.Level.Id) + ` AND `
+	}
+	if filter.Controller != nil {
+		query = query + ` controller_id = ` + strconv.Itoa(filter.Controller.Id) + ` AND `
+	}
+	if !filter.DateFrom.IsZero() {
+		query = query + ` created_at >= ` + "'" + filter.DateFrom.Format("2006-01-02") + "'" + "::date" + ` AND `
+	}
+	if !filter.DateTo.IsZero() {
+		query = query + ` created_at < ` + "'" + filter.DateTo.Format("2006-01-02") + "'" + "::date + " + "'1 day'::interval" + ` AND `
+	}
+
+	if strings.HasSuffix(query, " WHERE ") {
+		query = strings.TrimRight(query, " WHERE ")
+	}
+	query = strings.TrimRight(query, "AND ")
+
+	if !isCount {
+		query = query + ` ORDER BY id desc OFFSET ` + strconv.Itoa(skip) + ` LIMIT ` + strconv.Itoa(take)
+	}
+
+	return query
 }
