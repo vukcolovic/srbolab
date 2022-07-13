@@ -38,10 +38,12 @@ func runServer() {
 	s.HandleFunc("/irregularity-levels/all", handlers.ListIrregularityLevels).Methods("GET")
 
 	s = r.PathPrefix("/api/irregularity").Subrouter()
+	s.HandleFunc("/id/{id}", handlers.GetIrregularityByID).Methods("GET")
 	s.HandleFunc("/create", handlers.CreateIrregularity).Methods("POST")
 	s.HandleFunc("/list", handlers.ListIrregularities).Methods("POST")
 	s.HandleFunc("/delete/{id}", handlers.DeleteIrregularity).Methods("GET")
 	s.HandleFunc("/count", handlers.CountIrregularities).Methods("POST")
+	s.HandleFunc("/update", handlers.UpdateIrregularities).Methods("POST")
 
 	log.Fatal(srv.ListenAndServe())
 }

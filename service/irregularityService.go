@@ -17,10 +17,29 @@ type irregularityService struct {
 }
 
 type irregularityServiceInterface interface {
+	GetIrregularityByID(id int) (*model.Irregularity, error)
 	GetAllIrregularities(skip, take int, filter model.IrregularityFilter) ([]model.Irregularity, error)
 	CreateIrregularity(model.Irregularity, int) (*model.Irregularity, error)
 	DeleteIrregularity(int) error
 	GetIrregularitiesCount(model.IrregularityFilter) (int, error)
+	UpdateIrregularity(model.Irregularity) (*model.Irregularity, error)
+}
+
+func (s *irregularityService) GetIrregularityByID(id int) (*model.Irregularity, error) {
+	irregularitiesDb := []model.IrregularityDb{}
+	err := database.Client.Select(&irregularitiesDb, `SELECT * FROM irregularities WHERE id = $1`, id)
+	if err != nil || len(irregularitiesDb) == 0 {
+		loger.ErrorLog.Println("Error getting irregularity by id: ", err)
+		return nil, err
+	}
+
+	irrJson, err := getJsonIrregularity(irregularitiesDb[0])
+	if err != nil {
+		loger.ErrorLog.Println("Error getting Irregularity, error getting json from db: ", err)
+		return nil, err
+	}
+
+	return irrJson, nil
 }
 
 func (s *irregularityService) GetAllIrregularities(skip, take int, filter model.IrregularityFilter) ([]model.Irregularity, error) {
@@ -175,4 +194,16 @@ func queryBuilderForIrregularities(skip, take int, filter model.IrregularityFilt
 	}
 
 	return query
+}
+
+func (s *irregularityService) UpdateIrregularity(irregularity model.Irregularity) (*model.Irregularity, error) {
+	_, err := database.Client.Exec(`UPDATE irregularities SET subject = $1, level_id = $2, controller_id = $3, description = $4, notice = $5, updated_at = $6 WHERE id = $7`,
+		irregularity.Subject, irregularity.Level.Id, irregularity.Controller.Id, irregularity.Description, irregularity.Notice, time.Now(), irregularity.Id)
+	if err != nil {
+		loger.ErrorLog.Println("Error updating Irregularity: ", err)
+		return nil, err
+	}
+
+	//todo return that irregularity if there is need fot that
+	return nil, err
 }

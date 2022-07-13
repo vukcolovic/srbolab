@@ -5,10 +5,10 @@
           <button class="iconBtn" title="Dodaj" @click="$router.push({name: 'IrregularityEdit', params: {irregularityId: '', action: 'add' }})">
             <i class="fa fa-plus"></i>
           </button>
-          <button class="iconBtn" title="Pregledaj" :disabled="selectedIrregularity == null" >
+          <button class="iconBtn" title="Pregledaj" :disabled="selectedIrregularity == null" @click="$router.push({name: 'IrregularityEdit', params: {irregularityId: selectedIrregularity.id, action: 'view' }})" >
             <i class="fa fa-eye"></i>
           </button>
-          <button class="iconBtn" title="Izmeni" :disabled="selectedIrregularity == null" >
+          <button class="iconBtn" title="Izmeni" :disabled="selectedIrregularity == null" @click="$router.push({name: 'IrregularityEdit', params: {irregularityId: selectedIrregularity.id, action: 'update' }})" >
             <i class="fa fa-pencil">
             </i>
           </button>

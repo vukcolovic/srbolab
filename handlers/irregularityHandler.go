@@ -5,11 +5,36 @@ import (
 	"errors"
 	"github.com/gorilla/mux"
 	"net/http"
+	"srbolabApp/errorUtils"
 	"srbolabApp/loger"
 	"srbolabApp/model"
 	"srbolabApp/service"
 	"strconv"
 )
+
+func GetIrregularityByID(w http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	irrgularityIdParam, ok := vars["id"]
+	if !ok {
+		loger.ErrorLog.Println(errorUtils.ERR_MISSING_REQ_PARAM)
+		SetErrorResponse(w, errors.New("irregularity not found"))
+		return
+	}
+
+	irregularityId, err := strconv.Atoi(irrgularityIdParam)
+	if err != nil {
+		SetErrorResponse(w, err)
+		return
+	}
+
+	user, err := service.IrregularityService.GetIrregularityByID(irregularityId)
+	if err != nil {
+		SetErrorResponse(w, err)
+		return
+	}
+
+	SetSuccessResponse(w, user)
+}
 
 func CreateIrregularity(w http.ResponseWriter, r *http.Request) {
 	var irregularity model.Irregularity
@@ -120,4 +145,24 @@ func CountIrregularities(w http.ResponseWriter, r *http.Request) {
 	}
 
 	SetSuccessResponse(w, count)
+}
+
+func UpdateIrregularities(w http.ResponseWriter, r *http.Request) {
+	var irregularity model.Irregularity
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&irregularity)
+	if err != nil {
+		loger.ErrorLog.Println("Error decoding Irregularity: ", err)
+		SetErrorResponse(w, err)
+		return
+	}
+
+	updatedIrregularity, err := service.IrregularityService.UpdateIrregularity(irregularity)
+	if err != nil {
+		loger.ErrorLog.Println("Error updating irregularity: ", err)
+		SetErrorResponse(w, err)
+		return
+	}
+
+	SetSuccessResponse(w, updatedIrregularity)
 }

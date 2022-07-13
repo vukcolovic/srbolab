@@ -29,7 +29,7 @@
           <vue-single-select
               name="Nivo"
               @input="(selected) => irregularity.controller = selected"
-              v-model="irregularity.controller"
+              :value="irregularity.controller"
               :options="users"
               option-label="first_name"
           ></vue-single-select>
@@ -41,7 +41,7 @@
         <vue-single-select
             name="level"
             @input="(selected) => irregularity.irregularity_level = selected"
-            v-model="irregularity.irregularity_level"
+            :value="irregularity.irregularity_level"
             :options="irregularityLevels"
             option-label="code"
         ></vue-single-select>
@@ -98,7 +98,32 @@ export default {
   },
   methods: {
     async submitHandler() {
-      console.log(this.irregularity);
+      if (this.irregularityId !== '') {
+        await this.updateIrregularity();
+      } else {
+        await this.createIrregularity();
+      }
+    },
+    async updateIrregularity() {
+      await axios.post('/irregularity/update', JSON.stringify(this.irregularity)).then((response) => {
+        if (response.data === null || response.data.Status === 'error') {
+          notie.alert({
+            type: 'error',
+            text: 'Greska: ' + response.data.ErrorMessage,
+            position: 'bottom',
+          })
+          return;
+        }
+        router.push("/irregularities");
+      }, (error) => {
+        notie.alert({
+          type: 'error',
+          text: "Greska: " + error,
+          position: 'bottom',
+        })
+      });
+    },
+    async createIrregularity() {
       await axios.post('/irregularity/create', JSON.stringify(this.irregularity)).then((response) => {
         if (response.data === null || response.data.Status === 'error') {
           notie.alert({
@@ -160,25 +185,25 @@ export default {
   mounted() {
      this.getAllIrregularityLevels();
      this.getAllUsers();
-  //   if (this.irregularityId !== '') {
-  //     axios.get('/users/id/' + this.irregularityId).then((response) => {
-  //       if (response.data === null || response.data.Status === 'error') {
-  //         notie.alert({
-  //           type: 'error',
-  //           text: 'Greska: ' + response.data.ErrorMessage,
-  //           position: 'bottom',
-  //         })
-  //         return;
-  //       }
-  //       this.user = JSON.parse(response.data.Data);
-  //     }, (error) => {
-  //       notie.alert({
-  //         type: 'error',
-  //         text: "Greska: " + error,
-  //         position: 'bottom',
-  //       })
-  //     });
-  //   }
+    if (this.irregularityId !== '') {
+      axios.get('/irregularity/id/' + this.irregularityId).then((response) => {
+        if (response.data === null || response.data.Status === 'error') {
+          notie.alert({
+            type: 'error',
+            text: 'Greska: ' + response.data.ErrorMessage,
+            position: 'bottom',
+          })
+          return;
+        }
+        this.irregularity = JSON.parse(response.data.Data);
+      }, (error) => {
+        notie.alert({
+          type: 'error',
+          text: "Greska: " + error,
+          position: 'bottom',
+        })
+      });
+    }
   }
 }
 </script>
