@@ -44,6 +44,7 @@ func runServer() {
 	s.HandleFunc("/delete/{id}", handlers.DeleteIrregularity).Methods("GET")
 	s.HandleFunc("/count", handlers.CountIrregularities).Methods("POST")
 	s.HandleFunc("/update", handlers.UpdateIrregularities).Methods("POST")
+	s.HandleFunc("/change-corrected", handlers.ChangeCorrected).Methods("POST")
 
 	log.Fatal(srv.ListenAndServe())
 }

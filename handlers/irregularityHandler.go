@@ -166,3 +166,47 @@ func UpdateIrregularities(w http.ResponseWriter, r *http.Request) {
 
 	SetSuccessResponse(w, updatedIrregularity)
 }
+
+func ChangeCorrected(w http.ResponseWriter, r *http.Request) {
+	queryParams := r.URL.Query()
+	if len(queryParams["corrected"]) == 0 {
+		//loger.Error("error retrieving examination request param vin")
+		SetErrorResponse(w, errors.New("error changing corrected"))
+		return
+	}
+	corrected := queryParams["corrected"][0]
+
+	correctedBool, _ := strconv.ParseBool(corrected)
+
+	var irregularity model.Irregularity
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&irregularity)
+	if err != nil {
+		loger.ErrorLog.Println("Error decoding Irregularity: ", err)
+		SetErrorResponse(w, err)
+		return
+	}
+
+	token, err := GetTokenFromRequest(r)
+	if err != nil {
+		loger.ErrorLog.Println("Unable to retrieve token from requeste: ", err)
+		SetErrorResponse(w, err)
+		return
+	}
+
+	userId, err := service.UsersService.GetUserIDByToken(token)
+	if err != nil {
+		loger.ErrorLog.Println("Error getting user from token: ", err)
+		SetErrorResponse(w, err)
+		return
+	}
+
+	err = service.IrregularityService.ChangeCorrected(irregularity, correctedBool, userId)
+	if err != nil {
+		loger.ErrorLog.Println("Error changing corrected irregularity: ", err)
+		SetErrorResponse(w, err)
+		return
+	}
+
+	SetSuccessResponse(w, nil)
+}

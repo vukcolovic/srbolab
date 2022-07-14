@@ -16,6 +16,14 @@
             <i class="fa fa-trash-o">
             </i>
           </button>
+          <button class="iconBtn" title="Cekiraj" :hidden="selectedIrregularity == null || checked" @click="correct">
+            <i class="fa fa-check">
+            </i>
+          </button>
+          <button class="iconBtn" title="Decekiraj" :hidden="selectedIrregularity == null || !checked" @click="uncorrect">
+            <i class="fa fa-square-o">
+            </i>
+          </button>
           <button class="iconBtn ms-auto" title="Filter" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-expanded="false" aria-controls="filter">
              <i class="fa fa-filter" aria-hidden="true">
              </i>
@@ -97,6 +105,17 @@
 
     export default {
       name: 'IrregularitiesComponent',
+      computed: {
+        checked() {
+          if (this.selectedIrregularity == null) {
+            return false
+          }
+          if (this.selectedIrregularity.corrected) {
+            return true;
+          }
+          return false;
+        }
+      },
       components: { VueTableLite },
       data() {
         return {
@@ -172,6 +191,36 @@
         },
         selectLevel(rowData) {
           this.selectedLevel = rowData;
+        },
+        async correct() {
+          if (confirm("Da li ste sigurni da zelite da potvrdite da je predmet ispravljen?")) {
+            await this.changeCorrected("true");
+          }
+        },
+        async uncorrect() {
+          if (confirm("Da li ste sigurni da zelite da onzacite predmet kao neispravljen?")) {
+            await this.changeCorrected("false");
+          }
+        },
+        async changeCorrected(corrected) {
+          await axios.post('/irregularity/change-corrected?corrected=' + corrected, JSON.stringify(this.selectedIrregularity)).then((response) => {
+            if (response.data.Status === 'error') {
+              notie.alert({
+                type: 'error',
+                text: 'Greska: ' + response.data.ErrorMessage,
+                position: 'bottom',
+              })
+              return;
+            }
+          }, (error) => {
+            notie.alert({
+              type: 'error',
+              text: "Greska: " + error,
+              position: 'bottom',
+            })
+          });
+
+          location.reload();
         },
         async countIrregularities() {
           await axios.post('/irregularity/count', JSON.stringify(this.filterObject)).then((response) => {

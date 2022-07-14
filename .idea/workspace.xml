@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="List irregularities with filter">
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Irregularitis update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularitiesComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularitiesList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularityEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularityEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularitiesList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularitiesList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/irregularityHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/irregularityHandler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/irregularityService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/irregularityService.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.go" afterDir="false" />
@@ -138,7 +136,8 @@
     <MESSAGE value="Added logging" />
     <MESSAGE value="Added irregularity filters on UI" />
     <MESSAGE value="List irregularities with filter" />
-    <option name="LAST_COMMIT_MESSAGE" value="List irregularities with filter" />
+    <MESSAGE value="Irregularitis update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Irregularitis update" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

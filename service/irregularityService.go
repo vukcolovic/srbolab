@@ -23,6 +23,7 @@ type irregularityServiceInterface interface {
 	DeleteIrregularity(int) error
 	GetIrregularitiesCount(model.IrregularityFilter) (int, error)
 	UpdateIrregularity(model.Irregularity) (*model.Irregularity, error)
+	ChangeCorrected(model.Irregularity, bool, int) error
 }
 
 func (s *irregularityService) GetIrregularityByID(id int) (*model.Irregularity, error) {
@@ -206,4 +207,15 @@ func (s *irregularityService) UpdateIrregularity(irregularity model.Irregularity
 
 	//todo return that irregularity if there is need fot that
 	return nil, err
+}
+
+func (s *irregularityService) ChangeCorrected(irregularity model.Irregularity, corrected bool, userId int) error {
+	_, err := database.Client.Exec(`UPDATE irregularities SET corrected = $1, corrected_by = $2, updated_at = $3 WHERE id = $4`,
+		corrected, userId, time.Now(), irregularity.Id)
+	if err != nil {
+		loger.ErrorLog.Println("Error changing corrected Irregularity: ", err)
+		return err
+	}
+
+	return err
 }
