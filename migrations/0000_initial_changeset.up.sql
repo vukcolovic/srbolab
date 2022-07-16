@@ -45,3 +45,33 @@ ALTER TABLE public.irregularities
 
 ALTER TABLE public.irregularities
     ADD CONSTRAINT fk_irregularities_corrected_by FOREIGN KEY (corrected_by) REFERENCES public.users (id);
+
+-- CREATE TABLE public.fuel_type
+-- (
+--     id serial PRIMARY KEY,
+--     code VARCHAR ( 50 ) NOT NULL,
+--     created_at TIMESTAMP
+-- );
+--
+-- INSERT INTO public.fuel_type (code, created_at) VALUES ('BENZIN', now());
+-- INSERT INTO public.fuel_type (code, created_at) VALUES ('DIZEL', now());
+
+CREATE TABLE public.fuel_consumption
+(
+    id serial PRIMARY KEY,
+    date_consumption TIMESTAMP NOT NULL,
+    fuel_type VARCHAR ( 50 ) NOT NULL,
+    liter NUMERIC(7,2)  NOT NULL,
+    price NUMERIC(7,2) ,
+    car_registration VARCHAR ( 50 ) NOT NULL,
+    poured_by INTEGER NOT NULL,
+    created_by INTEGER NOT NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
+ALTER TABLE public.fuel_consumption
+    ADD CONSTRAINT fk_fuel_consumption_created_by FOREIGN KEY (created_by) REFERENCES public.users (id);
+
+ALTER TABLE public.fuel_consumption
+    ADD CONSTRAINT fk_fuel_consumption_by FOREIGN KEY (poured_by) REFERENCES public.users (id);

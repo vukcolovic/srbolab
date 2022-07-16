@@ -7,6 +7,8 @@ import SupportComponent from './../components/SupportComponent.vue'
 import IrregularityLevels from './../components/IrregularityLevels.vue'
 import IrregularitiesComponent from '../components/IrregularitiesList.vue'
 import IrregularityEdit from './../components/IrregularityEdit.vue'
+import FuelConsumptionList from './../components/FuelConsumptionList.vue'
+import FuelConsumptionEdit from './../components/FuelConsumptionEdit.vue'
 
 
 const routes = [
@@ -52,9 +54,19 @@ const routes = [
         component: IrregularityEdit,
         props: true,
     },
+    {
+        path: '/fuel',
+        name: 'FuelConsumptionList',
+        component: FuelConsumptionList,
+        props: true,
+    },
+    {
+        path: '/fuel-edit',
+        name: 'FuelConsumptionEdit',
+        component: FuelConsumptionEdit,
+        props: true,
+    }
 ]
-
-
 
 const router = createRouter({history: createWebHistory(), routes})
 export default router

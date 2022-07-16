@@ -5,7 +5,6 @@ import (
 	"errors"
 	"github.com/gorilla/mux"
 	"net/http"
-	"srbolabApp/errorUtils"
 	"srbolabApp/loger"
 	"srbolabApp/model"
 	"srbolabApp/service"
@@ -16,7 +15,7 @@ func GetIrregularityByID(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	irrgularityIdParam, ok := vars["id"]
 	if !ok {
-		loger.ErrorLog.Println(errorUtils.ERR_MISSING_REQ_PARAM)
+		loger.ErrorLog.Println("missing parameter id")
 		SetErrorResponse(w, errors.New("irregularity not found"))
 		return
 	}
@@ -110,7 +109,7 @@ func DeleteIrregularity(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	id, ok := vars["id"]
 	if !ok {
-		//loger.Error("error retrieving examination request param vin")
+		loger.ErrorLog.Println("missing param irregulation id")
 		SetErrorResponse(w, errors.New("error delete irregularity"))
 		return
 	}
@@ -119,7 +118,7 @@ func DeleteIrregularity(w http.ResponseWriter, req *http.Request) {
 
 	err = service.IrregularityService.DeleteIrregularity(idInt)
 	if err != nil {
-		//loger.Error("error deleting examination request")
+		loger.ErrorLog.Println("error deleting irregularity")
 		SetErrorResponse(w, err)
 		return
 	}
@@ -170,7 +169,7 @@ func UpdateIrregularities(w http.ResponseWriter, r *http.Request) {
 func ChangeCorrected(w http.ResponseWriter, r *http.Request) {
 	queryParams := r.URL.Query()
 	if len(queryParams["corrected"]) == 0 {
-		//loger.Error("error retrieving examination request param vin")
+		loger.ErrorLog.Println("missing param corrected")
 		SetErrorResponse(w, errors.New("error changing corrected"))
 		return
 	}

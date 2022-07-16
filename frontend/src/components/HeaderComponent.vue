@@ -18,8 +18,16 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/login">Administracija</router-link>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Administracija
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navBarDropDown">
+              <li>
+                <router-link class="dropdown-item" to="/fuel">Potrosnja goriva</router-link>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/login">Izvestaji</router-link>

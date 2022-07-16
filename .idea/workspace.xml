@@ -4,11 +4,24 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Irregularitis update">
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Irregularitis added buttons for corrected and uncorrected">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionEdit.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionList.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handlers/fuelConsumptionHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/fuelConsumption.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/service/fuelConsuptionService.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/util/dateUtil.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularitiesList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularitiesList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/errorUtils/errors.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/HeaderComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/HeaderComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularityLevels.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularityLevels.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/irregularityHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/irregularityHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/irregularityService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/irregularityService.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/userHandlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/userHandlers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/0000_create_users_table.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/0000_initial_changeset.up.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/irregulation.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/irregulation.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,8 +100,8 @@
       <recent name="$PROJECT_DIR$/cmd" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/frontend/src/components/archive" />
       <recent name="$PROJECT_DIR$/frontend/src/components" />
+      <recent name="$PROJECT_DIR$/frontend/src/components/archive" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/frontend/src/router" />
     </key>
@@ -137,7 +150,8 @@
     <MESSAGE value="Added irregularity filters on UI" />
     <MESSAGE value="List irregularities with filter" />
     <MESSAGE value="Irregularitis update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Irregularitis update" />
+    <MESSAGE value="Irregularitis added buttons for corrected and uncorrected" />
+    <option name="LAST_COMMIT_MESSAGE" value="Irregularitis added buttons for corrected and uncorrected" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -154,6 +168,16 @@
           <url>file://$PROJECT_DIR$/frontend/src/components/archive/SideBar.vue</url>
           <line>3</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/service/fuelConsuptionService.go</url>
+          <line>105</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/handlers/fuelConsumptionHandler.go</url>
+          <line>71</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

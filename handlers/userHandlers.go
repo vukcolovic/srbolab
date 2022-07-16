@@ -6,7 +6,6 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-	"srbolabApp/errorUtils"
 	"srbolabApp/loger"
 	"srbolabApp/model"
 	"srbolabApp/service"
@@ -106,7 +105,7 @@ func GetUserByID(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	userIdParam, ok := vars["id"]
 	if !ok {
-		loger.ErrorLog.Println(errorUtils.ERR_MISSING_REQ_PARAM)
+		loger.ErrorLog.Println("missing param id")
 		SetErrorResponse(w, errors.New("user not found"))
 		return
 	}

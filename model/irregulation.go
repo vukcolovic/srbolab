@@ -2,8 +2,7 @@ package model
 
 import (
 	"database/sql"
-	"encoding/json"
-	"fmt"
+	"srbolabApp/util"
 	"time"
 )
 
@@ -45,24 +44,6 @@ type IrregularityFilter struct {
 	Level      *IrregularityLevel `json:"irregularity_level"`
 	Controller *User              `json:"controller"`
 	Checked    string             `json:"checked"`
-	DateFrom   Date               `json:"date_from"`
-	DateTo     Date               `json:"date_to"`
-}
-
-type Date struct{ time.Time }
-
-func (d *Date) UnmarshalJSON(data []byte) error {
-	var s string
-	if err := json.Unmarshal(data, &s); err != nil {
-		return fmt.Errorf("date should be a string, got %s", data)
-	}
-	if s == "" {
-		return nil
-	}
-	t, err := time.Parse("2006-01-02", s)
-	if err != nil {
-		return fmt.Errorf("invalid date: %v", err)
-	}
-	d.Time = t
-	return nil
+	DateFrom   util.Date          `json:"date_from"`
+	DateTo     util.Date          `json:"date_to"`
 }

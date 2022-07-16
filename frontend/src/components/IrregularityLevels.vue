@@ -50,7 +50,7 @@ export default {
           width: '10%',
         },
         {
-          label: 'Keiran',
+          label: 'Kreiran',
           field: 'created_at',
           width: '10%',
         }
