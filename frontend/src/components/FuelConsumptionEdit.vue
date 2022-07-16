@@ -41,6 +41,7 @@
               v-model.trim="fuelConsumption.liter"
               label="Kolicina (litar)"
               type="number"
+              step= "0.01"
               name="liter"
               :readonly="readonly">
           </text-input>
@@ -49,6 +50,7 @@
               v-model.trim="fuelConsumption.price"
               label="Cena (RSD)"
               type="number"
+              step= "0.01"
               name="price"
               :readonly="readonly">
           </text-input>
@@ -104,7 +106,12 @@ export default {
     }
   },
   methods: {
+    getDate(date) {
+      return date.split('T')[0];
+    },
     async submitHandler() {
+      this.fuelConsumption.liter = parseFloat(this.fuelConsumption.liter);
+      this.fuelConsumption.price = parseFloat(this.fuelConsumption.price);
       if (this.fuelConsumptionId !== '') {
         await this.updateFuelConsumption();
       } else {
@@ -173,7 +180,7 @@ export default {
   mounted() {
     this.getAllUsers();
     if (this.fuelConsumptionId !== '') {
-      axios.get('/irregularity/id/' + this.irregularityId).then((response) => {
+      axios.get('/fuel-consumption/id/' + this.fuelConsumptionId).then((response) => {
         if (response.data === null || response.data.Status === 'error') {
           notie.alert({
             type: 'error',
@@ -182,7 +189,8 @@ export default {
           })
           return;
         }
-        this.irregularity = JSON.parse(response.data.Data);
+        this.fuelConsumption = JSON.parse(response.data.Data);
+        this.fuelConsumption.date_consumption = this.getDate(this.fuelConsumption.date_consumption);
       }, (error) => {
         notie.alert({
           type: 'error',

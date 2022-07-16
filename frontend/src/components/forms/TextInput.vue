@@ -7,6 +7,7 @@
             :placeholder="placeholder"
             :readonly="readonly"
             :required="required"
+            :step= "step"
             :min="min"
             :max="max"
             :value="modelValue"
@@ -27,6 +28,7 @@ export default {
         required: String,
         min: String,
         max: String,
+        step: String,
         modelValue: String,
         readonly: Boolean,
     },

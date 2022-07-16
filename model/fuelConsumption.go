@@ -31,3 +31,11 @@ type FuelConsumptionDb struct {
 	CreatedAt       time.Time     `db:"created_at"`
 	UpdatedAt       time.Time     `db:"updated_at"`
 }
+
+//filter FuelConsumption
+type FuelConsumptionFilter struct {
+	CarRegistration string    `json:"car_registration"`
+	PouredBy        *User     `json:"poured_by"`
+	DateFrom        util.Date `json:"date_from"`
+	DateTo          util.Date `json:"date_to"`
+}

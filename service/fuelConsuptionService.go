@@ -5,6 +5,8 @@ import (
 	"srbolabApp/loger"
 	"srbolabApp/model"
 	"srbolabApp/util"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -16,37 +18,35 @@ type fuelConsumptionService struct {
 }
 
 type fuelConsumptionServiceInterface interface {
-	GetAllFuelConsumptions(skip, take int) ([]model.FuelConsumption, error)
-	//GetFuelConsumptionByID(id int) (*model.FuelConsumption, error)
+	GetAllFuelConsumptions(skip, take int, filter model.FuelConsumptionFilter) ([]model.FuelConsumption, error)
+	GetFuelConsumptionByID(id int) (*model.FuelConsumption, error)
 	CreateFuelConsumption(fs model.FuelConsumption, userId int) (*model.FuelConsumption, error)
-	//UpdateFuelConsumption(bool, model.FuelConsumption) (*model.FuelConsumption, error)
+	UpdateFuelConsumption(model.FuelConsumption) (*model.FuelConsumption, error)
 	DeleteFuelConsumption(int) error
-	//GetFuelConsumptionCount() (int, error)
+	GetFuelConsumptionCount(filter model.FuelConsumptionFilter) (int, error)
 }
 
-//func (s *userService) GetUserIDByToken(token string) (int, error) {
-//	claims := &jwt.StandardClaims{}
-//
-//	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
-//		return []byte("secret"), nil
-//	})
-//	if err != nil {
-//		loger.ErrorLog.Println("Error getting user by token, error parse claims: ", err)
-//		return 0, err
-//	}
-//
-//	id, err := strconv.Atoi(claims.Id)
-//	if err != nil {
-//		loger.ErrorLog.Println("Error getting user by token: ", err)
-//		return 0, err
-//	}
-//
-//	return id, nil
-//}
+func (s *fuelConsumptionService) GetFuelConsumptionByID(id int) (*model.FuelConsumption, error) {
+	fuelConsumptionsDb := []model.FuelConsumptionDb{}
+	err := database.Client.Select(&fuelConsumptionsDb, `SELECT * FROM fuel_consumption WHERE id = $1`, id)
+	if err != nil || len(fuelConsumptionsDb) == 0 {
+		loger.ErrorLog.Println("Error getting fuel consumption by id: ", err)
+		return nil, err
+	}
 
-func (s *fuelConsumptionService) GetAllFuelConsumptions(skip, take int) ([]model.FuelConsumption, error) {
+	fsJson, err := getJsonFuelConsumption(fuelConsumptionsDb[0])
+	if err != nil {
+		loger.ErrorLog.Println("Error getting fuel consumption, error getting json from db: ", err)
+		return nil, err
+	}
+
+	return fsJson, nil
+}
+
+func (s *fuelConsumptionService) GetAllFuelConsumptions(skip, take int, filter model.FuelConsumptionFilter) ([]model.FuelConsumption, error) {
+	query := queryBuilderForFuelConsumptions(skip, take, filter, false)
 	fuelConsDb := []model.FuelConsumptionDb{}
-	err := database.Client.Select(&fuelConsDb, `SELECT * FROM fuel_consumption ORDER BY id desc OFFSET $1 LIMIT $2`, skip, take)
+	err := database.Client.Select(&fuelConsDb, query)
 	if err != nil {
 		loger.ErrorLog.Println("Error getting all fuel consumptions: ", err)
 		return nil, err
@@ -66,6 +66,39 @@ func (s *fuelConsumptionService) GetAllFuelConsumptions(skip, take int) ([]model
 	return result, nil
 }
 
+func queryBuilderForFuelConsumptions(skip, take int, filter model.FuelConsumptionFilter, isCount bool) string {
+	var query string
+	if isCount {
+		query = `SELECT count(*) FROM fuel_consumption WHERE `
+	} else {
+		query = `SELECT * FROM fuel_consumption WHERE `
+	}
+
+	if filter.CarRegistration != "" {
+		query = query + ` car_registration = ` + "'" + filter.CarRegistration + "'" + ` AND `
+	}
+	if filter.PouredBy != nil {
+		query = query + ` poured_by = ` + strconv.Itoa(filter.PouredBy.Id) + ` AND `
+	}
+	if !filter.DateFrom.IsZero() {
+		query = query + ` date_consumption >= ` + "'" + filter.DateFrom.Format("2006-01-02") + "'" + "::date" + ` AND `
+	}
+	if !filter.DateTo.IsZero() {
+		query = query + ` date_consumption < ` + "'" + filter.DateTo.Format("2006-01-02") + "'" + "::date + " + "'1 day'::interval" + ` AND `
+	}
+
+	if strings.HasSuffix(query, " WHERE ") {
+		query = strings.TrimRight(query, " WHERE ")
+	}
+	query = strings.TrimRight(query, "AND ")
+
+	if !isCount {
+		query = query + ` ORDER BY id desc OFFSET ` + strconv.Itoa(skip) + ` LIMIT ` + strconv.Itoa(take)
+	}
+
+	return query
+}
+
 func getJsonFuelConsumption(fcDb model.FuelConsumptionDb) (*model.FuelConsumption, error) {
 	jsonFc := model.FuelConsumption{}
 
@@ -73,6 +106,7 @@ func getJsonFuelConsumption(fcDb model.FuelConsumptionDb) (*model.FuelConsumptio
 	jsonFc.FuelType = fcDb.FuelType
 	jsonFc.DateConsumption = util.Date{fcDb.DateConsumption}
 	jsonFc.Price = fcDb.Price
+	jsonFc.Liter = fcDb.Liter
 	jsonFc.CarRegistration = fcDb.CarRegistration
 	jsonFc.CreatedAt = fcDb.CreatedAt
 	jsonFc.UpdatedAt = fcDb.UpdatedAt
@@ -104,7 +138,7 @@ func getJsonFuelConsumption(fcDb model.FuelConsumptionDb) (*model.FuelConsumptio
 
 func (s *fuelConsumptionService) CreateFuelConsumption(fuelCons model.FuelConsumption, userId int) (*model.FuelConsumption, error) {
 	_, err := database.Client.Exec(`INSERT INTO fuel_consumption (date_consumption, fuel_type, liter, price, car_registration, poured_by, created_by, created_at, updated_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-		fuelCons.DateConsumption, fuelCons.FuelType, fuelCons.Liter, fuelCons.Price, fuelCons.CarRegistration, fuelCons.PouredBy.Id, userId, time.Now(), time.Now())
+		fuelCons.DateConsumption.Time, fuelCons.FuelType, fuelCons.Liter, fuelCons.Price, fuelCons.CarRegistration, fuelCons.PouredBy.Id, userId, time.Now(), time.Now())
 	if err != nil {
 		loger.ErrorLog.Println("Error creating FuelConsumption: ", err)
 		return nil, err
@@ -124,13 +158,26 @@ func (s *fuelConsumptionService) DeleteFuelConsumption(fsId int) error {
 	return nil
 }
 
-//func (s *userService) GetUsersCount() (int, error) {
-//	count := []int{}
-//	err := database.Client.Select(&count, `SELECT COUNT(id) FROM users WHERE deleted = false`)
-//	if err != nil || len(count) == 0 {
-//		loger.ErrorLog.Println("Error getting count of users: ", err)
-//		return 0, err
-//	}
-//
-//	return count[0], nil
-//}
+func (s *fuelConsumptionService) GetFuelConsumptionCount(filter model.FuelConsumptionFilter) (int, error) {
+	query := queryBuilderForFuelConsumptions(0, 0, filter, true)
+	count := []int{}
+	err := database.Client.Select(&count, query)
+	if err != nil || len(count) == 0 {
+		loger.ErrorLog.Println("Error getting count of fuel consumptions: ", err)
+		return 0, err
+	}
+
+	return count[0], nil
+}
+
+func (s *fuelConsumptionService) UpdateFuelConsumption(fuelConsumption model.FuelConsumption) (*model.FuelConsumption, error) {
+	_, err := database.Client.Exec(`UPDATE fuel_consumption SET car_registration = $1, liter = $2, price = $3, date_consumption = $4, poured_by = $5, fuel_type = $6, updated_at = $7 WHERE id = $8`,
+		fuelConsumption.CarRegistration, fuelConsumption.Liter, fuelConsumption.Price, fuelConsumption.DateConsumption.Time, fuelConsumption.PouredBy.Id, fuelConsumption.FuelType, time.Now(), fuelConsumption.Id)
+	if err != nil {
+		loger.ErrorLog.Println("Error updating FuelConsumption: ", err)
+		return nil, err
+	}
+
+	//todo return that FuelConsumption if there is need fot that
+	return nil, err
+}
