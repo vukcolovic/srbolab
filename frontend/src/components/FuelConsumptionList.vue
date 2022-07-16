@@ -24,6 +24,10 @@
           <i class="fa fa-search">
           </i>
         </button>
+        <button class="iconBtn" title="Ukupan iznos za dati filter" type="button" @click="getSumPrice()">
+          <i class="fa fa-money">
+          </i>
+        </button>
       </div>
     </div>
     <div class="collapse multi-collapse border" style="font-size: 0.7em" id="filter">
@@ -119,7 +123,8 @@ export default {
       users: [],
       isLoading: false,
       filterObject: {date_from: null, date_to: null, car_registration: '', poured_by: null},
-      totalCount: 0
+      totalCount: 0,
+      sumPrice: 0
     }
   },
   methods: {
@@ -209,6 +214,26 @@ export default {
         }
         this.users = JSON.parse(response.data.Data);
         this.users.forEach(user => user.first_name = user.first_name + ' ' +  user.last_name);
+      }, (error) => {
+        notie.alert({
+          type: 'error',
+          text: "Greska: " + error,
+          position: 'bottom',
+        })
+      });
+    },
+    async getSumPrice() {
+      await axios.post('/fuel-consumption/sum-price', JSON.stringify(this.filterObject)).then((response) => {
+        if (response.data === null || response.data.Status === 'error') {
+          notie.alert({
+            type: 'error',
+            text: 'Greska: ' + response.data.ErrorMessage,
+            position: 'bottom',
+          })
+          return;
+        }
+        this.sumPrice = response.data.Data;
+        alert("Ukupan placeni iznos za dati filter je: " + this.sumPrice);
       }, (error) => {
         notie.alert({
           type: 'error',

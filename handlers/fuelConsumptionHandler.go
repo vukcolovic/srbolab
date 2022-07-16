@@ -165,3 +165,23 @@ func UpdateFuelConsumption(w http.ResponseWriter, r *http.Request) {
 
 	SetSuccessResponse(w, updatedFuelConsumption)
 }
+
+func CountSumPrice(w http.ResponseWriter, r *http.Request) {
+	var filter model.FuelConsumptionFilter
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&filter)
+	if err != nil {
+		loger.ErrorLog.Println("Unable to decode filter object: ", err)
+		SetErrorResponse(w, err)
+		return
+	}
+
+	count, err := service.FuelConsumptionService.CountSumPrice(filter)
+	if err != nil {
+		loger.ErrorLog.Println("Error getting fuel consumptions sum price: ", err)
+		SetErrorResponse(w, err)
+		return
+	}
+
+	SetSuccessResponse(w, count)
+}

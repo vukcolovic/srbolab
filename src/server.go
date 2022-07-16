@@ -53,6 +53,7 @@ func runServer() {
 	s.HandleFunc("/delete/{id}", handlers.DeleteFuelConsumption).Methods("GET")
 	s.HandleFunc("/count", handlers.CountFuelConsumptions).Methods("POST")
 	s.HandleFunc("/update", handlers.UpdateFuelConsumption).Methods("POST")
+	s.HandleFunc("/sum-price", handlers.CountSumPrice).Methods("POST")
 
 	log.Fatal(srv.ListenAndServe())
 }

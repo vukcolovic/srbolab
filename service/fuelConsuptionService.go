@@ -24,6 +24,7 @@ type fuelConsumptionServiceInterface interface {
 	UpdateFuelConsumption(model.FuelConsumption) (*model.FuelConsumption, error)
 	DeleteFuelConsumption(int) error
 	GetFuelConsumptionCount(filter model.FuelConsumptionFilter) (int, error)
+	CountSumPrice(filter model.FuelConsumptionFilter) (float64, error)
 }
 
 func (s *fuelConsumptionService) GetFuelConsumptionByID(id int) (*model.FuelConsumption, error) {
@@ -44,7 +45,7 @@ func (s *fuelConsumptionService) GetFuelConsumptionByID(id int) (*model.FuelCons
 }
 
 func (s *fuelConsumptionService) GetAllFuelConsumptions(skip, take int, filter model.FuelConsumptionFilter) ([]model.FuelConsumption, error) {
-	query := queryBuilderForFuelConsumptions(skip, take, filter, false)
+	query := queryBuilderForFuelConsumptions(skip, take, filter, false, false)
 	fuelConsDb := []model.FuelConsumptionDb{}
 	err := database.Client.Select(&fuelConsDb, query)
 	if err != nil {
@@ -66,10 +67,12 @@ func (s *fuelConsumptionService) GetAllFuelConsumptions(skip, take int, filter m
 	return result, nil
 }
 
-func queryBuilderForFuelConsumptions(skip, take int, filter model.FuelConsumptionFilter, isCount bool) string {
+func queryBuilderForFuelConsumptions(skip, take int, filter model.FuelConsumptionFilter, isCount bool, isSum bool) string {
 	var query string
 	if isCount {
 		query = `SELECT count(*) FROM fuel_consumption WHERE `
+	} else if isSum {
+		query = `SELECT sum(price) FROM fuel_consumption WHERE `
 	} else {
 		query = `SELECT * FROM fuel_consumption WHERE `
 	}
@@ -92,7 +95,7 @@ func queryBuilderForFuelConsumptions(skip, take int, filter model.FuelConsumptio
 	}
 	query = strings.TrimRight(query, "AND ")
 
-	if !isCount {
+	if !isCount && !isSum {
 		query = query + ` ORDER BY id desc OFFSET ` + strconv.Itoa(skip) + ` LIMIT ` + strconv.Itoa(take)
 	}
 
@@ -159,7 +162,7 @@ func (s *fuelConsumptionService) DeleteFuelConsumption(fsId int) error {
 }
 
 func (s *fuelConsumptionService) GetFuelConsumptionCount(filter model.FuelConsumptionFilter) (int, error) {
-	query := queryBuilderForFuelConsumptions(0, 0, filter, true)
+	query := queryBuilderForFuelConsumptions(0, 0, filter, true, false)
 	count := []int{}
 	err := database.Client.Select(&count, query)
 	if err != nil || len(count) == 0 {
@@ -180,4 +183,16 @@ func (s *fuelConsumptionService) UpdateFuelConsumption(fuelConsumption model.Fue
 
 	//todo return that FuelConsumption if there is need fot that
 	return nil, err
+}
+
+func (s *fuelConsumptionService) CountSumPrice(filter model.FuelConsumptionFilter) (float64, error) {
+	query := queryBuilderForFuelConsumptions(0, 0, filter, false, true)
+	sum := []float64{}
+	err := database.Client.Select(&sum, query)
+	if err != nil || len(sum) == 0 {
+		loger.ErrorLog.Println("Error getting sum prices for fuel consumptions: ", err)
+		return 0, err
+	}
+
+	return sum[0], nil
 }

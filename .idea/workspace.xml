@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Fuel in progress">
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Fuel basic flow completed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionEdit.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/forms/TextInput.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/forms/TextInput.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/fuelConsumptionHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/fuelConsumptionHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/fuelConsumption.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/fuelConsumption.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/fuelConsuptionService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/fuelConsuptionService.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.go" afterDir="false" />
     </list>
@@ -142,7 +139,8 @@
     <MESSAGE value="Irregularitis update" />
     <MESSAGE value="Irregularitis added buttons for corrected and uncorrected" />
     <MESSAGE value="Fuel in progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fuel in progress" />
+    <MESSAGE value="Fuel basic flow completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fuel basic flow completed" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -162,7 +160,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/service/fuelConsuptionService.go</url>
-          <line>139</line>
+          <line>142</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
