@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Fuel added price sum">
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="User password fixed and allowed change password">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/forms/TextInput.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/forms/TextInput.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/userHandlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/userHandlers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/0000_initial_changeset.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/0000_initial_changeset.up.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/userService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/userService.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +140,8 @@
     <MESSAGE value="Fuel in progress" />
     <MESSAGE value="Fuel basic flow completed" />
     <MESSAGE value="Fuel added price sum" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fuel added price sum" />
+    <MESSAGE value="User password fixed and allowed change password" />
+    <option name="LAST_COMMIT_MESSAGE" value="User password fixed and allowed change password" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -164,7 +162,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/frontend/src/components/IrregularityEdit.vue</url>
           <line>119</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -179,7 +176,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/service/userService.go</url>
-          <line>172</line>
+          <line>173</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">

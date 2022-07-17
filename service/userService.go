@@ -71,8 +71,8 @@ func (s *userService) CreateUser(user model.User) (*model.User, error) {
 		loger.ErrorLog.Println("Error creating user: ", err)
 		return nil, err
 	}
-	_, err = database.Client.Exec(`INSERT INTO users (first_name, last_name, email, password, created_at, updated_at) VALUES ($1,$2,$3,$4,$5,$6)`,
-		user.FirstName, user.LastName, user.Email, string(hashedPassword), time.Now(), time.Now())
+	_, err = database.Client.Exec(`INSERT INTO users (first_name, last_name, email, phone_number, contract_number, contract_type, jmbg, adress, started_work, password, created_at, updated_at) VALUES ($1,$2,$3,$4,$5,$6)`,
+		user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.ContractNumber, user.ContractType, user.JMBG, user.Adress, user.StartedWork, string(hashedPassword), time.Now(), time.Now())
 	if err != nil {
 		loger.ErrorLog.Println("Error creating user: ", err)
 		return nil, err
@@ -161,7 +161,8 @@ func (s *userService) GetUsersCount() (int, error) {
 }
 
 func (s *userService) UpdateUser(user model.User) (*model.User, error) {
-	_, err := database.Client.Exec(`UPDATE users SET first_name = $1, last_name = $2, email = $3, updated_at = $4 WHERE id = $5`,
+	//TODO put all in one transaction
+	_, err := database.Client.Exec(`UPDATE users SET first_name = $1, last_name = $2, email = $3, phone_number = $4, contract_number = $5, contract_type = $6, jmbg = $7, adress = $8, started_work = $9,  updated_at = $10 WHERE id = $11`,
 		user.FirstName, user.LastName, user.Email, time.Now(), user.Id)
 	if err != nil {
 		loger.ErrorLog.Println("Error updating user: ", err)
