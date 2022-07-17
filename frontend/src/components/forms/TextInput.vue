@@ -25,7 +25,7 @@ export default {
         type: String,
         label: String,
         placeholder: String,
-        required: String,
+        required: Boolean,
         min: String,
         max: String,
         step: String,

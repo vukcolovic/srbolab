@@ -28,6 +28,7 @@ func runServer() {
 
 	s := r.PathPrefix("/api/users").Subrouter()
 	s.HandleFunc("/register", handlers.Register).Methods("POST")
+	s.HandleFunc("/update", handlers.UpdateUser).Methods("POST")
 	s.HandleFunc("/list", handlers.ListUsers).Methods("GET")
 	s.HandleFunc("/id/{id}", handlers.GetUserByID).Methods("GET")
 	s.HandleFunc("/login", handlers.Login).Methods("POST")

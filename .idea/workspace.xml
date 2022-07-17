@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Fuel basic flow completed">
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Fuel added price sum">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/fuelConsumptionHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/fuelConsumptionHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/fuelConsuptionService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/fuelConsuptionService.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserEdit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/forms/TextInput.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/forms/TextInput.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/userHandlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/userHandlers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/userService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/userService.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -140,7 +142,8 @@
     <MESSAGE value="Irregularitis added buttons for corrected and uncorrected" />
     <MESSAGE value="Fuel in progress" />
     <MESSAGE value="Fuel basic flow completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fuel basic flow completed" />
+    <MESSAGE value="Fuel added price sum" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fuel added price sum" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -158,10 +161,36 @@
           <line>3</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/components/IrregularityEdit.vue</url>
+          <line>119</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/service/fuelConsuptionService.go</url>
           <line>142</line>
           <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/service/userService.go</url>
+          <line>68</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/service/userService.go</url>
+          <line>172</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/service/userService.go</url>
+          <line>110</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/handlers/userHandlers.go</url>
+          <line>128</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

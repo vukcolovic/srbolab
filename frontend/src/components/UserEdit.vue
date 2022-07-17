@@ -35,11 +35,22 @@
           </text-input>
 
           <text-input
+              v-model.trim="user.current_password"
+              label="Trenutna sifra"
+              type="password"
+              name="currentPassword"
+              :hidden="!showCurentPassword"
+              :required="false"
+              :readonly="readonly">
+          </text-input>
+
+          <text-input
+              :hidden="readonly"
               v-model.trim="user.password"
-              label="Sifra"
+              :label="passwordLabel"
               type="password"
               name="password"
-              required="true"
+              :required="passwordRequired"
               :readonly="readonly">
           </text-input>
           <hr>
@@ -77,16 +88,60 @@ export default {
         return true;
       }
       return false;
+    },
+    passwordRequired() {
+      if (this.action === 'add') {
+        return true;
+      }
+      return false;
+    },
+    showCurentPassword() {
+      if (this.action === 'update') {
+        return true;
+      }
+      return false;
+    },
+    passwordLabel() {
+      if (this.action === 'update') {
+        return "Nova sifra";
+      }
+      return "Sifra";
     }
   },
   data() {
     return {
-      user: {first_name: "", last_name: "", email: "", password: ""}
+      user: {first_name: "", last_name: "", email: "", password: "", current_password: ""}
     }
   },
   methods: {
     async submitHandler() {
+      if (this.userId !== '') {
+        await this.updateUser();
+      } else {
+        await this.createUser();
+      }
+    },
+    async createUser() {
       await axios.post('/users/register', JSON.stringify(this.user)).then((response) => {
+        if (response.data === null || response.data.Status === 'error') {
+          notie.alert({
+            type: 'error',
+            text: 'Greska: ' + response.data.ErrorMessage,
+            position: 'bottom',
+          })
+          return;
+        }
+        router.push("/users");
+      }, (error) => {
+        notie.alert({
+          type: 'error',
+          text: "Greska: " + error,
+          position: 'bottom',
+        })
+      });
+    },
+    async updateUser() {
+      await axios.post('/users/update', JSON.stringify(this.user)).then((response) => {
         if (response.data === null || response.data.Status === 'error') {
           notie.alert({
             type: 'error',

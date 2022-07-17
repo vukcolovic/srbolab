@@ -125,46 +125,25 @@ func GetUserByID(w http.ResponseWriter, req *http.Request) {
 	SetSuccessResponse(w, user)
 }
 
-//func (repo *DBRepo) CreateTemplate(w http.ResponseWriter, req *http.Request) {
-//	payloadTemplate := internal.ExaminationRequest{}
-//	decoder := json.NewDecoder(req.Body)
-//	err := decoder.Decode(&payloadTemplate)
-//	if err != nil {
-//		loger.Error("unable to retrieve the just parsed code")
-//		SetErrorResponse(w, errorUtils.New("unable to retrieve the just parsed code"))
-//		return
-//	}
-//
-//	template, err := db.Create(&payloadTemplate)
-//	if err != nil {
-//		loger.Error("error creating template")
-//		SetErrorResponse(w, errorUtils.New("error creating template"))
-//		return
-//	}
-//
-//	SetSuccessResponse(w, template)
-//}
-//
-//func (repo *DBRepo) UpdateTemplate(w http.ResponseWriter, req *http.Request) {
-//	payload := internal.ExaminationRequest{}
-//	decoder := json.NewDecoder(req.Body)
-//	err := decoder.Decode(&payload)
-//	if err != nil {
-//		loger.Error("unable to retrieve the just parsed code")
-//		SetErrorResponse(w, errorUtils.New("unable to retrieve the just parsed code"))
-//		return
-//	}
-//
-//	template, err := db.Update(&payload)
-//	if err != nil {
-//		loger.Error("error updating examination request")
-//		SetErrorResponse(w, errorUtils.New("error updating examination request"))
-//		return
-//	}
-//
-//	SetSuccessResponse(w, template)
-//}
-//
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	var user model.User
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&user)
+	if err != nil {
+		loger.ErrorLog.Println("Error decoding user: ", err)
+		SetErrorResponse(w, err)
+		return
+	}
+
+	updatedUser, err := service.UsersService.UpdateUser(user)
+	if err != nil {
+		loger.ErrorLog.Println("Error updating user: ", err)
+		SetErrorResponse(w, err)
+		return
+	}
+
+	SetSuccessResponse(w, updatedUser)
+}
 
 func DeleteUser(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)

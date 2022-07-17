@@ -24,7 +24,7 @@ type usersServiceInterface interface {
 	GetUserByID(id int) (*model.User, error)
 	GetUserByEmail(email string) (*model.User, error)
 	CreateUser(model.User) (*model.User, error)
-	//UpdateUser(bool, users.User) (*users.User, rest_errors.RestErr)
+	UpdateUser(model.User) (*model.User, error)
 	DeleteUser(int) error
 	GetUsersCount() (int, error)
 	Login(model.User) (*model.LoginResponse, error)
@@ -58,6 +58,10 @@ func (s *userService) GetAllUsers(skip, take int) ([]model.User, error) {
 		return nil, err
 	}
 
+	for _, u := range users {
+		u.Password = ""
+	}
+
 	return users, nil
 }
 
@@ -85,7 +89,9 @@ func (s *userService) GetUserByID(id int) (*model.User, error) {
 		return nil, err
 	}
 
-	return &users[0], nil
+	user := &users[0]
+	user.Password = ""
+	return user, nil
 }
 
 func (s *userService) GetUserByEmail(email string) (*model.User, error) {
@@ -96,19 +102,20 @@ func (s *userService) GetUserByEmail(email string) (*model.User, error) {
 		return nil, err
 	}
 
-	return &users[0], nil
+	user := &users[0]
+	user.Password = ""
+	return user, nil
 }
 
 func (s *userService) Login(userJustCredentials model.User) (*model.LoginResponse, error) {
-	user, err := UsersService.GetUserByEmail(userJustCredentials.Email)
-	if err != nil {
-		loger.ErrorLog.Println("Error login user: ", err)
+	users := []model.User{}
+	err := database.Client.Select(&users, `SELECT * FROM users WHERE email = $1`, userJustCredentials.Email)
+	if err != nil || len(users) == 0 {
+		loger.ErrorLog.Println("Error getting user by email: ", err)
 		return nil, err
 	}
-	if user == nil {
-		loger.ErrorLog.Println("Error login user, no user with specified email")
-		return nil, errors.New("no user with email " + userJustCredentials.Email)
-	}
+
+	user := &users[0]
 
 	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userJustCredentials.Password)); err != nil {
 		loger.ErrorLog.Println("Error login user, error comparing hashes: ", err)
@@ -151,4 +158,44 @@ func (s *userService) GetUsersCount() (int, error) {
 	}
 
 	return count[0], nil
+}
+
+func (s *userService) UpdateUser(user model.User) (*model.User, error) {
+	_, err := database.Client.Exec(`UPDATE users SET first_name = $1, last_name = $2, email = $3, updated_at = $4 WHERE id = $5`,
+		user.FirstName, user.LastName, user.Email, time.Now(), user.Id)
+	if err != nil {
+		loger.ErrorLog.Println("Error updating user: ", err)
+		return nil, err
+	}
+
+	if user.Password != "" {
+		users := []model.User{}
+		err = database.Client.Select(&users, `SELECT * FROM users WHERE id = $1`, user.Id)
+		if err != nil || len(users) == 0 {
+			loger.ErrorLog.Println("Error getting user by id: ", err)
+			return nil, err
+		}
+		oldUser := users[0]
+
+		if err = bcrypt.CompareHashAndPassword([]byte(oldUser.Password), []byte(user.CurrentPassword)); err != nil {
+			loger.ErrorLog.Println("error updating user, error comparing hashes: ", err)
+			return nil, errors.New("pogresna trenutna sifra")
+		}
+
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
+		if err != nil {
+			loger.ErrorLog.Println("Error updating user, problem generate hash from a new password: ", err)
+			return nil, err
+		}
+
+		_, err = database.Client.Exec(`UPDATE users SET password = $1, updated_at = $2 WHERE id = $3`,
+			hashedPassword, time.Now(), user.Id)
+		if err != nil {
+			loger.ErrorLog.Println("Error updating user password: ", err)
+			return nil, err
+		}
+	}
+
+	//todo return that user if there is need for that
+	return nil, err
 }
