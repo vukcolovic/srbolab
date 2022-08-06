@@ -4,23 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="User added a new fileds on backend">
-      <change afterPath="$PROJECT_DIR$/handlers/certificateHandlers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migrations/0001_certificates_changeset.up.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/certificate.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/certificateService.go" afterDir="false" />
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Certificate backend">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/CertificateEdit.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/CertificatesList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UsersList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UsersList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/HeaderComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/HeaderComponent.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/forms/TextInput.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/forms/TextInput.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/0000_initial_changeset.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/0000_initial_changeset.up.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/fuelConsumption.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/fuelConsumption.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/fuelConsuptionService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/fuelConsuptionService.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/userService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/userService.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/dateUtil.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/dateUtil.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +69,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/service" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/frontend/src/components" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -91,11 +81,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/components" />
       <recent name="$PROJECT_DIR$/service" />
       <recent name="$PROJECT_DIR$/migrations" />
       <recent name="$PROJECT_DIR$/frontend/src/assets" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/frontend/src/components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/frontend/src/components" />
@@ -154,7 +144,8 @@
     <MESSAGE value="Fuel added price sum" />
     <MESSAGE value="User password fixed and allowed change password" />
     <MESSAGE value="User added a new fileds on backend" />
-    <option name="LAST_COMMIT_MESSAGE" value="User added a new fileds on backend" />
+    <MESSAGE value="Certificate backend" />
+    <option name="LAST_COMMIT_MESSAGE" value="Certificate backend" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

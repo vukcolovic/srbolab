@@ -9,6 +9,8 @@ import IrregularitiesComponent from '../components/IrregularitiesList.vue'
 import IrregularityEdit from './../components/IrregularityEdit.vue'
 import FuelConsumptionList from './../components/FuelConsumptionList.vue'
 import FuelConsumptionEdit from './../components/FuelConsumptionEdit.vue'
+import CertificatesList from './../components/CertificatesList.vue'
+import CertificateEdit from './../components/CertificateEdit.vue'
 
 
 const routes = [
@@ -64,6 +66,18 @@ const routes = [
         path: '/fuel-edit',
         name: 'FuelConsumptionEdit',
         component: FuelConsumptionEdit,
+        props: true,
+    },
+    {
+        path: '/certificates',
+        name: 'CertificatesList',
+        component: CertificatesList,
+        props: true,
+    },
+    {
+        path: '/certificate-edit',
+        name: 'CertificateEdit',
+        component: CertificateEdit,
         props: true,
     }
 ]

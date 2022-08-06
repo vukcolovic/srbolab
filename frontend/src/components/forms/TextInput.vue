@@ -1,7 +1,9 @@
 <template>
-    <div class="mb-1">
-        <label :for="name" class="form-label">{{label}}</label>
+    <div :class="[horizontal ? 'row' : 'form-label', 'mb-1', 'mt-1']">
+        <label :for="name" :class="[horizontal ? 'col-sm-3 col-form-label' : 'form-label']" :style="styleLabel">{{label}}</label>
+      <div :class="[horizontal ? 'col-sm-6' : '']">
         <input
+            :style="styleInput"
             :type="type"
             :name="name"
             :placeholder="placeholder"
@@ -15,6 +17,7 @@
             @input="$emit('update:modelValue', $event.target.value)"
             :ref="refVal"
             class="form-control">
+      </div>
     </div>
 </template>
 
@@ -33,11 +36,9 @@ export default {
         modelValue: String,
         readonly: Boolean,
         refVal: String,
+        horizontal: Boolean,
+        styleInput: String,
+        styleLabel: String,
     },
 }
 </script>
-
-<style scoped>
-
-
-</style>
