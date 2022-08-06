@@ -13,6 +13,7 @@
             :value="modelValue"
             :autocomplete="name + '-new'"
             @input="$emit('update:modelValue', $event.target.value)"
+            :ref="refVal"
             class="form-control">
     </div>
 </template>
@@ -31,6 +32,7 @@ export default {
         step: String,
         modelValue: String,
         readonly: Boolean,
+        refVal: String,
     },
 }
 </script>

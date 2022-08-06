@@ -60,6 +60,16 @@ export default {
           label: 'Email',
           field: 'email',
           width: '10%',
+        },
+        {
+          label: 'Broj telefona',
+          field: 'phone_number',
+          width: '10%',
+        },
+        {
+          label: 'JMBG',
+          field: 'jmbg',
+          width: '10%',
         }
       ],
     rows: [],

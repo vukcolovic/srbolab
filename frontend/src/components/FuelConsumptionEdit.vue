@@ -33,6 +33,13 @@
               :options="users"
               option-label="first_name"
           ></vue-single-select>
+
+          <input v-if="fileSelected" type="file" ref="file" @change="onFileChange" :readonly="readonly" />
+          <button v-else class="iconBtn" title="Obrisi" @click="removeFile">
+            <i class="fa fa-remove"></i>
+          </button>
+          <h5 v-if="!fileSelected">mjau</h5>
+
           <input type="submit" v-if="this.action === 'add'" class="btn btn-primary m-2" value="Dodavanje">
           <input type="submit" v-if="this.action === 'update'" class="btn btn-primary m-2" value="Azuriranje">
         </div>
@@ -96,16 +103,34 @@ export default {
         return true;
       }
       return false;
+    },
+    fileSelected() {
+      if (this.fuelConsumption.bill_file === '') {
+        return false;
+      }
+      return true;
     }
   },
   data() {
     return {
-      fuelConsumption: {date_consumption: "", liter: 0.0, price: 0.0, car_registration: "", poured_by: null},
+      fuelConsumption: {date_consumption: "", liter: 0.0, price: 0.0, car_registration: "", poured_by: null, bill_file: "", filename: "file"},
       users: [],
       fuelType: ["BENZIN", "DIZEL", "GAS"],
     }
   },
   methods: {
+    onFileChange() {
+      const file = this.$refs.file.files[0];
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const fileString = reader.result;
+        this.fuelConsumption.bill_file = fileString;
+      }
+      reader.readAsDataURL(file);
+    },
+    removeFile() {
+
+    },
     getDate(date) {
       return date.split('T')[0];
     },
@@ -138,6 +163,7 @@ export default {
       });
     },
     async createFuelConsumption() {
+      console.log(this.fuelConsumption);
       await axios.post('/fuel-consumption/create', JSON.stringify(this.fuelConsumption)).then((response) => {
         if (response.data === null || response.data.Status === 'error') {
           notie.alert({

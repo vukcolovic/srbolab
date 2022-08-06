@@ -51,15 +51,19 @@ func (s *userService) GetUserIDByToken(token string) (int, error) {
 }
 
 func (s *userService) GetAllUsers(skip, take int) ([]model.User, error) {
-	users := []model.User{}
-	err := database.Client.Select(&users, `SELECT * FROM users WHERE deleted = false ORDER BY id desc OFFSET $1 LIMIT $2`, skip, take)
+	dbUsers := []model.UserDb{}
+	err := database.Client.Select(&dbUsers, `SELECT * FROM users WHERE deleted = false ORDER BY id desc OFFSET $1 LIMIT $2`, skip, take)
 	if err != nil {
 		loger.ErrorLog.Println("Error getting all users: ", err)
 		return nil, err
 	}
 
-	for _, u := range users {
-		u.Password = ""
+	users := []model.User{}
+	for _, dbUser := range dbUsers {
+		user := getJsonUser(dbUser)
+		user.Password = ""
+		users = append(users, *user)
+
 	}
 
 	return users, nil
@@ -71,8 +75,8 @@ func (s *userService) CreateUser(user model.User) (*model.User, error) {
 		loger.ErrorLog.Println("Error creating user: ", err)
 		return nil, err
 	}
-	_, err = database.Client.Exec(`INSERT INTO users (first_name, last_name, email, phone_number, contract_number, contract_type, jmbg, adress, started_work, password, created_at, updated_at) VALUES ($1,$2,$3,$4,$5,$6)`,
-		user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.ContractNumber, user.ContractType, user.JMBG, user.Adress, user.StartedWork, string(hashedPassword), time.Now(), time.Now())
+	_, err = database.Client.Exec(`INSERT INTO users (first_name, last_name, email, phone_number, contract_number, contract_type, jmbg, adress, started_work, password, created_at, updated_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
+		user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.ContractNumber, user.ContractType, user.JMBG, user.Adress, user.StartedWork.Time, string(hashedPassword), time.Now(), time.Now())
 	if err != nil {
 		loger.ErrorLog.Println("Error creating user: ", err)
 		return nil, err
@@ -82,20 +86,20 @@ func (s *userService) CreateUser(user model.User) (*model.User, error) {
 }
 
 func (s *userService) GetUserByID(id int) (*model.User, error) {
-	users := []model.User{}
-	err := database.Client.Select(&users, `SELECT * FROM users WHERE id = $1`, id)
-	if err != nil || len(users) == 0 {
+	dbUsers := []model.UserDb{}
+	err := database.Client.Select(&dbUsers, `SELECT * FROM users WHERE id = $1`, id)
+	if err != nil || len(dbUsers) == 0 {
 		loger.ErrorLog.Println("Error getting user by id: ", err)
 		return nil, err
 	}
 
-	user := &users[0]
+	user := &dbUsers[0]
 	user.Password = ""
-	return user, nil
+	return getJsonUser(*user), nil
 }
 
 func (s *userService) GetUserByEmail(email string) (*model.User, error) {
-	users := []model.User{}
+	users := []model.UserDb{}
 	err := database.Client.Select(&users, `SELECT * FROM users WHERE email = $1`, email)
 	if err != nil || len(users) == 0 {
 		loger.ErrorLog.Println("Error getting user by email: ", err)
@@ -104,11 +108,11 @@ func (s *userService) GetUserByEmail(email string) (*model.User, error) {
 
 	user := &users[0]
 	user.Password = ""
-	return user, nil
+	return getJsonUser(*user), nil
 }
 
 func (s *userService) Login(userJustCredentials model.User) (*model.LoginResponse, error) {
-	users := []model.User{}
+	users := []model.UserDb{}
 	err := database.Client.Select(&users, `SELECT * FROM users WHERE email = $1`, userJustCredentials.Email)
 	if err != nil || len(users) == 0 {
 		loger.ErrorLog.Println("Error getting user by email: ", err)
@@ -170,7 +174,7 @@ func (s *userService) UpdateUser(user model.User) (*model.User, error) {
 	}
 
 	if user.Password != "" {
-		users := []model.User{}
+		users := []model.UserDb{}
 		err = database.Client.Select(&users, `SELECT * FROM users WHERE id = $1`, user.Id)
 		if err != nil || len(users) == 0 {
 			loger.ErrorLog.Println("Error getting user by id: ", err)
@@ -199,4 +203,25 @@ func (s *userService) UpdateUser(user model.User) (*model.User, error) {
 
 	//todo return that user if there is need for that
 	return nil, err
+}
+
+func getJsonUser(uDb model.UserDb) *model.User {
+	jsonUser := model.User{}
+
+	jsonUser.Id = uDb.Id
+	jsonUser.FirstName = uDb.FirstName
+	jsonUser.LastName = uDb.LastName
+	jsonUser.Email = uDb.Email
+	jsonUser.PhoneNumber = uDb.PhoneNumber.String
+	jsonUser.ContractNumber = uDb.ContractNumber.String
+	jsonUser.ContractType = uDb.ContractType.String
+	jsonUser.JMBG = uDb.JMBG.String
+	jsonUser.Adress = uDb.Adress.String
+	jsonUser.StartedWork.Time = uDb.StartedWork.Time
+	jsonUser.Password = uDb.Password
+	jsonUser.Deleted = uDb.Deleted
+	jsonUser.CreatedAt = uDb.CreatedAt
+	jsonUser.UpdatedAt = uDb.UpdatedAt
+
+	return &jsonUser
 }

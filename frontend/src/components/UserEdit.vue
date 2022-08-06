@@ -1,65 +1,127 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-sm-5 mx-auto">
+      <div class="col-sm-11 mx-auto">
         <h3 v-if="action === 'add'" class="mt-2">Registracija</h3>
         <h3 v-if="action === 'view'" class="mt-2">Pregled</h3>
         <h3 v-if="action === 'update'" class="mt-2">Azuriranje</h3>
         <hr>
-        <form-tag @formEvent="submitHandler" name="myForm" event="formEvent">
-          <text-input
-              v-model.trim="user.first_name"
-              label="Ime"
-              type="text"
-              name="name"
-              required="true"
-              :readonly="readonly">
-          </text-input>
-
-          <text-input
-              v-model.trim="user.last_name"
-              label="Prezime"
-              type="text"
-              name="lastName"
-              required="true"
-              :readonly="readonly">
-          </text-input>
-
-          <text-input
-              v-model.trim="user.email"
-              label="Email"
-              type="email"
-              name="email"
-              required="true"
-              :readonly="readonly">
-          </text-input>
-
-          <text-input
-              v-model.trim="user.current_password"
-              label="Trenutna sifra"
-              type="password"
-              name="currentPassword"
-              :hidden="!showCurentPassword"
-              :required="false"
-              :readonly="readonly">
-          </text-input>
-
-          <text-input
-              :hidden="readonly"
-              v-model.trim="user.password"
-              :label="passwordLabel"
-              type="password"
-              name="password"
-              :required="passwordRequired"
-              :readonly="readonly">
-          </text-input>
-          <hr>
-          <input type="submit" v-if="this.action === 'add'" class="btn btn-primary m-2" value="Registracija">
-          <input type="submit" v-if="this.action === 'update'" class="btn btn-primary m-2" value="Azuriranje">
-        </form-tag>
       </div>
     </div>
-  </div>
+        <form-tag @formEvent="submitHandler" name="myForm" event="formEvent">
+          <div class="row">
+          <div class="col-sm-5">
+            <text-input
+                v-model.trim="user.first_name"
+                label="Ime"
+                type="text"
+                name="name"
+                :required= true
+                :readonly="readonly">
+            </text-input>
+
+            <text-input
+                v-model.trim="user.last_name"
+                label="Prezime"
+                type="text"
+                name="lastName"
+                :required= true
+                :readonly="readonly">
+            </text-input>
+
+            <text-input
+                v-model.trim="user.adress"
+                label="Adresa"
+                type="text"
+                name="address"
+                :required= false
+                :readonly="readonly">
+            </text-input>
+
+            <text-input
+                v-model.trim="user.phone_number"
+                label="Broj telefona"
+                type="text"
+                name="phone_number"
+                :required= false
+                :readonly="readonly">
+            </text-input>
+
+            <text-input
+                v-model.trim="user.jmbg"
+                label="JMBG"
+                type="text"
+                name="jmbg"
+                :required= false
+                :readonly="readonly">
+            </text-input>
+          </div>
+
+          <div class="col-sm-5">
+            <text-input
+                v-model.trim="user.email"
+                label="Email"
+                type="text"
+                name="email"
+                :required= true
+                :readonly="readonly">
+            </text-input>
+
+            <text-input
+                v-model.trim="user.current_password"
+                label="Trenutna sifra"
+                type="password"
+                name="currentPassword"
+                :hidden="!showCurentPassword"
+                :required= false
+                :readonly="readonly">
+            </text-input>
+
+            <text-input
+                :hidden="readonly"
+                v-model.trim="user.password"
+                :label="passwordLabel"
+                type="password"
+                name="password"
+                :required="passwordRequired"
+                :readonly="readonly">
+            </text-input>
+
+            <text-input
+                v-model.trim="user.started_work"
+                label="Pocetak rada"
+                type="date"
+                name="date"
+                :required=false
+                :readonly="readonly">
+            </text-input>
+
+            <text-input
+                v-model.trim="user.contract_number"
+                label="Broj ugovora"
+                type="text"
+                name="contract_number"
+                :required=false
+                :readonly="readonly">
+            </text-input>
+
+            <text-input
+                v-model.trim="user.contract_type"
+                label="Tip ugovora"
+                type="text"
+                name="contract_type"
+                :required=false
+                :readonly="readonly">
+            </text-input>
+          </div>
+          <hr>
+            <div class="col-sm-5">
+          <input type="submit" v-if="this.action === 'add'" class="btn btn-primary m-2" value="Registracija">
+          <input type="submit" v-if="this.action === 'update'" class="btn btn-primary m-2" value="Azuriranje">
+            </div>
+            </div>
+        </form-tag>
+      </div>
 </template>
 
 <script>
@@ -110,10 +172,13 @@ export default {
   },
   data() {
     return {
-      user: {first_name: "", last_name: "", email: "", password: "", current_password: ""}
+      user: {first_name: "", last_name: "", email: "", password: "", current_password: "", phone_number: "", contract_number: "", contract_type: "", jmbg: "", adress: "", started_work: "", }
     }
   },
   methods: {
+    getDate(date) {
+      return date.split('T')[0];
+    },
     async submitHandler() {
       if (this.userId !== '') {
         await this.updateUser();
@@ -172,6 +237,7 @@ export default {
           return;
         }
         this.user = JSON.parse(response.data.Data);
+        this.user.started_work = this.getDate(this.user.started_work);
       }, (error) => {
         notie.alert({
           type: 'error',

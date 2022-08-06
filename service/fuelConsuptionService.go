@@ -140,8 +140,8 @@ func getJsonFuelConsumption(fcDb model.FuelConsumptionDb) (*model.FuelConsumptio
 }
 
 func (s *fuelConsumptionService) CreateFuelConsumption(fuelCons model.FuelConsumption, userId int) (*model.FuelConsumption, error) {
-	_, err := database.Client.Exec(`INSERT INTO fuel_consumption (date_consumption, fuel_type, liter, price, car_registration, poured_by, created_by, created_at, updated_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-		fuelCons.DateConsumption.Time, fuelCons.FuelType, fuelCons.Liter, fuelCons.Price, fuelCons.CarRegistration, fuelCons.PouredBy.Id, userId, time.Now(), time.Now())
+	_, err := database.Client.Exec(`INSERT INTO fuel_consumption (date_consumption, fuel_type, liter, price, car_registration, poured_by, bill_file, created_by, created_at, updated_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+		fuelCons.DateConsumption.Time, fuelCons.FuelType, fuelCons.Liter, fuelCons.Price, fuelCons.CarRegistration, fuelCons.PouredBy.Id, fuelCons.BillFile, userId, time.Now(), time.Now())
 	if err != nil {
 		loger.ErrorLog.Println("Error creating FuelConsumption: ", err)
 		return nil, err

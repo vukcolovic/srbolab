@@ -71,6 +71,7 @@ CREATE TABLE public.fuel_consumption
     price NUMERIC(7,2) ,
     car_registration VARCHAR ( 50 ) NOT NULL,
     poured_by INTEGER NOT NULL,
+    bill_file BYTEA,
     created_by INTEGER NOT NULL,
     created_at TIMESTAMP,
     updated_at TIMESTAMP

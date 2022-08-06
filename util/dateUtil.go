@@ -18,7 +18,10 @@ func (d *Date) UnmarshalJSON(data []byte) error {
 	}
 	t, err := time.Parse("2006-01-02", s)
 	if err != nil {
-		return fmt.Errorf("invalid date: %v", err)
+		t, err = time.Parse(time.RFC3339Nano, s)
+		if err != nil {
+			return fmt.Errorf("invalid date: %v", err)
+		}
 	}
 	d.Time = t
 	return nil

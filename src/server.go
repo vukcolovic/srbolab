@@ -56,5 +56,13 @@ func runServer() {
 	s.HandleFunc("/update", handlers.UpdateFuelConsumption).Methods("POST")
 	s.HandleFunc("/sum-price", handlers.CountSumPrice).Methods("POST")
 
+	s = r.PathPrefix("/api/certificate").Subrouter()
+	s.HandleFunc("/id/{id}", handlers.GetCertificateByID).Methods("GET")
+	s.HandleFunc("/create", handlers.CreateCertificate).Methods("POST")
+	s.HandleFunc("/list", handlers.ListCertificates).Methods("POST")
+	s.HandleFunc("/delete/{id}", handlers.DeleteCertificate).Methods("GET")
+	s.HandleFunc("/count", handlers.CountCertificates).Methods("POST")
+	s.HandleFunc("/update", handlers.UpdateCertificate).Methods("POST")
+
 	log.Fatal(srv.ListenAndServe())
 }
