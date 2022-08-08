@@ -109,7 +109,9 @@ export default {
   padding: 5px;
 }
 ::v-deep(.vtl-paging-count-label),
-::v-deep(.vtl-paging-page-label) {
+::v-deep(.vtl-paging-page-label),
+::v-deep(.vtl-paging-count-dropdown),
+::v-deep(.vtl-paging-page-dropdown){
   font-size: 12px;
   padding: 5px;
 }

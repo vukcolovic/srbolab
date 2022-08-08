@@ -16,13 +16,9 @@
             <i class="fa fa-trash-o">
             </i>
           </button>
-          <button class="iconBtn ms-auto" title="Filter" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-expanded="false" aria-controls="filter">
-             <i class="fa fa-filter" aria-hidden="true">
+          <button class="iconBtn ms-auto" title="PDF" :disabled="selectedCertificate == null" data-bs-toggle="collapse">
+             <i class="fa fa-file-pdf-o">
              </i>
-          </button>
-          <button class="iconBtn" title="Trazi" type="button" @click="doSearch(0, 10)">
-            <i class="fa fa-search">
-            </i>
           </button>
         </div>
       </div>
@@ -57,7 +53,7 @@
             {
               label: 'ID',
               field: 'id',
-              width: '3%',
+              width: '2%',
               isKey: true,
             },
             {
@@ -81,27 +77,27 @@
               width: '16%',
             },
             {
-              label: 'Komercijalna oznaka',
+              label: 'Oznaka',
               field: 'commercial_name',
               width: '12%',
             },
             {
-              label: 'Kategorija vozila',
+              label: 'Kategorija',
               field: 'category',
               width: '12%',
             },
             {
-              label: 'Procenjena god. proiz.',
+              label: 'Godina. proiz.',
               field: 'estimated_production_year',
               width: '12%',
             },
             {
-              label: 'Oznaka motora',
+              label: 'Ozn. mot.',
               field: 'engine_code',
               width: '10%',
             },
             {
-              label: 'Zapremina motora',
+              label: 'Zap. mot.',
               field: 'engine_capacity',
               width: '12%',
             }
@@ -211,30 +207,58 @@
       },
     mounted() {
         this.getAllUsers();
+
+        var self = this;
+        let cols = document.getElementsByClassName("vtl-thead-th");
+        for (let i = 1; i < cols.length; i++) {
+          const node = document.createElement("input");
+          switch (i) {
+            case 1:
+              node.setAttribute("id", "brand");
+              break;
+            case 2:
+              node.setAttribute("id", "variant")
+              break;
+            case 3:
+              node.setAttribute("id", "version_vehicle")
+              break;
+            case 4:
+              node.setAttribute("id", "brand")
+              break;
+            case 5:
+              node.setAttribute("id", "brand")
+              break;
+            default:
+          }
+          node.style.width = "100%";
+          node.addEventListener('keyup', function (event){
+            self.filterObject['type_vehicle'] = event.target.value;
+            self.doSearch(0, 10)
+          })
+          cols[i].appendChild(node)
+        }
       }
     }
   </script>
 
   <style scoped>
     ::v-deep(.vtl-table .vtl-thead .vtl-thead-th) {
-      font-size: 12px;
+      font-size: 10px;
     }
     ::v-deep(.vtl-table td),
     ::v-deep(.vtl-table tr) {
-      font-size: 12px;
-      padding: 5px;
+      font-size: 10px;
     }
     ::v-deep(.vtl-paging-info) {
-      font-size: 12px;
-      padding: 5px;
+      font-size: 10px;
     }
     ::v-deep(.vtl-paging-count-label),
-    ::v-deep(.vtl-paging-page-label) {
-      font-size: 12px;
-      padding: 5px;
+    ::v-deep(.vtl-paging-page-label),
+    ::v-deep(.vtl-paging-count-dropdown),
+    ::v-deep(.vtl-paging-page-dropdown){
+      font-size: 10px;
     }
     ::v-deep(.vtl-paging-pagination-page-link) {
-      font-size: 12px;
-      padding: 5px;
+      font-size: 10px;
     }
   </style>

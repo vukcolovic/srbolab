@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
+	//service.PdfService.CreateCertificate(model.Certificate{})
 	loger.InfoLog.Println("Starting application...")
 	migrations.MigrateDatabase()
 	runServer()

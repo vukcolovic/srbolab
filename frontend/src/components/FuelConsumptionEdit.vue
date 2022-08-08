@@ -163,7 +163,6 @@ export default {
       });
     },
     async createFuelConsumption() {
-      console.log(this.fuelConsumption);
       await axios.post('/fuel-consumption/create', JSON.stringify(this.fuelConsumption)).then((response) => {
         if (response.data === null || response.data.Status === 'error') {
           notie.alert({
