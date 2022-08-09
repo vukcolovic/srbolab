@@ -4,20 +4,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Certificate front initial">
-      <change afterPath="$PROJECT_DIR$/service/pdfService.go" afterDir="false" />
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Certificate add filters initial">
+      <change afterPath="$PROJECT_DIR$/img.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/CertificateEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CertificateEdit.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/CertificatesList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CertificatesList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FuelConsumptionList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularitiesList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularitiesList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/IrregularityLevels.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/IrregularityLevels.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UsersList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UsersList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/certificateHandlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/certificateHandlers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/certificateService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/certificateService.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/pdfService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/pdfService.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +72,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/frontend/src/components" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -88,11 +84,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/frontend/src/components" />
       <recent name="$PROJECT_DIR$/service" />
       <recent name="$PROJECT_DIR$/migrations" />
       <recent name="$PROJECT_DIR$/frontend/src/assets" />
-      <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/frontend/src/components" />
@@ -153,7 +149,8 @@
     <MESSAGE value="User added a new fileds on backend" />
     <MESSAGE value="Certificate backend" />
     <MESSAGE value="Certificate front initial" />
-    <option name="LAST_COMMIT_MESSAGE" value="Certificate front initial" />
+    <MESSAGE value="Certificate add filters initial" />
+    <option name="LAST_COMMIT_MESSAGE" value="Certificate add filters initial" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -175,6 +172,12 @@
           <url>file://$PROJECT_DIR$/frontend/src/components/IrregularityEdit.vue</url>
           <line>119</line>
           <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/components/CertificateEdit.vue</url>
+          <line>107</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/service/fuelConsuptionService.go</url>
@@ -200,11 +203,6 @@
           <url>file://$PROJECT_DIR$/handlers/fuelConsumptionHandler.go</url>
           <line>95</line>
           <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/service/pdfService.go</url>
-          <line>19</line>
-          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

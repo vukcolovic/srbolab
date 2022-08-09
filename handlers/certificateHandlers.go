@@ -165,3 +165,24 @@ func UpdateCertificate(w http.ResponseWriter, r *http.Request) {
 
 	SetSuccessResponse(w, updatedCertificate)
 }
+
+func GetPdfReportById(w http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	id, ok := vars["id"]
+	if !ok {
+		loger.ErrorLog.Println("missing parameter id")
+		SetErrorResponse(w, errors.New("error making pdf report certificate"))
+		return
+	}
+
+	idInt, err := strconv.Atoi(id)
+
+	pdf, err := service.CertificateService.GetPdfReportById(idInt)
+	if err != nil {
+		loger.ErrorLog.Println("error making pdf report certificate")
+		SetErrorResponse(w, err)
+		return
+	}
+
+	SetSuccessResponse(w, pdf)
+}

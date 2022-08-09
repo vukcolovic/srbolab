@@ -23,6 +23,7 @@ type certificateServiceInterface interface {
 	UpdateCertificate(model.Certificate) (*model.Certificate, error)
 	DeleteCertificate(int) error
 	GetCertificatesCount(filter model.CertificateFilter) (int, error)
+	GetPdfReportById(id int) ([]byte, error)
 }
 
 func (s *certificateService) GetCertificateById(id int) (*model.Certificate, error) {
@@ -203,4 +204,14 @@ func (s *certificateService) UpdateCertificate(cert model.Certificate) (*model.C
 
 	//todo return that FuelConsumption if there is need fot that
 	return nil, err
+}
+
+func (s *certificateService) GetPdfReportById(id int) ([]byte, error) {
+	cert, err := s.GetCertificateById(id)
+	if err != nil {
+		loger.ErrorLog.Println("Error getting certificate by id: ", err)
+		return nil, err
+	}
+
+	return PdfService.CreateCertificate(cert)
 }

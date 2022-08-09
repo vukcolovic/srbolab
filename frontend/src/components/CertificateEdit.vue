@@ -203,7 +203,7 @@
 
           <text-input
               v-model.trim="certificate.engine_capacity"
-              label="Radna zapremina motora"
+              label="Radna zapremina motora:"
               type="number"
               name="engine_capacity"
               :required=true

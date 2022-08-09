@@ -16,7 +16,7 @@
             <i class="fa fa-trash-o">
             </i>
           </button>
-          <button class="iconBtn ms-auto" title="PDF" :disabled="selectedCertificate == null" data-bs-toggle="collapse">
+          <button class="iconBtn ms-auto" title="PDF" :disabled="selectedCertificate == null" @click="getPdf()">
              <i class="fa fa-file-pdf-o">
              </i>
           </button>
@@ -201,6 +201,32 @@
             })
           });
         },
+        getPdf () {
+          axios.get('/certificate/pdf/id/' + this.selectedCertificate.id)
+              .then(response => {
+                var f = JSON.parse(response.data.Data);
+                console.log(f)
+                var sampleArr = this.base64ToArrayBuffer(f);
+                console.log(sampleArr)
+                const blob = new Blob([sampleArr], { type: 'application/pdf' })
+
+                const link = document.createElement('a')
+                link.href = URL.createObjectURL(blob)
+                link.download = "certificate_" + this.selectedCertificate.id
+                link.click()
+                URL.revokeObjectURL(link.href)
+              }).catch(console.error)
+        },
+        base64ToArrayBuffer(base64) {
+          var binaryString = window.atob(base64);
+          var binaryLen = binaryString.length;
+          var bytes = new Uint8Array(binaryLen);
+          for (var i = 0; i < binaryLen; i++) {
+            var ascii = binaryString.charCodeAt(i);
+            bytes[i] = ascii;
+          }
+          return bytes;
+    }
       },
     created() {
         this.doSearch(0, 10);
