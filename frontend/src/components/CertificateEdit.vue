@@ -406,7 +406,7 @@ export default {
 
   data() {
     return {
-      certificate: {brand: "", type_vehicle: "", variant: "", version_vehicle: "", commercial_name: "", estimated_production_year: 0, max_mass: 0, running_mass: 0, category: "", bodywork_code: "", axles_tyres_num: "", length: 0, width: 0, height: 0, tyre_wheel: "", engine_code: "", engine_capacity: 0, engine_power: 0, fuel: "", power_weight_ratio: "", seat_number: 0, standing_number: 0, max_speed: 0, gas_level: "", max_laden_mass_axios: "", number_wvta: "", pollution_cert: "", noise_cert: "", coupling_device_approval: ""},
+      certificate: {brand: "", type_vehicle: "", variant: "", version_vehicle: "", commercial_name: "", estimated_production_year: "", max_mass: "", running_mass: "", category: "", bodywork_code: "", axles_tyres_num: "", length: "", width: "", height: "", tyre_wheel: "", engine_code: "", engine_capacity: "", engine_power: "", fuel: "", power_weight_ratio: "", seat_number: "", standing_number: "", max_speed: "", gas_level: "", max_laden_mass_axios: "", number_wvta: "", pollution_cert: "", noise_cert: "", coupling_device_approval: ""},
       users: [],
       styleInput: "font-size: 10px",
       styleLabel: "font-size: 12px",
@@ -429,17 +429,6 @@ export default {
       return date.split('T')[0];
     },
     async submitHandler() {
-      this.certificate.estimated_production_year = parseInt(this.certificate.estimated_production_year);
-      this.certificate.max_mass = parseInt(this.certificate.max_mass);
-      this.certificate.running_mass = parseInt(this.certificate.running_mass);
-      this.certificate.length = parseInt(this.certificate.length);
-      this.certificate.width = parseInt(this.certificate.width);
-      this.certificate.height = parseInt(this.certificate.height);
-      this.certificate.engine_capacity = parseInt(this.certificate.engine_capacity);
-      this.certificate.engine_power = parseInt(this.certificate.engine_power);
-      this.certificate.seat_number = parseInt(this.certificate.seat_number);
-      this.certificate.standing_number = parseInt(this.certificate.standing_number);
-      this.certificate.max_speed = parseInt(this.certificate.max_speed);
       if (this.certificateId !== '') {
         await this.updateCertificate();
       } else {
