@@ -107,7 +107,8 @@
           users: [],
           isLoading: false,
           filterObject: {type_vehicle: '', variant: '', version_vehicle: '', estimated_production_year: 0, engine_code: '', engine_capacity: 0, engine_power: 0, fuel: '' },
-          totalCount: 0
+          totalCount: 0,
+          win: ""
         }
       },
       methods: {
@@ -202,7 +203,11 @@
           });
         },
         getPdf () {
-          axios.get('/certificate/pdf/id/' + this.selectedCertificate.id)
+            this.win = prompt("Unesite win oznaku vozila:");
+            if (this.win == null || this.win == "") {
+              return;
+            }
+          axios.get('/certificate/pdf/id/' + this.selectedCertificate.id + "/win/" + this.win)
               .then(response => {
                 var f = JSON.parse(response.data.Data);
                 console.log(f)

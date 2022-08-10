@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Certificate add filters initial">
-      <change afterPath="$PROJECT_DIR$/img.png" afterDir="false" />
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Pdf for certificate mainly done">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/CertificateEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CertificateEdit.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/CertificatesList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CertificatesList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/certificateHandlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/certificateHandlers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/0001_certificates_changeset.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/0001_certificates_changeset.up.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/certificate.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/certificate.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/certificateService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/certificateService.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/pdfService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/pdfService.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.go" afterDir="false" />
@@ -150,7 +151,8 @@
     <MESSAGE value="Certificate backend" />
     <MESSAGE value="Certificate front initial" />
     <MESSAGE value="Certificate add filters initial" />
-    <option name="LAST_COMMIT_MESSAGE" value="Certificate add filters initial" />
+    <MESSAGE value="Pdf for certificate mainly done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pdf for certificate mainly done" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -176,7 +178,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/frontend/src/components/CertificateEdit.vue</url>
           <line>107</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">

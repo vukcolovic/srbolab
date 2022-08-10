@@ -72,7 +72,7 @@
           <text-input
               v-model.trim="certificate.estimated_production_year"
               label="Procenjena godina proizvodnje:"
-              type="number"
+              type="text"
               name="estimated_production_year"
               :required=true
               :readonly="readonly"
@@ -84,7 +84,7 @@
           <text-input
               v-model.trim="certificate.max_mass"
               label="Najveca dozvoljena masa vozila(kg):"
-              type="number"
+              type="text"
               name="max_mass"
               :required=true
               :readonly="readonly"
@@ -96,7 +96,7 @@
           <text-input
               v-model.trim="certificate.running_mass"
               label="Masa vozila spremnog za voznju(kg):"
-              type="number"
+              type="text"
               name="running_mass"
               :required=true
               :readonly="readonly"
@@ -144,7 +144,7 @@
           <text-input
               v-model.trim="certificate.length"
               label="Duzina vozila:"
-              type="number"
+              type="text"
               name="length"
               :required=true
               :readonly="readonly"
@@ -156,7 +156,7 @@
           <text-input
               v-model.trim="certificate.width"
               label="Sirina vozila:"
-              type="number"
+              type="text"
               name="width"
               :required=true
               :readonly="readonly"
@@ -168,7 +168,7 @@
           <text-input
               v-model.trim="certificate.height"
               label="Visina vozila:"
-              type="number"
+              type="text"
               name="height"
               :required=true
               :readonly="readonly"
@@ -204,7 +204,7 @@
           <text-input
               v-model.trim="certificate.engine_capacity"
               label="Radna zapremina motora:"
-              type="number"
+              type="text"
               name="engine_capacity"
               :required=true
               :readonly="readonly"
@@ -216,7 +216,7 @@
           <text-input
               v-model.trim="certificate.engine_power"
               label="Najveca neto snaga motora(kW):"
-              type="number"
+              type="text"
               name="engine_power"
               :required=true
               :readonly="readonly"
@@ -252,7 +252,7 @@
           <text-input
               v-model.trim="certificate.seat_number"
               label="Broj mesta za sedenje:"
-              type="number"
+              type="text"
               name="seat_number"
               :required=true
               :readonly="readonly"
@@ -264,7 +264,7 @@
           <text-input
               v-model.trim="certificate.standing_number"
               label="Broj mesta za stajanje:"
-              type="number"
+              type="text"
               name="standing_number"
               :required=true
               :readonly="readonly"
@@ -288,7 +288,7 @@
           <text-input
               v-model.trim="certificate.max_speed"
               label="Najveca brzina (za vozila vrste L)(km/h):"
-              type="number"
+              type="text"
               name="max_speed"
               :required=true
               :readonly="readonly"

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"bytes"
 	"github.com/go-pdf/fpdf"
 	"srbolabApp/model"
 	"strconv"
@@ -15,10 +16,10 @@ type pdfService struct {
 }
 
 type pdfServiceInterface interface {
-	CreateCertificate(cert *model.Certificate) ([]byte, error)
+	CreateCertificate(cert *model.Certificate, win string) ([]byte, error)
 }
 
-func (pdfService) CreateCertificate(cert *model.Certificate) ([]byte, error) {
+func (pdfService) CreateCertificate(cert *model.Certificate, win string) ([]byte, error) {
 	pdf := fpdf.New("P", "mm", "A4", "")
 	pdf.SetMargins(15, 20, 15)
 	pdf.AddPage()
@@ -45,7 +46,7 @@ func (pdfService) CreateCertificate(cert *model.Certificate) ([]byte, error) {
 	pdf.CellFormat(40, cH, currentTime.Format("02.01.2006"), "1", 0, "L", false, 0, "")
 	pdf.Ln(-1)
 	pdf.CellFormat(60, cH, "Identifikaciona oznaka vozila (VIN):", "1", 0, "L", false, 0, "")
-	pdf.CellFormat(40, cH, "", "1", 0, "L", false, 0, "")
+	pdf.CellFormat(40, cH, win, "1", 0, "L", false, 0, "")
 
 	pdf.Ln(10)
 
@@ -61,7 +62,7 @@ func (pdfService) CreateCertificate(cert *model.Certificate) ([]byte, error) {
 	firstColTxt := []string{"0.1", "0.2", "0.2.1", "-", "16.1", "13", "0.4", "3B", "1", "5", "6", "7", "35", "21", "25", "27", "26", "26.1", "42", "43", "43.1", "44", "49", "16.1"}
 	secondColTxt := []string{"(D.1)", "(D.2)", "(D.3)", "(B1)", "(F.1)", "(G)", "(L)", "(J.1)", "(L)", "(5)", "(6)", "(7)", "(35)", "(P)", "(P.1)", "(P.2)", "(P.3)", "(Q)", "(S.1)", "(S.2)", "(43.1)", "(T)", "(V.7)", "(N)"}
 	thirdColTxt := []string{"Marka:", "Tip/varijanta/verzija:", "Komercijalna oznaka:", "Procenjena godina proizvodnje:", "Najveca dozvoljena masa vozila (kg):", "Masa vozila spremnog za voznju (kg):", "Kategorija vozila:", "Oznaka oblika za karoseriju:", "Broj osovina i tockova:", "Duzina vozila: (mm)", "Sirina vozila (mm):", "Visina vozila (mm):", "Pneumatik/naplatak kombinacija:", "Oznaka motora:", "Radna zapremina motora (cm3):", "Najveca neto snaga motora(kW):", "Pogonsko gorivo", "Najveca neto snaga/masa vozila (samo za motocikle) (kW/kg):", "Broj mesta za sedenje:", "Broj mesta za stajanje:", "Uredjaj za spajanje vucnog i prikljucnog vozila:", "Najveca brzina (za vozila vrste L)(km/h):", "Nivo izduvne emisije (g/km):", "Najvece dozvoljeno osovinsko opterecenje(kg):"}
-	forthColTxt := []string{cert.Brand, cert.TypeVehicle + "/" + cert.Variant + "/" + cert.VersionVehicle, cert.CommercialName, strconv.Itoa(cert.EstimatedProductionYear), strconv.Itoa(cert.MaxMass), strconv.Itoa(cert.RunningMass), cert.Category, cert.BodyworkCode, cert.AxlesTyresNum, strconv.Itoa(cert.Length), strconv.Itoa(cert.Width), strconv.Itoa(cert.Height), cert.TyreWheel, cert.EngineCode, strconv.Itoa(cert.EngineCapacity), strconv.Itoa(cert.EnginePower), cert.Fuel, cert.PowerWeightRatio, strconv.Itoa(cert.SeatNumber), strconv.Itoa(cert.StandingNumber), strconv.Itoa(cert.MaxSpeed), cert.GasLevel, cert.MaxLadenMassAxios, cert.NumberWvta, cert.PollutionCert, cert.NoiseCert, cert.CouplingDeviceApproval}
+	forthColTxt := []string{cert.Brand, cert.TypeVehicle + "/" + cert.Variant + "/" + cert.VersionVehicle, cert.CommercialName, cert.EstimatedProductionYear, cert.MaxMass, cert.RunningMass, cert.Category, cert.BodyworkCode, cert.AxlesTyresNum, cert.Length, cert.Width, cert.Height, cert.TyreWheel, cert.EngineCode, cert.EngineCapacity, cert.EnginePower, cert.Fuel, cert.PowerWeightRatio, cert.SeatNumber, cert.StandingNumber, cert.MaxSpeed, cert.GasLevel, cert.MaxLadenMassAxios, cert.NumberWvta, cert.PollutionCert, cert.NoiseCert, cert.CouplingDeviceApproval}
 
 	var w1 float64 = 15
 	var w2 float64 = 25
@@ -83,8 +84,9 @@ func (pdfService) CreateCertificate(cert *model.Certificate) ([]byte, error) {
 		pdf.CellFormat(100, cH, bottomSecondColTxt[i], "1", 0, "L", false, 0, "")
 	}
 
-	pdf.OutputFileAndClose("xxx.pdf")
-	//tempFile, err := ioutil.ReadFile("/home/wolf/GolandProjects/srbolabApp/xxx.pdf")
-	//sEnc := base64.StdEncoding.EncodeToString(tempFile)
-	return []byte{}, nil
+	//pdf.OutputFileAndClose("xxx.pdf")
+	var buf bytes.Buffer
+	pdf.Output(&buf)
+
+	return buf.Bytes(), nil
 }

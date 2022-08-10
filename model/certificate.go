@@ -12,24 +12,24 @@ type Certificate struct {
 	Variant                 string    `json:"variant"`
 	VersionVehicle          string    `json:"version_vehicle"`
 	CommercialName          string    `json:"commercial_name"`
-	EstimatedProductionYear int       `json:"estimated_production_year"`
-	MaxMass                 int       `json:"max_mass"`
-	RunningMass             int       `json:"running_mass"`
+	EstimatedProductionYear string    `json:"estimated_production_year"`
+	MaxMass                 string    `json:"max_mass"`
+	RunningMass             string    `json:"running_mass"`
 	Category                string    `json:"category"`
 	BodyworkCode            string    `json:"bodywork_code"`
 	AxlesTyresNum           string    `json:"axles_tyres_num"`
-	Length                  int       `json:"length"`
-	Width                   int       `json:"width"`
-	Height                  int       `json:"height"`
+	Length                  string    `json:"length"`
+	Width                   string    `json:"width"`
+	Height                  string    `json:"height"`
 	TyreWheel               string    `json:"tyre_wheel"`
 	EngineCode              string    `json:"engine_code"`
-	EngineCapacity          int       `json:"engine_capacity"`
-	EnginePower             int       `json:"engine_power"`
+	EngineCapacity          string    `json:"engine_capacity"`
+	EnginePower             string    `json:"engine_power"`
 	Fuel                    string    `json:"fuel"`
 	PowerWeightRatio        string    `json:"power_weight_ratio"`
-	SeatNumber              int       `json:"seat_number"`
-	StandingNumber          int       `json:"standing_number"`
-	MaxSpeed                int       `json:"max_speed"`
+	SeatNumber              string    `json:"seat_number"`
+	StandingNumber          string    `json:"standing_number"`
+	MaxSpeed                string    `json:"max_speed"`
 	GasLevel                string    `json:"gas_level"`
 	MaxLadenMassAxios       string    `json:"max_laden_mass_axios"`
 	NumberWvta              string    `json:"number_wvta"`
@@ -48,24 +48,24 @@ type CertificateDb struct {
 	Variant                 sql.NullString `db:"variant"`
 	VersionVehicle          sql.NullString `db:"version_vehicle"`
 	CommercialName          sql.NullString `db:"commercial_name"`
-	EstimatedProductionYear sql.NullInt64  `db:"estimated_production_year"`
-	MaxMass                 sql.NullInt64  `db:"max_mass"`
-	RunningMass             sql.NullInt64  `db:"running_mass"`
+	EstimatedProductionYear sql.NullString `db:"estimated_production_year"`
+	MaxMass                 sql.NullString `db:"max_mass"`
+	RunningMass             sql.NullString `db:"running_mass"`
 	Category                sql.NullString `db:"category"`
 	BodyworkCode            sql.NullString `db:"bodywork_code"`
 	AxlesTyresNum           sql.NullString `db:"axles_tyres_num"`
-	Length                  sql.NullInt64  `db:"length"`
-	Width                   sql.NullInt64  `db:"width"`
-	Height                  sql.NullInt64  `db:"height"`
+	Length                  sql.NullString `db:"length"`
+	Width                   sql.NullString `db:"width"`
+	Height                  sql.NullString `db:"height"`
 	TyreWheel               sql.NullString `db:"tyre_wheel"`
 	EngineCode              sql.NullString `db:"engine_code"`
-	EngineCapacity          sql.NullInt64  `db:"engine_capacity"`
-	EnginePower             sql.NullInt64  `db:"engine_power"`
+	EngineCapacity          sql.NullString `db:"engine_capacity"`
+	EnginePower             sql.NullString `db:"engine_power"`
 	Fuel                    sql.NullString `db:"fuel"`
 	PowerWeightRatio        sql.NullString `db:"power_weight_ratio"`
-	SeatNumber              sql.NullInt64  `db:"seat_number"`
-	StandingNumber          sql.NullInt64  `db:"standing_number"`
-	MaxSpeed                sql.NullInt64  `db:"max_speed"`
+	SeatNumber              sql.NullString `db:"seat_number"`
+	StandingNumber          sql.NullString `db:"standing_number"`
+	MaxSpeed                sql.NullString `db:"max_speed"`
 	GasLevel                sql.NullString `db:"gas_level"`
 	MaxLadenMassAxios       sql.NullString `db:"max_laden_mass_axios"`
 	NumberWvta              sql.NullString `db:"number_wvta"`

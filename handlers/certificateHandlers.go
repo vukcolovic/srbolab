@@ -174,10 +174,16 @@ func GetPdfReportById(w http.ResponseWriter, req *http.Request) {
 		SetErrorResponse(w, errors.New("error making pdf report certificate"))
 		return
 	}
-
 	idInt, err := strconv.Atoi(id)
 
-	pdf, err := service.CertificateService.GetPdfReportById(idInt)
+	win, ok := vars["win"]
+	if !ok {
+		loger.ErrorLog.Println("missing parameter win")
+		SetErrorResponse(w, errors.New("error making pdf report certificate"))
+		return
+	}
+
+	pdf, err := service.CertificateService.GetCertificatePdfReportByIdAndWin(idInt, win)
 	if err != nil {
 		loger.ErrorLog.Println("error making pdf report certificate")
 		SetErrorResponse(w, err)

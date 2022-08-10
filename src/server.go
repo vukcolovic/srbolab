@@ -63,7 +63,7 @@ func runServer() {
 	s.HandleFunc("/delete/{id}", handlers.DeleteCertificate).Methods("GET")
 	s.HandleFunc("/count", handlers.CountCertificates).Methods("POST")
 	s.HandleFunc("/update", handlers.UpdateCertificate).Methods("POST")
-	s.HandleFunc("/pdf/id/{id}", handlers.GetPdfReportById).Methods("GET")
+	s.HandleFunc("/pdf/id/{id}/win/{win}", handlers.GetPdfReportById).Methods("GET")
 
 	log.Fatal(srv.ListenAndServe())
 }

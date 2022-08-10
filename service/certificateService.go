@@ -23,7 +23,7 @@ type certificateServiceInterface interface {
 	UpdateCertificate(model.Certificate) (*model.Certificate, error)
 	DeleteCertificate(int) error
 	GetCertificatesCount(filter model.CertificateFilter) (int, error)
-	GetPdfReportById(id int) ([]byte, error)
+	GetCertificatePdfReportByIdAndWin(id int, win string) ([]byte, error)
 }
 
 func (s *certificateService) GetCertificateById(id int) (*model.Certificate, error) {
@@ -120,24 +120,24 @@ func getJsonCertificate(certDb model.CertificateDb) (*model.Certificate, error) 
 	cert.Variant = certDb.Variant.String
 	cert.VersionVehicle = certDb.VersionVehicle.String
 	cert.CommercialName = certDb.CommercialName.String
-	cert.EstimatedProductionYear = int(certDb.EstimatedProductionYear.Int64)
-	cert.MaxMass = int(certDb.MaxMass.Int64)
-	cert.RunningMass = int(certDb.RunningMass.Int64)
+	cert.EstimatedProductionYear = certDb.EstimatedProductionYear.String
+	cert.MaxMass = certDb.MaxMass.String
+	cert.RunningMass = certDb.RunningMass.String
 	cert.Category = certDb.Category.String
 	cert.BodyworkCode = certDb.BodyworkCode.String
 	cert.AxlesTyresNum = certDb.AxlesTyresNum.String
-	cert.Length = int(certDb.Length.Int64)
-	cert.Width = int(certDb.Width.Int64)
-	cert.Height = int(certDb.Height.Int64)
+	cert.Length = certDb.Length.String
+	cert.Width = certDb.Width.String
+	cert.Height = certDb.Height.String
 	cert.TyreWheel = certDb.TyreWheel.String
 	cert.EngineCode = certDb.EngineCode.String
-	cert.EngineCapacity = int(certDb.EngineCapacity.Int64)
-	cert.EnginePower = int(certDb.EnginePower.Int64)
+	cert.EngineCapacity = certDb.EngineCapacity.String
+	cert.EnginePower = certDb.EnginePower.String
 	cert.Fuel = certDb.Fuel.String
 	cert.PowerWeightRatio = certDb.PowerWeightRatio.String
-	cert.SeatNumber = int(certDb.SeatNumber.Int64)
-	cert.StandingNumber = int(certDb.StandingNumber.Int64)
-	cert.MaxSpeed = int(certDb.MaxSpeed.Int64)
+	cert.SeatNumber = certDb.SeatNumber.String
+	cert.StandingNumber = certDb.StandingNumber.String
+	cert.MaxSpeed = certDb.MaxSpeed.String
 	cert.GasLevel = certDb.GasLevel.String
 	cert.MaxLadenMassAxios = certDb.MaxLadenMassAxios.String
 	cert.NumberWvta = certDb.NumberWvta.String
@@ -206,12 +206,12 @@ func (s *certificateService) UpdateCertificate(cert model.Certificate) (*model.C
 	return nil, err
 }
 
-func (s *certificateService) GetPdfReportById(id int) ([]byte, error) {
+func (s *certificateService) GetCertificatePdfReportByIdAndWin(id int, win string) ([]byte, error) {
 	cert, err := s.GetCertificateById(id)
 	if err != nil {
 		loger.ErrorLog.Println("Error getting certificate by id: ", err)
 		return nil, err
 	}
 
-	return PdfService.CreateCertificate(cert)
+	return PdfService.CreateCertificate(cert, win)
 }
