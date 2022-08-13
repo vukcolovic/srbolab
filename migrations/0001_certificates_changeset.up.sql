@@ -30,6 +30,8 @@ CREATE TABLE public.certificates
     pollution_cert VARCHAR ( 50 ),
     noise_cert VARCHAR ( 50 ),
     coupling_device_approval VARCHAR ( 30 ),
+    file_content BYTEA,
+    filename VARCHAR ( 50 ),
     created_by INTEGER NOT NULL,
     created_at TIMESTAMP,
     updated_at TIMESTAMP

@@ -5,7 +5,7 @@
         <div class="form-group">
           <text-input
               v-model.trim="certificate.brand"
-              label="Model:"
+              label="Marka:"
               type="text"
               name="brand"
               :required=true
@@ -83,7 +83,7 @@
 
           <text-input
               v-model.trim="certificate.max_mass"
-              label="Najveca dozvoljena masa vozila(kg):"
+              label="Najveća dozvoljena masa vozila(kg):"
               type="text"
               name="max_mass"
               :required=true
@@ -95,7 +95,7 @@
 
           <text-input
               v-model.trim="certificate.running_mass"
-              label="Masa vozila spremnog za voznju(kg):"
+              label="Masa vozila spremnog za vožnju(kg):"
               type="text"
               name="running_mass"
               :required=true
@@ -131,7 +131,7 @@
 
           <text-input
               v-model.trim="certificate.axles_tyres_num"
-              label="Broj osovina i tockova:"
+              label="Broj osovina i točkova:"
               type="text"
               name="axles_tyres_num"
               :required=true
@@ -143,7 +143,7 @@
 
           <text-input
               v-model.trim="certificate.length"
-              label="Duzina vozila:"
+              label="Dužina vozila:"
               type="text"
               name="length"
               :required=true
@@ -155,7 +155,7 @@
 
           <text-input
               v-model.trim="certificate.width"
-              label="Sirina vozila:"
+              label="Širina vozila:"
               type="text"
               name="width"
               :required=true
@@ -215,7 +215,7 @@
 
           <text-input
               v-model.trim="certificate.engine_power"
-              label="Najveca neto snaga motora(kW):"
+              label="Najveća neto snaga motora(kW):"
               type="text"
               name="engine_power"
               :required=true
@@ -239,7 +239,7 @@
 
           <text-input
               v-model.trim="certificate.power_weight_ratio"
-              label="Najveca neto snaga/masa vozila(kW/kg):"
+              label="Najveća neto snaga/masa vozila(kW/kg):"
               type="text"
               name="power_weight_ratio"
               :required=true
@@ -275,7 +275,7 @@
 
           <text-input
               v-model.trim="certificate.coupling_device_approval"
-              label="Uredjaj za spajanje vucnog i prikljucnog vozila:"
+              label="Uređaj za spajanje vučnog i priključnog vozila:"
               type="text"
               name="coupling_device_approval"
               :required=true
@@ -287,7 +287,7 @@
 
           <text-input
               v-model.trim="certificate.max_speed"
-              label="Najveca brzina (za vozila vrste L)(km/h):"
+              label="Najveća brzina (za vozila vrste L)(km/h):"
               type="text"
               name="max_speed"
               :required=true
@@ -311,7 +311,7 @@
 
           <text-input
               v-model.trim="certificate.max_laden_mass_axios"
-              label="Najvece dozvoljeno osovinsko opterecenje(kg):"
+              label="Najveće dozvoljeno osovinsko opterećenje(kg):"
               type="text"
               name="max_laden_mass_axios"
               :required=true
@@ -357,11 +357,26 @@
               :styleLabel=styleLabel>
           </text-input>
 
+<!--          <input v-if="!fileSelected && !readonly" type="file" ref="file" @change="onFileChange" />-->
+<!--          <div v-if="fileSelected && !readonly" class="d-flex flex-row">-->
+<!--            <button  class="iconBtn" title="Obriši" @click="removeFile">-->
+<!--              <i class="fa fa-remove"></i>-->
+<!--            </button>-->
+<!--            <p>{{certificate.filename}}</p>-->
+<!--          </div>-->
+
+<!--          <div v-if="fileSelected && readonly" class="d-flex flex-row">-->
+<!--            <button  class="iconBtn" title="Preuzmi" @click="downloadFile">-->
+<!--              <i class="fa fa-download"></i>-->
+<!--            </button>-->
+<!--            <p>{{certificate.filename}}</p>-->
+<!--          </div>-->
+
         </div>
         <hr>
         <div class="col-sm-5">
           <input type="submit" v-if="this.action === 'add'" class="btn btn-primary" style="font-size: 14px" value="Snimi">
-          <input type="submit" v-if="this.action === 'update'" class="btn btn-primary" style="font-size: 14px" value="Azuriranje">
+          <input type="submit" v-if="this.action === 'update'" class="btn btn-primary" style="font-size: 14px" value="Ažuriranje">
         </div>
       </form-tag>
     </div>
@@ -396,17 +411,17 @@ export default {
       }
       return false;
     },
-    // fileSelected() {
-      // if (this.fuelConsumption.bill_file === '') {
-      //   return false;
-      // }
-      // return true;
-    // }
+    fileSelected() {
+      if (this.certificate.file_content === '') {
+        return false;
+      }
+      return true;
+    }
   },
 
   data() {
     return {
-      certificate: {brand: "", type_vehicle: "", variant: "", version_vehicle: "", commercial_name: "", estimated_production_year: "", max_mass: "", running_mass: "", category: "", bodywork_code: "", axles_tyres_num: "", length: "", width: "", height: "", tyre_wheel: "", engine_code: "", engine_capacity: "", engine_power: "", fuel: "", power_weight_ratio: "", seat_number: "", standing_number: "", max_speed: "", gas_level: "", max_laden_mass_axios: "", number_wvta: "", pollution_cert: "", noise_cert: "", coupling_device_approval: ""},
+      certificate: {brand: "", type_vehicle: "", variant: "", version_vehicle: "", commercial_name: "", estimated_production_year: "", max_mass: "", running_mass: "", category: "", bodywork_code: "", axles_tyres_num: "", length: "", width: "", height: "", tyre_wheel: "", engine_code: "", engine_capacity: "", engine_power: "", fuel: "", power_weight_ratio: "", seat_number: "", standing_number: "", max_speed: "", gas_level: "", max_laden_mass_axios: "", number_wvta: "", pollution_cert: "", noise_cert: "", coupling_device_approval: "", file_content: "", filename: ""},
       users: [],
       styleInput: "font-size: 10px",
       styleLabel: "font-size: 12px",
@@ -418,12 +433,37 @@ export default {
       const reader = new FileReader()
       reader.onloadend = () => {
         const fileString = reader.result;
-        this.fuelConsumption.bill_file = fileString;
+        this.certificate.file_content = fileString;
+        this.certificate.filename = file.name;
+        console.log(this.certificate.filename);
       }
       reader.readAsDataURL(file);
     },
     removeFile() {
+      this.certificate.file_content = "";
+      this.certificate.filename = "";
+    },
+    downloadFile() {
+      console.log(this.certificate.file_content);
+      const arr = this.certificate.file_content.split(',')
+      var sampleArr = this.base64ToArrayBuffer(arr[1]);
+      const blob = new Blob([sampleArr])
 
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(blob)
+      link.download = this.certificate.filename
+      link.click()
+      URL.revokeObjectURL(link.href)
+    },
+    base64ToArrayBuffer(base64) {
+      var binaryString = window.atob(base64);
+      var binaryLen = binaryString.length;
+      var bytes = new Uint8Array(binaryLen);
+      for (var i = 0; i < binaryLen; i++) {
+        var ascii = binaryString.charCodeAt(i);
+        bytes[i] = ascii;
+      }
+      return bytes;
     },
     getDate(date) {
       return date.split('T')[0];

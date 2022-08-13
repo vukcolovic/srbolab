@@ -75,28 +75,34 @@ func queryBuilderForCertificates(skip, take int, filter model.CertificateFilter,
 	}
 
 	if filter.TypeVehicle != "" {
-		query = query + ` type_vehicle LIKE ` + "'%" + filter.TypeVehicle + "%'" + ` AND `
+		query = query + ` type_vehicle ILIKE ` + "'%" + filter.TypeVehicle + "%'" + ` AND `
 	}
 	if filter.Variant != "" {
-		query = query + ` variant LIKE ` + "'%" + filter.Variant + "'%" + ` AND `
+		query = query + ` variant ILIKE ` + "'%" + filter.Variant + "%'" + ` AND `
 	}
 	if filter.VersionVehicle != "" {
-		query = query + ` version_vehicle LIKE ` + "'%" + filter.VersionVehicle + "'%" + ` AND `
+		query = query + ` version_vehicle ILIKE ` + "'%" + filter.VersionVehicle + "%'" + ` AND `
 	}
-	if filter.EstimatedProductionYear != 0 {
-		query = query + ` CAST(estimated_production_year AS TEXT) LIKE ` + "'" + strconv.Itoa(filter.EstimatedProductionYear) + "'%" + ` AND `
+	if filter.EstimatedProductionYear != "" {
+		query = query + ` estimated_production_year ILIKE ` + "'%" + filter.EstimatedProductionYear + "%'" + ` AND `
 	}
 	if filter.EngineCode != "" {
-		query = query + ` CAST(engine_code AS TEXT) LIKE ` + "'%" + filter.EngineCode + "'%" + ` AND `
+		query = query + ` engine_code ILIKE ` + "'%" + filter.EngineCode + "%'" + ` AND `
 	}
-	if filter.EngineCapacity != 0 {
-		query = query + ` CAST(engine_capacity AS TEXT) LIKE ` + "'" + strconv.Itoa(filter.EngineCapacity) + "'%" + ` AND `
+	if filter.EngineCapacity != "" {
+		query = query + ` engine_capacity ILIKE ` + "'%" + filter.EngineCapacity + "%'" + ` AND `
 	}
-	if filter.EnginePower != 0 {
-		query = query + ` CAST(engine_power AS TEXT) LIKE ` + "'" + strconv.Itoa(filter.EnginePower) + "'%" + ` AND `
+	if filter.Category != "" {
+		query = query + ` category ILIKE ` + "'%" + filter.Category + "%'" + ` AND `
+	}
+	if filter.EnginePower != "" {
+		query = query + ` engine_power ILIKE ` + "'%" + filter.EnginePower + "%'" + ` AND `
+	}
+	if filter.RunningMass != "" {
+		query = query + ` running_mass ILIKE ` + "'%" + filter.RunningMass + "%'" + ` AND `
 	}
 	if filter.Fuel != "" {
-		query = query + ` fuel LIKE ` + "'%" + filter.Fuel + "'%" + ` AND `
+		query = query + ` fuel ILIKE ` + "'%" + filter.Fuel + "%'" + ` AND `
 	}
 
 	if strings.HasSuffix(query, " WHERE ") {
@@ -144,6 +150,8 @@ func getJsonCertificate(certDb model.CertificateDb) (*model.Certificate, error) 
 	cert.PollutionCert = certDb.PollutionCert.String
 	cert.NoiseCert = certDb.NoiseCert.String
 	cert.CouplingDeviceApproval = certDb.CouplingDeviceApproval.String
+	cert.FileContent = certDb.FileContent.String
+	cert.Filename = certDb.Filename.String
 	cert.CreatedAt = certDb.CreatedAt
 	cert.UpdatedAt = certDb.UpdatedAt
 
@@ -159,10 +167,10 @@ func getJsonCertificate(certDb model.CertificateDb) (*model.Certificate, error) 
 
 func (s *certificateService) CreateCertificate(cert model.Certificate, userId int) (*model.Certificate, error) {
 	_, err := database.Client.Exec(`INSERT INTO certificates 
-    (brand, type_vehicle, variant, version_vehicle, commercial_name, estimated_production_year, max_mass, running_mass, category, bodywork_code, axles_tyres_num, length, width, height, tyre_wheel, engine_code, engine_capacity, engine_power, fuel, power_weight_ratio, seat_number, standing_number, max_speed, gas_level, max_laden_mass_axios, number_wvta, pollution_cert, noise_cert, coupling_device_approval, created_by, created_at, updated_at) 
+    (brand, type_vehicle, variant, version_vehicle, commercial_name, estimated_production_year, max_mass, running_mass, category, bodywork_code, axles_tyres_num, length, width, height, tyre_wheel, engine_code, engine_capacity, engine_power, fuel, power_weight_ratio, seat_number, standing_number, max_speed, gas_level, max_laden_mass_axios, number_wvta, pollution_cert, noise_cert, coupling_device_approval, file_content, filename, created_by, created_at, updated_at) 
     	VALUES 
-   ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32)`,
-		cert.Brand, cert.TypeVehicle, cert.Variant, cert.VersionVehicle, cert.CommercialName, cert.EstimatedProductionYear, cert.MaxMass, cert.RunningMass, cert.Category, cert.BodyworkCode, cert.AxlesTyresNum, cert.Length, cert.Width, cert.Height, cert.TyreWheel, cert.EngineCode, cert.EngineCapacity, cert.EnginePower, cert.Fuel, cert.PowerWeightRatio, cert.SeatNumber, cert.StandingNumber, cert.MaxSpeed, cert.GasLevel, cert.MaxLadenMassAxios, cert.NumberWvta, cert.PollutionCert, cert.NoiseCert, cert.CouplingDeviceApproval, userId, time.Now(), time.Now())
+   ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34)`,
+		cert.Brand, cert.TypeVehicle, cert.Variant, cert.VersionVehicle, cert.CommercialName, cert.EstimatedProductionYear, cert.MaxMass, cert.RunningMass, cert.Category, cert.BodyworkCode, cert.AxlesTyresNum, cert.Length, cert.Width, cert.Height, cert.TyreWheel, cert.EngineCode, cert.EngineCapacity, cert.EnginePower, cert.Fuel, cert.PowerWeightRatio, cert.SeatNumber, cert.StandingNumber, cert.MaxSpeed, cert.GasLevel, cert.MaxLadenMassAxios, cert.NumberWvta, cert.PollutionCert, cert.NoiseCert, cert.CouplingDeviceApproval, cert.FileContent, cert.Filename, userId, time.Now(), time.Now())
 	if err != nil {
 		loger.ErrorLog.Println("Error creating certificate: ", err)
 		return nil, err
@@ -195,8 +203,8 @@ func (s *certificateService) GetCertificatesCount(filter model.CertificateFilter
 }
 
 func (s *certificateService) UpdateCertificate(cert model.Certificate) (*model.Certificate, error) {
-	_, err := database.Client.Exec(`UPDATE certificates SET brand = $1, type_vehicle = $2, variant = $3, version_vehicle = $4, commercial_name = $5, estimated_production_year = $6, max_mass = $7, running_mass = $8, category = $9, bodywork_code = $10, axles_tyres_num = $11, length = $12, width = $13, height = $14, tyre_wheel = $15, engine_code = $16, engine_capacity = $17, engine_power = $18, fuel = $19, power_weight_ratio = $20, seat_number = $21, standing_number = $22, max_speed = $23, gas_level = $24, max_laden_mass_axios = $25, number_wvta = $26, pollution_cert = $27, noise_cert = $28,  coupling_device_approval = $29, updated_at = $30 WHERE id = $31`,
-		cert.Brand, cert.TypeVehicle, cert.Variant, cert.VersionVehicle, cert.CommercialName, cert.EstimatedProductionYear, cert.MaxMass, cert.RunningMass, cert.Category, cert.BodyworkCode, cert.AxlesTyresNum, cert.Length, cert.Width, cert.Height, cert.TyreWheel, cert.EngineCode, cert.EngineCapacity, cert.EnginePower, cert.Fuel, cert.PowerWeightRatio, cert.SeatNumber, cert.StandingNumber, cert.MaxSpeed, cert.GasLevel, cert.MaxLadenMassAxios, cert.NumberWvta, cert.PollutionCert, cert.NoiseCert, cert.CouplingDeviceApproval, time.Now(), cert.Id)
+	_, err := database.Client.Exec(`UPDATE certificates SET brand = $1, type_vehicle = $2, variant = $3, version_vehicle = $4, commercial_name = $5, estimated_production_year = $6, max_mass = $7, running_mass = $8, category = $9, bodywork_code = $10, axles_tyres_num = $11, length = $12, width = $13, height = $14, tyre_wheel = $15, engine_code = $16, engine_capacity = $17, engine_power = $18, fuel = $19, power_weight_ratio = $20, seat_number = $21, standing_number = $22, max_speed = $23, gas_level = $24, max_laden_mass_axios = $25, number_wvta = $26, pollution_cert = $27, noise_cert = $28,  coupling_device_approval = $29, file_content = $30, filename = $31, updated_at = $32 WHERE id = $33`,
+		cert.Brand, cert.TypeVehicle, cert.Variant, cert.VersionVehicle, cert.CommercialName, cert.EstimatedProductionYear, cert.MaxMass, cert.RunningMass, cert.Category, cert.BodyworkCode, cert.AxlesTyresNum, cert.Length, cert.Width, cert.Height, cert.TyreWheel, cert.EngineCode, cert.EngineCapacity, cert.EnginePower, cert.Fuel, cert.PowerWeightRatio, cert.SeatNumber, cert.StandingNumber, cert.MaxSpeed, cert.GasLevel, cert.MaxLadenMassAxios, cert.NumberWvta, cert.PollutionCert, cert.NoiseCert, cert.CouplingDeviceApproval, cert.FileContent, cert.Filename, time.Now(), cert.Id)
 	if err != nil {
 		loger.ErrorLog.Println("Error updating FuelConsumption: ", err)
 		return nil, err

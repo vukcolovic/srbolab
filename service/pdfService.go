@@ -2,6 +2,7 @@ package service
 
 import (
 	"bytes"
+	"errors"
 	"github.com/go-pdf/fpdf"
 	"srbolabApp/model"
 	"strconv"
@@ -20,6 +21,9 @@ type pdfServiceInterface interface {
 }
 
 func (pdfService) CreateCertificate(cert *model.Certificate, win string) ([]byte, error) {
+	if len(win) < 10 || len(win) > 17 {
+		return []byte{}, errors.New("duzina WIN oznake ne moze biti ispod 10 i preko 17 karaktera!")
+	}
 	pdf := fpdf.New("P", "mm", "A4", "")
 	pdf.SetMargins(15, 20, 15)
 	pdf.AddPage()
@@ -30,7 +34,7 @@ func (pdfService) CreateCertificate(cert *model.Certificate, win string) ([]byte
 	pdf.Image("img.png", 10, 20, 100, 20, false, "png", 0, "")
 	pdf.CellFormat(100, 20, "", "1", 0, "L", false, 0, "")
 	pdf.Rect(115, 20, 80, 20, "")
-	lines := []string{"SRBOLAB doo Feketic", "Turijski put 17, 21480 Srbobran", "Ogranak, Kontrolno telo za", "kontrolisanje kvaliteta i kvantiteta roba", "telefon: + 381 (21) 310-1533", "mail: vozila@srolab.com"}
+	lines := []string{"SRBOLAB doo Feketić", "Turijski put 17, 21480 Srbobran", "Ogranak, Kontrolno telo za", "kontrolisanje kvaliteta i kvantiteta roba", "telefon: + 381 (21) 310-1533", "mail: vozila@srolab.com"}
 	for i, line := range lines {
 		y := 24 + i*3
 		pdf.Text(118, float64(y), line)
@@ -51,17 +55,17 @@ func (pdfService) CreateCertificate(cert *model.Certificate, win string) ([]byte
 	pdf.Ln(10)
 
 	pdf.SetFont("Arial", "B", 7)
-	pdf.Text(60, pdf.GetY(), "IZVOD IZ BAZE O TEHNICKIM KARAKTERISTIKAMA VOZILA")
+	pdf.Text(60, pdf.GetY(), "IZVOD IZ BAZE O TEHNIČKIM KARAKTERISTIKAMA VOZILA")
 	pdf.Ln(-1)
 	pdf.SetFont("Arial", "", 7)
 	pdf.CellFormat(15, 7, "COC", "1", 0, "C", false, 0, "")
-	pdf.CellFormat(25, 7, "Vozacka dozvola", "1", 0, "C", false, 0, "")
-	pdf.CellFormat(80, 7, "Tehnicke karakteristike vozila:", "1", 0, "L", false, 0, "")
+	pdf.CellFormat(25, 7, "Vozačka dozvola", "1", 0, "C", false, 0, "")
+	pdf.CellFormat(80, 7, "Tehničke karakteristike vozila:", "1", 0, "L", false, 0, "")
 	pdf.CellFormat(60, 7, "", "1", 0, "L", false, 0, "")
 
 	firstColTxt := []string{"0.1", "0.2", "0.2.1", "-", "16.1", "13", "0.4", "3B", "1", "5", "6", "7", "35", "21", "25", "27", "26", "26.1", "42", "43", "43.1", "44", "49", "16.1"}
 	secondColTxt := []string{"(D.1)", "(D.2)", "(D.3)", "(B1)", "(F.1)", "(G)", "(L)", "(J.1)", "(L)", "(5)", "(6)", "(7)", "(35)", "(P)", "(P.1)", "(P.2)", "(P.3)", "(Q)", "(S.1)", "(S.2)", "(43.1)", "(T)", "(V.7)", "(N)"}
-	thirdColTxt := []string{"Marka:", "Tip/varijanta/verzija:", "Komercijalna oznaka:", "Procenjena godina proizvodnje:", "Najveca dozvoljena masa vozila (kg):", "Masa vozila spremnog za voznju (kg):", "Kategorija vozila:", "Oznaka oblika za karoseriju:", "Broj osovina i tockova:", "Duzina vozila: (mm)", "Sirina vozila (mm):", "Visina vozila (mm):", "Pneumatik/naplatak kombinacija:", "Oznaka motora:", "Radna zapremina motora (cm3):", "Najveca neto snaga motora(kW):", "Pogonsko gorivo", "Najveca neto snaga/masa vozila (samo za motocikle) (kW/kg):", "Broj mesta za sedenje:", "Broj mesta za stajanje:", "Uredjaj za spajanje vucnog i prikljucnog vozila:", "Najveca brzina (za vozila vrste L)(km/h):", "Nivo izduvne emisije (g/km):", "Najvece dozvoljeno osovinsko opterecenje(kg):"}
+	thirdColTxt := []string{"Marka:", "Tip/varijanta/verzija:", "Komercijalna oznaka:", "Procenjena godina proizvodnje:", "Najveća dozvoljena masa vozila (kg):", "Masa vozila spremnog za vožnju (kg):", "Kategorija vozila:", "Oznaka oblika za karoseriju:", "Broj osovina i tockova:", "Dužina vozila: (mm)", "Širina vozila (mm):", "Visina vozila (mm):", "Pneumatik/naplatak kombinacija:", "Oznaka motora:", "Radna zapremina motora (cm3):", "Najveća neto snaga motora(kW):", "Pogonsko gorivo", "Najveća neto snaga/masa vozila (samo za motocikle) (kW/kg):", "Broj mesta za sedenje:", "Broj mesta za stajanje:", "Uređaj za spajanje vučnog i priključnog vozila:", "Najveća brzina (za vozila vrste L)(km/h):", "Nivo izduvne emisije (g/km):", "Najveće dozvoljeno osovinsko opterećenje(kg):"}
 	forthColTxt := []string{cert.Brand, cert.TypeVehicle + "/" + cert.Variant + "/" + cert.VersionVehicle, cert.CommercialName, cert.EstimatedProductionYear, cert.MaxMass, cert.RunningMass, cert.Category, cert.BodyworkCode, cert.AxlesTyresNum, cert.Length, cert.Width, cert.Height, cert.TyreWheel, cert.EngineCode, cert.EngineCapacity, cert.EnginePower, cert.Fuel, cert.PowerWeightRatio, cert.SeatNumber, cert.StandingNumber, cert.MaxSpeed, cert.GasLevel, cert.MaxLadenMassAxios, cert.NumberWvta, cert.PollutionCert, cert.NoiseCert, cert.CouplingDeviceApproval}
 
 	var w1 float64 = 15

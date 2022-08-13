@@ -36,6 +36,8 @@ type Certificate struct {
 	PollutionCert           string    `json:"pollution_cert"`
 	NoiseCert               string    `json:"noise_cert"`
 	CouplingDeviceApproval  string    `json:"coupling_device_approval"`
+	FileContent             string    `json:"file_content"`
+	Filename                string    `json:"filename"`
 	CreatedBy               User      `json:"created_by"`
 	CreatedAt               time.Time `json:"created_at"`
 	UpdatedAt               time.Time `json:"updated_at"`
@@ -72,6 +74,8 @@ type CertificateDb struct {
 	PollutionCert           sql.NullString `db:"pollution_cert"`
 	NoiseCert               sql.NullString `db:"noise_cert"`
 	CouplingDeviceApproval  sql.NullString `db:"coupling_device_approval"`
+	FileContent             sql.NullString `db:"file_content"`
+	Filename                sql.NullString `db:"filename"`
 	CreatedBy               sql.NullInt64  `db:"created_by"`
 	CreatedAt               time.Time      `db:"created_at"`
 	UpdatedAt               time.Time      `db:"updated_at"`
@@ -82,9 +86,11 @@ type CertificateFilter struct {
 	TypeVehicle             string `json:"type_vehicle"`
 	Variant                 string `json:"variant"`
 	VersionVehicle          string `json:"version_vehicle"`
-	EstimatedProductionYear int    `json:"estimated_production_year"`
+	EstimatedProductionYear string `json:"estimated_production_year"`
 	EngineCode              string `json:"engine_code"`
-	EngineCapacity          int    `json:"engine_capacity"`
-	EnginePower             int    `json:"engine_power"`
+	EngineCapacity          string `json:"engine_capacity"`
+	EnginePower             string `json:"engine_power"`
 	Fuel                    string `json:"fuel"`
+	Category                string `json:"category"`
+	RunningMass             string `json:"running_mass"`
 }

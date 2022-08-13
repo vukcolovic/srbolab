@@ -57,11 +57,6 @@
               isKey: true,
             },
             {
-              label: 'Marka',
-              field: 'brand',
-              width: '8%',
-            },
-            {
               label: 'Tip',
               field: 'type_vehicle',
               width: '6%',
@@ -77,8 +72,23 @@
               width: '16%',
             },
             {
-              label: 'Oznaka',
-              field: 'commercial_name',
+              label: 'Masa voz. sprem. vožnju',
+              field: 'running_mass',
+              width: '12%',
+            },
+            {
+              label: 'Oznaka motora',
+              field: 'engine_code',
+              width: '10%',
+            },
+            {
+              label: 'Zapremina motora',
+              field: 'engine_capacity',
+              width: '12%',
+            },
+            {
+              label: 'Najveća neto snaga motora',
+              field: 'engine_power',
               width: '12%',
             },
             {
@@ -91,22 +101,12 @@
               field: 'estimated_production_year',
               width: '12%',
             },
-            {
-              label: 'Ozn. mot.',
-              field: 'engine_code',
-              width: '10%',
-            },
-            {
-              label: 'Zap. mot.',
-              field: 'engine_capacity',
-              width: '12%',
-            }
           ],
           rows: [],
           selectedCertificate: null,
           users: [],
           isLoading: false,
-          filterObject: {type_vehicle: '', variant: '', version_vehicle: '', estimated_production_year: 0, engine_code: '', engine_capacity: 0, engine_power: 0, fuel: '' },
+          filterObject: {type_vehicle: '', variant: '', version_vehicle: '', running_mass: '', estimated_production_year: '', engine_code: '', engine_capacity: '', engine_power: '', fuel: '', category: '' },
           totalCount: 0,
           win: ""
         }
@@ -204,15 +204,21 @@
         },
         getPdf () {
             this.win = prompt("Unesite win oznaku vozila:");
+            if (this.win.length < 10 || this.win.length > 17) {
+              notie.alert({
+                type: 'error',
+                text: "Duzina WIN oznake ne moze biti ispod 10 i preko 17 karaktera!",
+                position: 'bottom',
+              })
+              return;
+            }
             if (this.win == null || this.win == "") {
               return;
             }
           axios.get('/certificate/pdf/id/' + this.selectedCertificate.id + "/win/" + this.win)
               .then(response => {
-                var f = JSON.parse(response.data.Data);
-                console.log(f)
-                var sampleArr = this.base64ToArrayBuffer(f);
-                console.log(sampleArr)
+                var fileContent = JSON.parse(response.data.Data);
+                var sampleArr = this.base64ToArrayBuffer(fileContent);
                 const blob = new Blob([sampleArr], { type: 'application/pdf' })
 
                 const link = document.createElement('a')
@@ -220,6 +226,7 @@
                 link.download = "certificate_" + this.selectedCertificate.id
                 link.click()
                 URL.revokeObjectURL(link.href)
+                //FIXME add notie
               }).catch(console.error)
         },
         base64ToArrayBuffer(base64) {
@@ -245,27 +252,71 @@
           const node = document.createElement("input");
           switch (i) {
             case 1:
-              node.setAttribute("id", "brand");
+              node.setAttribute("id", "type_vehicle");
+              node.addEventListener('keyup', function (event){
+                self.filterObject['type_vehicle'] = event.target.value;
+                self.doSearch(0, 10)
+              })
               break;
             case 2:
               node.setAttribute("id", "variant")
+              node.addEventListener('keyup', function (event){
+                self.filterObject['variant'] = event.target.value;
+                self.doSearch(0, 10)
+              })
               break;
             case 3:
               node.setAttribute("id", "version_vehicle")
+              node.addEventListener('keyup', function (event){
+                self.filterObject['version_vehicle'] = event.target.value;
+                self.doSearch(0, 10)
+              })
               break;
             case 4:
-              node.setAttribute("id", "brand")
+              node.setAttribute("id", "running_mass")
+              node.addEventListener('keyup', function (event){
+                self.filterObject['running_mass'] = event.target.value;
+                self.doSearch(0, 10)
+              })
               break;
             case 5:
-              node.setAttribute("id", "brand")
+              node.setAttribute("id", "engine_code")
+              node.addEventListener('keyup', function (event){
+                self.filterObject['engine_code'] = event.target.value;
+                self.doSearch(0, 10)
+              })
+              break;
+            case 6:
+              node.setAttribute("id", "engine_capacity")
+              node.addEventListener('keyup', function (event){
+                self.filterObject['engine_capacity'] = event.target.value;
+                self.doSearch(0, 10)
+              })
+              break;
+            case 7:
+              node.setAttribute("id", "engine_power")
+              node.addEventListener('keyup', function (event){
+                self.filterObject['engine_power'] = event.target.value;
+                self.doSearch(0, 10)
+              })
+              break;
+            case 8:
+              node.setAttribute("id", "category")
+              node.addEventListener('keyup', function (event){
+                self.filterObject['category'] = event.target.value;
+                self.doSearch(0, 10)
+              })
+              break;
+            case 9:
+              node.setAttribute("id", "estimated_production_year")
+              node.addEventListener('keyup', function (event){
+                self.filterObject['estimated_production_year'] = event.target.value;
+                self.doSearch(0, 10)
+              })
               break;
             default:
           }
           node.style.width = "100%";
-          node.addEventListener('keyup', function (event){
-            self.filterObject['type_vehicle'] = event.target.value;
-            self.doSearch(0, 10)
-          })
           cols[i].appendChild(node)
         }
       }
