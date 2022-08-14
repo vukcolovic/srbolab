@@ -3,6 +3,25 @@
     <div class="row">
       <form-tag class="row" @formEvent="submitHandler" name="myForm" event="formEvent">
         <div class="form-group">
+          <div class="row mt-2" style="font-size: 12px">
+            <label class="col-2" for="radio1">Dokument:</label>
+            <div class="col-1 form-check">
+              <input type="radio" class="form-check-input" id="radio1" name="sourceDocType" value="COC" :disabled="readonly" v-model="certificate.source_document_type">COC
+              <label class="form-check-label" for="radio1"></label>
+            </div>
+            <div class="col-1 form-check">
+              <input type="radio" class="form-check-input" id="radio2" name="sourceDocType" value="TIF" :disabled="readonly" v-model="certificate.source_document_type">TIF
+              <label class="form-check-label" for="radio2"></label>
+            </div>
+            <div class="col-1 form-check">
+              <input type="radio" class="form-check-input" id="radio3" name="sourceDocType" value="DEKRA" :disabled="readonly" v-model="certificate.source_document_type">DEKRA
+              <label class="form-check-label"></label>
+            </div>
+            <div class="col-4 form-check">
+              <input type="radio" class="form-check-input" id="radio4" name="sourceDocType" value="Potvrda predstavnika proizvođača" :disabled="readonly" v-model="certificate.source_document_type">Potvrda predstavnika proizvođača
+              <label class="form-check-label"></label>
+            </div>
+          </div>
           <text-input
               v-model.trim="certificate.brand"
               label="Marka:"
@@ -421,7 +440,7 @@ export default {
 
   data() {
     return {
-      certificate: {brand: "", type_vehicle: "", variant: "", version_vehicle: "", commercial_name: "", estimated_production_year: "", max_mass: "", running_mass: "", category: "", bodywork_code: "", axles_tyres_num: "", length: "", width: "", height: "", tyre_wheel: "", engine_code: "", engine_capacity: "", engine_power: "", fuel: "", power_weight_ratio: "", seat_number: "", standing_number: "", max_speed: "", gas_level: "", max_laden_mass_axios: "", number_wvta: "", pollution_cert: "", noise_cert: "", coupling_device_approval: "", file_content: "", filename: ""},
+      certificate: {source_document_type: "", brand: "", type_vehicle: "", variant: "", version_vehicle: "", commercial_name: "", estimated_production_year: "", max_mass: "", running_mass: "", category: "", bodywork_code: "", axles_tyres_num: "", length: "", width: "", height: "", tyre_wheel: "", engine_code: "", engine_capacity: "", engine_power: "", fuel: "", power_weight_ratio: "", seat_number: "", standing_number: "", max_speed: "", gas_level: "", max_laden_mass_axios: "", number_wvta: "", pollution_cert: "", noise_cert: "", coupling_device_approval: "", file_content: "", filename: ""},
       users: [],
       styleInput: "font-size: 10px",
       styleLabel: "font-size: 12px",

@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Small fixes on UI related to change certificate fields type">
+    <list default="true" id="483f9f5e-f82a-4c02-b9a4-34d5a6cb9f0c" name="Changes" comment="Changed search and hide upload file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/CertificateEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CertificateEdit.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/CertificatesList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CertificatesList.vue" afterDir="false" />
@@ -12,6 +12,7 @@
       <change beforePath="$PROJECT_DIR$/model/certificate.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/certificate.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/certificateService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/certificateService.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/pdfService.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/pdfService.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/src" beforeDir="false" afterPath="$PROJECT_DIR$/src/src" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +152,8 @@
     <MESSAGE value="Pdf for certificate mainly done" />
     <MESSAGE value="Add win to create pdf and change certificate fields to strings" />
     <MESSAGE value="Small fixes on UI related to change certificate fields type" />
-    <option name="LAST_COMMIT_MESSAGE" value="Small fixes on UI related to change certificate fields type" />
+    <MESSAGE value="Changed search and hide upload file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed search and hide upload file" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -176,7 +178,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/frontend/src/components/CertificateEdit.vue</url>
-          <line>107</line>
+          <line>126</line>
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -203,6 +205,11 @@
           <url>file://$PROJECT_DIR$/handlers/fuelConsumptionHandler.go</url>
           <line>95</line>
           <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/../pkg/mod/github.com/go-pdf/fpdf@v0.6.0/fpdf.go</url>
+          <line>1893</line>
+          <option name="timeStamp" value="51" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

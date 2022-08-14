@@ -104,6 +104,7 @@
           ],
           rows: [],
           selectedCertificate: null,
+          selectedRowId: '',
           users: [],
           isLoading: false,
           filterObject: {type_vehicle: '', variant: '', version_vehicle: '', running_mass: '', estimated_production_year: '', engine_code: '', engine_capacity: '', engine_power: '', fuel: '', category: '' },
@@ -331,8 +332,8 @@
     ::v-deep(.vtl-table tr) {
       font-size: 10px;
     }
-    ::v-deep(.vtl-paging-info) {
-      font-size: 10px;
+    ::v-deep(.vtl-table tr):active {
+      font-size: 20px;
     }
     ::v-deep(.vtl-paging-count-label),
     ::v-deep(.vtl-paging-page-label),

@@ -7,6 +7,7 @@ import (
 
 type Certificate struct {
 	Id                      int       `json:"id"`
+	SourceDocumentType      string    `json:"source_document_type"`
 	Brand                   string    `json:"brand"`
 	TypeVehicle             string    `json:"type_vehicle"`
 	Variant                 string    `json:"variant"`
@@ -45,6 +46,7 @@ type Certificate struct {
 
 type CertificateDb struct {
 	Id                      int            `db:"id"`
+	SourceDocumentType      sql.NullString `db:"source_document_type"`
 	Brand                   sql.NullString `db:"brand"`
 	TypeVehicle             sql.NullString `db:"type_vehicle"`
 	Variant                 sql.NullString `db:"variant"`

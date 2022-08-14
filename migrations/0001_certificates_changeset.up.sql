@@ -1,6 +1,7 @@
 CREATE TABLE public.certificates
 (
     id serial PRIMARY KEY,
+    source_document_type VARCHAR ( 50 ),
     brand VARCHAR ( 50 ) NOT NULL,
     type_vehicle VARCHAR ( 50 ) NOT NULL,
     variant VARCHAR ( 50 ) NOT NULL,
